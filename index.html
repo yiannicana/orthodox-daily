@@ -80,6 +80,7 @@
       color: var(--crimson);
       letter-spacing: 0.02em;
       line-height: 1.2;
+      cursor: pointer;
     }
 
     .app-title .cross {
@@ -655,7 +656,8 @@
       cursor: pointer;
       font-family: 'Cormorant Garamond', Georgia, serif;
       font-variant: small-caps;
-      font-size: 0.78rem;
+      font-size: 0.9rem;
+      font-weight: 500;
       letter-spacing: 0.1em;
       padding: 0.2em 0.75em;
       transition: background 0.15s, color 0.15s;
@@ -676,7 +678,7 @@
       #date-nav { gap: 0.35rem; margin-top: 1rem; }
       #date-nav-row { gap: 0.75rem; }
       #date-nav-display { font-size: 1.05rem; }
-      #date-nav-today { font-size: 0.72rem; padding: 0.18em 0.6em; }
+      #date-nav-today { font-size: 0.85rem; padding: 0.18em 0.6em; }
     }
 
     /* ─── Fasting Banner ─────────────────────────────────────────────── */
@@ -842,7 +844,6 @@
       </h1>
       <!-- Hidden elements kept for JS compatibility -->
       <span id="header-date" style="display:none;" aria-hidden="true"></span>
-      <span id="header-tone" style="display:none;" aria-hidden="true"></span>
 
       <!-- Tab bar -->
       <nav class="tab-bar" role="tablist" aria-label="App sections">
@@ -975,10 +976,7 @@
             </p>
             <div class="ornament-line" aria-hidden="true">· ✦ ·</div>
             <p>
-              The <strong>Prayers</strong> tab will contain the traditional
-              Orthodox daily prayer rule drawn from the Horologion — morning
-              and evening prayers, prayers before and after Holy Communion, and
-              the Typica. It is coming soon.
+              The <strong>Prayers</strong> tab will feature traditional Orthodox prayers for everyday life. It's currently in the works — more to come soon.
             </p>
             <div class="ornament-line" aria-hidden="true">· ✦ ·</div>
             <p style="font-size: 0.88rem; font-style: italic; color: var(--brown-muted); text-align: center;">
@@ -1001,7 +999,7 @@
         <h2 class="coming-soon-title">Prayers</h2>
         <p class="coming-soon-subtitle">Coming Soon</p>
         <p class="coming-soon-desc">
-          The daily prayer rule from the Horologion — morning and evening prayers, prayers before and after meals, and prayers before and after Holy Communion — will be added here.
+          Traditional Orthodox prayers for everyday life will be featured here. It's currently in the works — more to come soon.
         </p>
         <div class="coming-soon-ornament" aria-hidden="true">· ✦ ·</div>
         <p class="coming-soon-prayer">
@@ -1412,13 +1410,6 @@
     function renderHeaderMeta(data, date) {
       const d = date || activeDate;
       document.getElementById('header-date').textContent = formatDate(d);
-      const toneBadge = document.getElementById('header-tone');
-      if (data.tone) {
-        toneBadge.textContent = `Tone ${data.tone}`;
-        toneBadge.style.display = '';
-      } else {
-        toneBadge.style.display = 'none';
-      }
     }
 
     /* ── Fasting Banner Wiring ───────────────────────────────────────── */
@@ -1583,6 +1574,21 @@
 
       document.getElementById('today-content').style.display = 'none';
       document.getElementById('section-prayers').style.display = 'block';
+    });
+
+    document.querySelector('.app-title').addEventListener('click', function () {
+      activeDate = todayMidnight();
+      loadAndRender(activeDate);
+
+      // Switch to Calendar tab if not already active
+      const todayTab = document.getElementById('tab-today');
+      const prayersTab = document.getElementById('tab-prayers');
+      todayTab.classList.add('active');
+      todayTab.setAttribute('aria-selected', 'true');
+      prayersTab.classList.remove('active');
+      prayersTab.setAttribute('aria-selected', 'false');
+      document.getElementById('today-content').style.display = 'block';
+      document.getElementById('section-prayers').style.display = 'none';
     });
 
     /* ── Boot ───────────────────────────────────────────────────────── */
