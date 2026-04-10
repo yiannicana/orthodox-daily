@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Orthodox Daily ☩</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Custom Properties ───────────────────────────────────────────── */
+    :root {
+      --parchment:      #F9F4E8;
+      --parchment-medium: #F7F0E2;
+      --parchment-dark: #EDE5CC;
+      --ink:            #2C1810;
+      --ink-light:      #4A3520;
+      --gold:           #C8A96E;
+      --gold-light:     #E8D5A0;
+      --crimson:        #8B1A1A;
+      --brown-muted:    #8B6B35;
+      --fast-strict:    #5C2A2A;
+      --fast-lenient:   #3A5C3A;
+    }
+
+    /* ─── Reset & Base ────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--parchment);
+      color: var(--ink);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 17px;
+      line-height: 1.75;
+      min-height: 100vh;
+    }
+
+    /* ─── Typography ──────────────────────────────────────────────────── */
+    h1, h2, h3, .feast-title {
+      font-family: 'IM Fell English', Georgia, serif;
+    }
+
+    p { margin-bottom: 0.75em; }
+    p:last-child { margin-bottom: 0; }
+
+    hr.gold-rule {
+      border: none;
+      border-top: 1px solid var(--gold);
+      margin: 0;
+      opacity: 0.7;
+    }
+
+    hr.gold-rule-thick {
+      border: none;
+      border-top: 2px solid var(--gold);
+      margin: 0;
+    }
+
+    /* ─── Sticky Header ───────────────────────────────────────────────── */
+    #site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: var(--parchment-dark);
+      border-bottom: 2px solid var(--gold);
+      box-shadow: 0 2px 8px rgba(44, 24, 16, 0.12);
+      padding: 0.75rem 0 0;
+    }
+
+    #site-header .content-inner {
+      padding-bottom: 0;
+    }
+
+    .app-title {
+      font-family: 'IM Fell English', Georgia, serif;
+      font-size: clamp(1.3rem, 3.5vw, 1.75rem);
+      color: var(--crimson);
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+    }
+
+    .app-title .cross {
+      color: var(--gold);
+      margin-right: 0.3em;
+    }
+
+    .header-meta {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 0.9rem;
+      color: var(--brown-muted);
+      font-style: italic;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .header-meta .tone-badge {
+      display: inline-block;
+      margin-left: 0.5em;
+      padding: 0.1em 0.5em;
+      background: var(--parchment);
+      border: 1px solid var(--gold);
+      border-radius: 2px;
+      font-style: normal;
+      font-size: 0.82rem;
+      color: var(--brown-muted);
+      font-variant: small-caps;
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── Tab Bar ─────────────────────────────────────────────────────── */
+    .tab-bar {
+      display: flex;
+      gap: 0;
+      margin-top: 0.6rem;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      font-variant: small-caps;
+      letter-spacing: 0.12em;
+      color: var(--brown-muted);
+      padding: 0.45rem 1.1rem 0.55rem;
+      transition: color 0.2s, border-color 0.2s;
+      position: relative;
+      top: 2px; /* sit flush on border */
+    }
+
+    .tab-btn:hover {
+      color: var(--crimson);
+    }
+
+    .tab-btn.active {
+      color: var(--crimson);
+      border-bottom-color: var(--crimson);
+    }
+
+    .tab-btn.inactive-placeholder {
+      opacity: 0.45;
+      cursor: default;
+    }
+
+    /* ─── Content Inner (max-width wrapper) ─────────────────────────── */
+    .content-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    /* ─── Loading / Error ─────────────────────────────────────────────── */
+    #loading-state {
+      text-align: center;
+      padding: 4rem 1rem;
+      font-family: 'IM Fell English', Georgia, serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      color: var(--brown-muted);
+    }
+
+    #loading-state .loading-ornament {
+      display: block;
+      font-size: 1.8rem;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; }
+      50%       { opacity: 1; }
+    }
+
+    #error-state {
+      display: none;
+      text-align: center;
+      padding: 3rem 1rem;
+      background: #fff8f8;
+      border: 1px solid #e0b0b0;
+      border-radius: 4px;
+      margin: 2rem 0;
+    }
+
+    #error-state h2 {
+      color: var(--crimson);
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    #error-state p {
+      color: var(--ink-light);
+      font-size: 0.95rem;
+    }
+
+    /* ─── Today Content ───────────────────────────────────────────────── */
+    #today-content { display: none; }
+
+    /* ─── Hero ────────────────────────────────────────────────────────── */
+    #hero {
+      background-color: var(--parchment-medium);
+      border-bottom: 1px solid var(--gold-light);
+      padding: 3rem 1.25rem 2rem;
+      text-align: center;
+    }
+
+    .feast-title-primary {
+      font-family: 'IM Fell English', Georgia, serif;
+      font-style: italic;
+      font-size: clamp(2rem, 5vw, 2.6rem);
+      color: var(--ink);
+      line-height: 1.35;
+      max-width: 820px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .feast-title-secondary {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1rem;
+      color: var(--ink-light);
+      margin-bottom: 1rem;
+      font-style: italic;
+    }
+
+    .fasting-rule {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5em;
+      padding: 0.45em 1.1em;
+      margin-bottom: 1.5rem;
+      border-radius: 3px;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 0.95rem;
+      font-variant: small-caps;
+      letter-spacing: 0.06em;
+      border: 1px solid currentColor;
+      margin-top: 0.5rem;
+    }
+
+    .fasting-rule.strict {
+      color: var(--fast-strict);
+      background: rgba(92, 42, 42, 0.06);
+      border-color: rgba(92, 42, 42, 0.3);
+    }
+
+    .fasting-rule.lenient {
+      color: var(--fast-lenient);
+      background: rgba(58, 92, 58, 0.06);
+      border-color: rgba(58, 92, 58, 0.3);
+    }
+
+    .fasting-rule.none {
+      color: var(--brown-muted);
+      background: transparent;
+      border-color: var(--gold);
+    }
+
+    .fasting-icon { font-size: 1em; }
+
+    .hero-gold-rule {
+      margin-top: 1.5rem;
+    }
+
+    /* ─── Content Grid ────────────────────────────────────────────────── */
+    #content-grid {
+      padding: 2.5rem 0 1rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    @media (min-width: 768px) {
+      #content-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        align-items: start;
+      }
+    }
+
+    @media (min-width: 1025px) {
+      #content-grid {
+        grid-template-columns: 2fr 1.2fr;
+      }
+    }
+
+    /* ─── Section Headers ─────────────────────────────────────────────── */
+    .section-heading {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      font-variant: small-caps;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: var(--brown-muted);
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+    }
+
+    .section-heading .ornament { color: var(--gold); font-size: 0.625rem; }
+
+    /* ─── Commemorations ──────────────────────────────────────────────── */
+    #commemorations {
+      margin-bottom: 2.5rem;
+    }
+
+    .saint-card {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      padding: 0.65rem 0.875rem;
+      margin-bottom: 0.5rem;
+      background: rgba(200, 169, 110, 0.04);
+      border: 0.5px solid var(--gold);
+      border-radius: 3px;
+    }
+
+    .saint-card:last-child { margin-bottom: 0; }
+
+    .saint-bullet {
+      color: var(--gold);
+      flex-shrink: 0;
+      font-size: 0.625rem;
+      line-height: 1;
+    }
+
+    .saint-name {
+      font-family: 'IM Fell English', Georgia, serif;
+      font-size: 0.9375rem;
+      color: var(--ink);
+    }
+
+    .saint-bio {
+      font-size: 0.97rem;
+      color: var(--ink-light);
+      line-height: 1.85;
+      border-top: 1px solid var(--gold-light);
+      overflow: hidden;
+      transition: max-height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .saint-bio-inner {
+      padding: 0.6rem 1rem 0.85rem 1.4rem;
+    }
+
+    .saint-bio-inner p { margin-bottom: 0.8em; }
+    .saint-bio-inner p:last-child { margin-bottom: 0; }
+
+    /* ─── Readings ────────────────────────────────────────────────────── */
+    #readings { margin-bottom: 2.5rem; }
+
+    .readings-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .readings-group-label {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 700;
+      font-size: 0.6875rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--brown-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .readings-group + .readings-group .readings-group-label {
+      margin-top: 1.25rem;
+    }
+
+    details.reading-details {
+      margin-bottom: 0.5rem;
+      border: 0.5px solid var(--gold);
+      border-radius: 3px;
+      background: rgba(200, 169, 110, 0.04);
+    }
+
+    details.reading-details > summary {
+      list-style: none;
+      padding: 0.65rem 0.875rem;
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+    }
+
+    details.reading-details > summary::-webkit-details-marker { display: none; }
+
+    details.reading-details > summary::before {
+      content: '▾';
+      color: var(--gold);
+      font-size: 0.7rem;
+      flex-shrink: 0;
+      line-height: 1.8;
+      display: inline-block;
+      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: rotate(-90deg);
+    }
+
+    details.reading-details[open] > summary::before {
+      transform: rotate(0deg);
+    }
+
+    .reading-ref {
+      font-family: 'IM Fell English', Georgia, serif;
+      font-size: 1rem;
+      color: var(--ink);
+    }
+
+    .reading-ref-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .reading-desc {
+      font-size: 0.75rem;
+      color: var(--brown-muted);
+      font-style: italic;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .reading-passage {
+      font-size: 0.97rem;
+      color: var(--ink-light);
+      line-height: 1.85;
+      border-top: 1px solid var(--gold-light);
+      white-space: pre-wrap;
+      overflow: hidden;
+      transition: max-height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .reading-passage-inner {
+      padding: 0.6rem 1rem 0.85rem 1.4rem;
+    }
+
+    /* Keep content collapsed by default — JS controls max-height entirely */
+    details.reading-details .saint-bio,
+    details.reading-details .reading-passage {
+      max-height: 0;
+    }
+
+    /* ─── Sidebar ─────────────────────────────────────────────────────── */
+    #sidebar {
+      margin-bottom: 2.5rem;
+    }
+
+    .how-to-use {
+      background: rgba(200, 169, 110, 0.08);
+      border: 1px solid var(--gold-light);
+      border-radius: 4px;
+      padding: 1.1rem 1.25rem;
+    }
+
+    .how-to-use-title {
+      font-family: 'IM Fell English', Georgia, serif;
+      font-size: 1.05rem;
+      color: var(--crimson);
+      margin-bottom: 0.6rem;
+    }
+
+    .how-to-use p {
+      font-size: 0.92rem;
+      color: var(--ink-light);
+      line-height: 1.75;
+      margin-bottom: 0.5rem;
+    }
+
+    .how-to-use .ornament-line {
+      text-align: center;
+      color: var(--gold);
+      font-size: 0.9rem;
+      margin: 0.75rem 0 0.5rem;
+      letter-spacing: 0.2em;
+    }
+
+    /* ─── Coming Soon Page ───────────────────────────────────────────── */
+    .coming-soon-page {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 1.25rem;
+      min-height: 50vh;
+    }
+
+    .coming-soon-icon {
+      font-size: 3.5rem;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 1.25rem;
+      opacity: 0.7;
+    }
+
+    .coming-soon-title {
+      font-family: 'IM Fell English', Georgia, serif;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      color: var(--ink);
+      margin-bottom: 0.25rem;
+      line-height: 1.3;
+    }
+
+    .coming-soon-subtitle {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 700;
+      font-variant: small-caps;
+      font-size: 1rem;
+      letter-spacing: 0.15em;
+      color: var(--brown-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .coming-soon-desc {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1rem;
+      color: var(--ink-light);
+      line-height: 1.75;
+      max-width: 480px;
+      margin-bottom: 1.5rem;
+    }
+
+    .coming-soon-ornament {
+      color: var(--gold);
+      font-size: 0.9rem;
+      letter-spacing: 0.2em;
+      margin-bottom: 1.25rem;
+    }
+
+    .coming-soon-prayer {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 0.92rem;
+      font-style: italic;
+      color: var(--brown-muted);
+      line-height: 1.7;
+    }
+
+    /* ─── Footer ──────────────────────────────────────────────────────── */
+    #site-footer {
+      background-color: var(--parchment-dark);
+      border-top: 1px solid var(--gold);
+      text-align: center;
+      padding: 1.25rem 1rem;
+      margin-top: 1.5rem;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 0.85rem;
+      color: var(--brown-muted);
+      font-style: italic;
+    }
+
+    #site-footer a {
+      color: var(--brown-muted);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    /* ─── Date Navigation ────────────────────────────────────────────── */
+    #date-nav {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.55rem;
+      margin-top: 1.25rem;
+    }
+
+    #date-nav-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.1rem;
+    }
+
+    .date-nav-arrow {
+      background: none;
+      border: 1px solid var(--gold-light);
+      border-radius: 3px;
+      color: var(--brown-muted);
+      cursor: pointer;
+      font-size: 1rem;
+      line-height: 1;
+      padding: 0.3rem 0.65rem;
+      transition: color 0.15s, border-color 0.15s, background 0.15s;
+      flex-shrink: 0;
+    }
+
+    .date-nav-arrow:hover {
+      color: var(--crimson);
+      border-color: var(--crimson);
+      background: rgba(139, 26, 26, 0.05);
+    }
+
+    #date-nav-display {
+      font-family: 'IM Fell English', Georgia, serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--ink);
+      cursor: pointer;
+      border-bottom: 1px dotted var(--gold);
+      padding-bottom: 1px;
+      white-space: nowrap;
+      transition: color 0.15s;
+      position: relative;
+      display: inline-block;
+    }
+
+    #date-nav-display:hover { color: var(--crimson); }
+
+    #date-nav-label {
+      pointer-events: none;
+    }
+
+    /* Date input sits over the label — only the picker indicator is expanded to cover the full area */
+    #date-nav-input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
+      border: none;
+      background: transparent;
+      color: transparent;
+    }
+
+    /* Expand the calendar icon to cover the entire display area so clicks hit it everywhere */
+    #date-nav-input::-webkit-calendar-picker-indicator {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    #date-nav-today {
+      background: none;
+      border: 1px solid var(--gold);
+      border-radius: 20px;
+      color: var(--brown-muted);
+      cursor: pointer;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-variant: small-caps;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      padding: 0.2em 0.75em;
+      transition: background 0.15s, color 0.15s;
+      flex-shrink: 0;
+    }
+
+    #date-nav-today:hover:not(:disabled) {
+      background: var(--gold);
+      color: var(--ink);
+    }
+
+    #date-nav-today:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+
+    @media (max-width: 767px) {
+      #date-nav { gap: 0.35rem; margin-top: 1rem; }
+      #date-nav-row { gap: 0.75rem; }
+      #date-nav-display { font-size: 1.05rem; }
+      #date-nav-today { font-size: 0.72rem; padding: 0.18em 0.6em; }
+    }
+
+    /* ─── Fasting Banner ─────────────────────────────────────────────── */
+    #fasting-banner-wrapper {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-top: 1.25rem;
+    }
+
+    #fasting-banner {
+      width: fit-content;
+      min-width: 0;
+      max-width: 376px;
+      border: 1px solid var(--gold);
+      border-radius: 6px;
+      background: rgba(200, 169, 110, 0.08);
+      cursor: pointer;
+      user-select: none;
+      box-sizing: border-box;
+      transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #fasting-banner-summary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5em;
+      padding: 10px 14px;
+      white-space: nowrap;
+    }
+
+    #fasting-banner-label {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: 0.09375em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+
+    #fasting-banner-indicator {
+      color: var(--gold);
+      font-size: 1rem;
+      display: inline-block;
+      flex-shrink: 0;
+      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #fasting-banner.fasting-expanded #fasting-banner-indicator {
+      transform: rotate(180deg);
+    }
+
+    #fasting-banner-rule {
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.4;
+      margin: 0 20px;
+    }
+
+    #fasting-banner-body {
+      max-height: 0;
+      overflow: hidden;
+      min-width: 0;
+      transition: max-height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #fasting-banner-content {
+      padding: 14px 20px 18px;
+      min-width: 0;
+      opacity: 0;
+      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #fasting-banner.fasting-expanded #fasting-banner-content {
+      opacity: 1;
+    }
+
+    #fasting-rubric {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-weight: 500;
+      font-size: 1rem;
+      color: var(--ink-light);
+      text-align: center;
+      margin: 0 0 12px;
+    }
+
+    #fasting-icons {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      gap: 8px;
+      width: 0;
+      min-width: 100%;
+    }
+
+    .food-tile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 8px 6px 6px;
+      border: 1px solid var(--gold);
+      border-radius: 8px;
+      background: var(--parchment-dark);
+      flex-shrink: 0;
+      box-sizing: border-box;
+      min-width: 52px;
+    }
+
+    .food-tile svg {
+      display: block;
+      background: #D4C9A8;
+      border-radius: 4px;
+      padding: 3px;
+      stroke: var(--ink);
+      box-sizing: content-box;
+    }
+
+    .food-tile span {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: 0.03em;
+      text-align: center;
+      line-height: 1.2;
+      color: var(--ink-light);
+    }
+
+    /* No-fasting variant: no tiles shown */
+    #fasting-banner.fasting-no-fast #fasting-icons {
+      display: none;
+    }
+
+    /* ─── Utility ─────────────────────────────────────────────────────── */
+    .visually-hidden {
+      position: absolute;
+      width: 1px; height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    .no-items {
+      font-style: italic;
+      color: var(--brown-muted);
+      font-size: 0.95rem;
+      padding: 0.5rem 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       STICKY HEADER
+  ════════════════════════════════════════════════════════════════════ -->
+  <header id="site-header" role="banner">
+    <div class="content-inner">
+      <h1 class="app-title">
+        <span class="cross" aria-hidden="true">☩</span>Orthodox Daily
+      </h1>
+      <!-- Hidden elements kept for JS compatibility -->
+      <span id="header-date" style="display:none;" aria-hidden="true"></span>
+      <span id="header-tone" style="display:none;" aria-hidden="true"></span>
+
+      <!-- Tab bar -->
+      <nav class="tab-bar" role="tablist" aria-label="App sections">
+        <button
+          class="tab-btn active"
+          role="tab"
+          aria-selected="true"
+          aria-controls="section-today"
+          id="tab-today"
+        >Calendar</button>
+        <button
+          class="tab-btn"
+          role="tab"
+          aria-selected="false"
+          aria-controls="section-prayers"
+          id="tab-prayers"
+        >Prayers</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       MAIN
+  ════════════════════════════════════════════════════════════════════ -->
+  <main role="main">
+
+    <div class="content-inner">
+      <!-- Loading state -->
+      <div id="loading-state" aria-live="polite" role="status">
+        <span class="loading-ornament" aria-hidden="true">☩</span>
+        Loading today's office…
+      </div>
+
+      <!-- Error state -->
+      <div id="error-state" role="alert" aria-live="assertive">
+        <h2>☩ Unable to load today's office</h2>
+        <p id="error-message">The Orthocal API could not be reached. Please check your connection and refresh the page.</p>
+      </div>
+    </div>
+
+    <!-- Today section (hidden until data loads) -->
+    <section id="today-content" aria-labelledby="tab-today">
+
+      <!-- HERO — full bleed, contains title + fasting banner + date navigator -->
+      <div id="hero">
+        <h2 class="feast-title-primary" id="hero-title">—</h2>
+
+        <!-- DATE NAVIGATION -->
+        <div id="date-nav" role="navigation" aria-label="Browse dates">
+          <div id="date-nav-row">
+            <button class="date-nav-arrow" id="date-nav-prev" aria-label="Previous day">←</button>
+            <span id="date-nav-display" aria-label="Select date">
+              <span id="date-nav-label">—</span>
+              <input type="date" id="date-nav-input" aria-label="Select date" />
+            </span>
+            <button class="date-nav-arrow" id="date-nav-next" aria-label="Next day">→</button>
+          </div>
+          <button id="date-nav-today" aria-label="Go to today">Go to today</button>
+        </div>
+
+        <!-- FASTING BANNER -->
+        <div id="fasting-banner-wrapper">
+          <div id="fasting-banner" role="button" tabindex="0" aria-expanded="false" aria-label="Fasting rule — click to expand">
+            <div id="fasting-banner-summary">
+              <span id="fasting-banner-label"></span>
+              <span id="fasting-banner-indicator" aria-hidden="true">▾</span>
+            </div>
+            <div id="fasting-banner-body">
+              <div id="fasting-banner-rule" aria-hidden="true"></div>
+              <div id="fasting-banner-content">
+                <p id="fasting-rubric"></p>
+                <div id="fasting-icons"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-inner">
+
+      <!-- CONTENT GRID -->
+      <div id="content-grid">
+
+        <!-- LEFT COLUMN -->
+        <div id="left-col">
+
+          <!-- Commemorations -->
+          <section id="commemorations" aria-labelledby="commemorations-heading">
+            <h3 class="section-heading" id="commemorations-heading">
+              <span class="ornament" aria-hidden="true">✦</span>
+              Today's Commemorations
+            </h3>
+            <div id="saints-list">
+              <p class="no-items">No commemorations found.</p>
+            </div>
+          </section>
+
+          <!-- Today's Readings -->
+          <section id="readings" aria-labelledby="readings-heading">
+            <h3 class="section-heading" id="readings-heading">
+              <span class="ornament" aria-hidden="true">✦</span>
+              Today's Readings
+            </h3>
+            <div id="readings-list">
+              <p class="no-items">No readings found.</p>
+            </div>
+          </section>
+
+        </div><!-- /left-col -->
+
+        <!-- RIGHT COLUMN / SIDEBAR -->
+        <aside id="sidebar" aria-label="About this app">
+          <h3 class="section-heading">
+            <span class="ornament" aria-hidden="true">✦</span>
+            About this page
+          </h3>
+          <div class="how-to-use">
+            <h4 class="how-to-use-title">How to use Orthodox Daily</h4>
+            <p>
+              The <strong>Calendar</strong> tab shows the liturgical calendar for
+              the current day according to the Gregorian calendar (New Style) as
+              observed by many Orthodox churches. Feast titles, commemorations,
+              scripture readings, and the fasting rule are drawn live from the
+              Orthocal API.
+            </p>
+            <p>
+              Saints whose lives (<em>hagiographies</em>) are available can be
+              expanded by tapping their name. Scripture passages may likewise be
+              expanded to read the full text.
+            </p>
+            <div class="ornament-line" aria-hidden="true">· ✦ ·</div>
+            <p>
+              The <strong>Prayers</strong> tab will contain the traditional
+              Orthodox daily prayer rule drawn from the Horologion — morning
+              and evening prayers, prayers before and after Holy Communion, and
+              the Typica. It is coming soon.
+            </p>
+            <div class="ornament-line" aria-hidden="true">· ✦ ·</div>
+            <p style="font-size: 0.88rem; font-style: italic; color: var(--brown-muted); text-align: center;">
+              Lord Jesus Christ, Son of God,<br />
+              have mercy on me, a sinner.
+            </p>
+          </div>
+        </aside><!-- /sidebar -->
+
+      </div><!-- /content-grid -->
+
+      </div><!-- /content-inner -->
+
+    </section><!-- /#today-content -->
+
+    <!-- Prayers section -->
+    <section id="section-prayers" style="display:none;" aria-labelledby="tab-prayers">
+      <div class="coming-soon-page">
+        <span class="coming-soon-icon" aria-hidden="true">☩</span>
+        <h2 class="coming-soon-title">Prayers</h2>
+        <p class="coming-soon-subtitle">Coming Soon</p>
+        <p class="coming-soon-desc">
+          The daily prayer rule from the Horologion — morning and evening prayers, prayers before and after meals, and prayers before and after Holy Communion — will be added here.
+        </p>
+        <div class="coming-soon-ornament" aria-hidden="true">· ✦ ·</div>
+        <p class="coming-soon-prayer">
+          Lord Jesus Christ, Son of God,<br />
+          have mercy on me, a sinner.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════════════════════════════ -->
+  <footer id="site-footer" role="contentinfo">
+    <p>
+      Liturgical data provided by the
+      <a href="https://orthocal.info" target="_blank" rel="noopener noreferrer">Orthocal API</a>
+      &nbsp;·&nbsp; ☩ &nbsp;·&nbsp;
+      <span id="footer-year"></span>
+    </p>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       JAVASCRIPT
+  ════════════════════════════════════════════════════════════════════ -->
+  <script>
+    'use strict';
+
+    /* ── Utilities ──────────────────────────────────────────────────── */
+
+    function stripHtml(html) {
+      if (!html) return '';
+      // Use a temporary element to strip tags
+      const tmp = document.createElement('div');
+      tmp.innerHTML = html;
+      return (tmp.textContent || tmp.innerText || '').trim();
+    }
+
+    function formatDate(d) {
+      const days   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+      const months = ['January','February','March','April','May','June',
+                      'July','August','September','October','November','December'];
+      return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+    }
+
+    function getSaintName(s) {
+      if (typeof s === 'string') return s;
+      return s.name || s.display_name || s.title || s.name_en || s.commemoration || '(unknown saint)';
+    }
+
+
+    function getFastingClass(level) {
+      if (level === 0) return 'none';
+      if (level <= 2)  return 'lenient';
+      return 'strict';
+    }
+
+    function getFastingIcon(level) {
+      if (level === 0)  return '✦';
+      if (level <= 2)   return '✦';
+      return '✚';
+    }
+
+    function groupReadingsByService(readings) {
+      const groups = {};
+      const order  = [];
+      readings.forEach(r => {
+        // Try all known service-label fields in priority order
+        const key = r.source || r.service || r.desc || r.type || 'Readings';
+        if (!groups[key]) {
+          groups[key] = [];
+          order.push(key);
+        }
+        groups[key].push(r);
+      });
+      return { groups, order };
+    }
+
+    function extractPassageText(passage) {
+      if (!passage) return '';
+      if (typeof passage === 'string') return passage.trim();
+      // Array of verse objects — join their text content
+      if (Array.isArray(passage)) {
+        return passage.map(v => {
+          if (typeof v === 'string') return v;
+          return v.content || v.text || v.verse_text || v.body || '';
+        }).filter(Boolean).join('\n');
+      }
+      // Single object
+      if (typeof passage === 'object') {
+        return passage.content || passage.text || passage.verse_text || passage.body || '';
+      }
+      return '';
+    }
+
+    function buildReadingRef(r) {
+      // Prefer a pre-formatted reference string from the API
+      if (r.display)        return r.display;
+      if (r.reference)      return r.reference;
+      if (r.pericope_name)  return r.pericope_name;
+
+      // Build from parts
+      const book    = r.book || '';
+      const chapter = r.chapter != null ? String(r.chapter) : '';
+      const vStart  = r.verse_start != null ? String(r.verse_start) : (r.verse != null ? String(r.verse) : '');
+      const vEnd    = r.verse_end   != null ? String(r.verse_end)   : '';
+
+      if (!book) return 'Reading';
+
+      let ref = book;
+      if (chapter) {
+        ref += ` ${chapter}`;
+        if (vStart) {
+          ref += `:${vStart}`;
+          if (vEnd && vEnd !== vStart) ref += `–${vEnd}`;
+        }
+      }
+      return ref;
+    }
+
+    function buildReadingDesc(r) {
+      // Returns an optional sub-label (service context) distinct from the ref
+      // r.display is already used as the primary ref, so don't repeat it here
+      return r.pericope_name || r.reading_type || '';
+    }
+
+    /* ── Fasting data ───────────────────────────────────────────────── */
+
+    const EXCEPTION_ALLOWED = {
+      0:  [],
+      1:  ['wine', 'oil'],
+      2:  ['fish', 'wine', 'oil'],
+      3:  ['wine', 'oil'],
+      4:  ['fish', 'wine', 'oil'],
+      5:  ['wine'],
+      6:  ['fish', 'wine', 'oil'],
+      7:  ['dairy', 'fish', 'wine', 'oil'],
+      8:  [],
+      9:  [],
+      10: [],
+      11: ['meat', 'dairy', 'fish', 'wine', 'oil'],
+    };
+
+    const ALL_FOODS = ['meat', 'dairy', 'fish', 'wine', 'oil'];
+
+    const FOOD_ICONS = {
+      meat:  `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M13.144 21.144C14.114 20.174 14.9414 19.0804 15.5791 17.9257C16.2167 16.7711 16.6521 15.5779 16.8603 14.4143C17.0686 13.2508 17.0456 12.1396 16.7927 11.1443C16.5398 10.149 16.0619 9.28904 15.3864 8.61352C14.7109 7.938 13.8509 7.46015 12.8556 7.20726C11.8603 6.95436 10.7492 6.93138 9.58561 7.13961C8.42205 7.34784 7.22887 7.78321 6.07419 8.42087C4.91952 9.05852 3.82596 9.88597 2.85596 10.856"/><path d="M13.1441 21.144C13.9628 20.3253 14.206 18.9982 13.8202 17.4546C13.4344 15.911 12.4512 14.2774 11.0869 12.9131C9.72265 11.5489 8.08903 10.5657 6.54545 10.1799C5.00187 9.79411 3.67477 10.0373 2.8561 10.856C2.03742 11.6747 1.79423 13.0018 2.18002 14.5453C2.56582 16.0889 3.549 17.7225 4.91327 19.0868C6.27755 20.4511 7.91116 21.4343 9.45474 21.82C10.9983 22.2058 12.3254 21.9627 13.1441 21.144Z"/><path d="M16.5649 10.435L18.5999 8.4C18.9176 8.57603 19.2698 8.68075 19.6321 8.70689C19.9943 8.73302 20.3579 8.67995 20.6976 8.55135C21.0373 8.42276 21.3448 8.22172 21.599 7.96223C21.8531 7.70274 22.0476 7.39102 22.1691 7.04873C22.2905 6.70645 22.336 6.34182 22.3023 5.98019C22.2685 5.61856 22.1565 5.26862 21.9738 4.95469C21.7912 4.64076 21.5424 4.37037 21.2447 4.16233C20.9469 3.95429 20.6075 3.81358 20.2499 3.75C20.1799 3.39786 20.0349 3.06492 19.8247 2.77385C19.6145 2.48278 19.344 2.2404 19.0318 2.0632C18.7195 1.88599 18.3728 1.77813 18.0151 1.74694C17.6574 1.71575 17.2972 1.76197 16.959 1.88245C16.6208 2.00293 16.3125 2.19485 16.0551 2.44514C15.7977 2.69544 15.5972 2.99824 15.4673 3.33295C15.3374 3.66766 15.2811 4.02643 15.3023 4.38484C15.3234 4.74325 15.4215 5.0929 15.5899 5.41L13.5659 7.435"/><path d="M8.5 16.5L7.5 15.5"/></svg>`,
+      dairy: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2V7.632C10 8.056 9.728 8.427 9.347 8.614C8.34175 9.10956 7.4954 9.87678 6.90384 10.8287C6.31229 11.7806 5.99918 12.8792 6 14C6.006 18 9 21 11 22"/><path d="M10 5H8C7.46957 5 6.96086 5.21071 6.58579 5.58579C6.21071 5.96086 6 6.46957 6 7C6 7.53043 6.21071 8.03914 6.58579 8.41421C6.96086 8.78929 7.46957 9 8 9H8.68"/><path d="M14 2V7.632C14 8.056 14.272 8.427 14.652 8.614C15.6574 9.10942 16.504 9.87658 17.0957 10.8285C17.6875 11.7805 18.0007 12.8791 18 14C18 18 15 21 13 22"/><path d="M14 5H16C16.5304 5 17.0391 5.21071 17.4142 5.58579C17.7893 5.96086 18 6.46957 18 7C18 7.53043 17.7893 8.03914 17.4142 8.41421C17.0391 8.78929 16.5304 9 16 9H15.32"/><path d="M18 22H6"/><path d="M9 2H15"/></svg>`,
+      fish:  `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 12C7.44 8.54 11.44 6 15 6C18.56 6 21.06 8.54 22 12C21.06 15.47 18.56 18 15 18C11.44 18 7.44 15.47 6.5 12Z"/><path d="M18 12V12.5"/><path d="M16.0001 17.93C14.6993 16.2268 13.9946 14.1431 13.9946 12C13.9946 9.85688 14.6993 7.77322 16.0001 6.07001"/><path d="M6.99998 10.67C6.99998 8 5.57998 5.97 2.72998 5.5C1.72998 7 1.72998 10.5 2.95998 12C1.71998 13.5 1.71998 17 2.72998 18.5C5.57998 18.03 6.99998 16 6.99998 13.33"/><path d="M10.46 7.26001C10.2 5.88001 9.17 4.24001 8 3.00001H13.8C14.2745 2.99826 14.7342 3.16526 15.0969 3.47118C15.4596 3.7771 15.7017 4.20202 15.78 4.67001L16.01 6.07001"/><path d="M16.01 17.93L15.78 19.33C15.7017 19.798 15.4596 20.2229 15.0969 20.5289C14.7342 20.8348 14.2745 21.0018 13.8 21H9.5C10.4689 19.9015 10.9993 18.4847 10.99 17.02"/></svg>`,
+      oil:   `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2V7.632C10 8.056 9.728 8.427 9.347 8.614C8.34175 9.10956 7.4954 9.87678 6.90384 10.8287C6.31229 11.7806 5.99918 12.8792 6 14C6.006 18 9 21 11 22"/><path d="M10 5H8C7.46957 5 6.96086 5.21071 6.58579 5.58579C6.21071 5.96086 6 6.46957 6 7C6 7.53043 6.21071 8.03914 6.58579 8.41421C6.96086 8.78929 7.46957 9 8 9H8.68"/><path d="M14 2V7.632C14 8.056 14.272 8.427 14.652 8.614C15.6574 9.10942 16.504 9.87658 17.0957 10.8285C17.6875 11.7805 18.0007 12.8791 18 14C18 18 15 21 13 22"/><path d="M14 5H16C16.5304 5 17.0391 5.21071 17.4142 5.58579C17.7893 5.96086 18 6.46957 18 7C18 7.53043 17.7893 8.03914 17.4142 8.41421C17.0391 8.78929 16.5304 9 16 9H15.32"/><path d="M18 22H6"/><path d="M9 2H15"/></svg>`,
+      wine:  `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22H16"/><path d="M7 10H17"/><path d="M12 15V22"/><path d="M12 15C13.3261 15 14.5979 14.4732 15.5355 13.5355C16.4732 12.5979 17 11.3261 17 10C17 8 16.5 6 15 2H9C7.5 6 7 8 7 10C7 11.3261 7.52678 12.5979 8.46447 13.5355C9.40215 14.4732 10.6739 15 12 15Z"/></svg>`,
+    };
+
+    function renderFastingBanner(data) {
+      const banner    = document.getElementById('fasting-banner');
+      const labelEl   = document.getElementById('fasting-banner-label');
+      const rubricEl  = document.getElementById('fasting-rubric');
+      const iconsEl   = document.getElementById('fasting-icons');
+
+      // Collapse on each new date load
+      banner.classList.remove('fasting-expanded');
+      banner.classList.remove('fasting-no-fast');
+      banner.setAttribute('aria-expanded', 'false');
+
+      const fastLevel     = data.fast_level     != null ? data.fast_level     : 0;
+      const fastException = data.fast_exception != null ? data.fast_exception : 0;
+      const isFastFree    = fastLevel === 0 || fastException === 11;
+
+      // Label: "Fast Free" when no fast, otherwise API description
+      labelEl.textContent = isFastFree
+        ? 'Fast Free'
+        : (data.fast_level_desc || 'Fasting Day');
+
+      if (isFastFree) {
+        // No-fasting variant
+        banner.classList.add('fasting-no-fast');
+        rubricEl.textContent = 'There are no fasting restrictions today';
+        iconsEl.innerHTML = '';
+      } else {
+        // Fasting variant — show only restricted (not allowed) food tiles
+        rubricEl.textContent = 'Today we fast from:';
+
+        const allowed = EXCEPTION_ALLOWED[fastException] || [];
+        const restricted = ALL_FOODS.filter(food => !allowed.includes(food));
+
+        iconsEl.innerHTML = restricted.map(food => {
+          const label = food.charAt(0).toUpperCase() + food.slice(1);
+          return `<div class="food-tile" aria-label="${label}">${FOOD_ICONS[food]}<span>${label}</span></div>`;
+        }).join('');
+      }
+    }
+
+    /* ── Rendering ──────────────────────────────────────────────────── */
+
+    function renderHero(data) {
+      const titles  = data.titles || [];
+      const primary = titles.length ? titles.join(' · ') : (data.summary_title || 'No feast title today');
+      document.getElementById('hero-title').textContent = primary;
+    }
+
+    function getFeastName(f) {
+      if (typeof f === 'string') return f;
+      return f.title || f.name || f.display_name || f.feast || '';
+    }
+
+    function renderSaints(data) {
+      const feasts    = data.feasts  || [];
+      const saints    = data.saints  || [];
+      const stories   = data.stories || [];
+      const container = document.getElementById('saints-list');
+
+      // Build unified list: feasts first, then saints
+      const combined = [
+        ...feasts.map(f => ({ name: getFeastName(f),  type: 'feast' })),
+        ...saints.map(s => ({ name: getSaintName(s),  type: 'saint' })),
+      ].filter(item => item.name);
+
+      if (combined.length === 0) {
+        container.innerHTML = '<p class="no-items">No commemorations found.</p>';
+        return;
+      }
+
+      const frag = document.createDocumentFragment();
+
+      combined.forEach((entry, i) => {
+        const storyObj  = stories[i] || null;
+        const storyBody = (storyObj && storyObj.story) || null;
+
+        if (storyBody) {
+          const bio     = stripHtml(storyBody);
+          const paras   = bio.split(/\n{2,}/).filter(p => p.trim());
+          const bioHtml = paras.length > 1
+            ? paras.map(p => `<p>${p.trim()}</p>`).join('')
+            : `<p>${bio}</p>`;
+
+          const details = document.createElement('details');
+          details.className = 'reading-details';
+          details.innerHTML = `
+            <summary>
+              <span class="saint-name">${entry.name}</span>
+            </summary>
+            <div class="saint-bio"><div class="saint-bio-inner">${bioHtml}</div></div>`;
+          frag.appendChild(details);
+        } else {
+          const item = document.createElement('div');
+          item.className = 'saint-card';
+          item.innerHTML = `<span aria-hidden="true" style="display:inline-block;visibility:hidden;font-size:0.7rem;line-height:1.8;flex-shrink:0;">▸</span><span class="saint-name">${entry.name}</span>`;
+          frag.appendChild(item);
+        }
+      });
+
+      container.innerHTML = '';
+      container.appendChild(frag);
+    }
+
+    function renderReadings(data) {
+      const readings  = data.readings || [];
+      const container = document.getElementById('readings-list');
+
+      if (readings.length === 0) {
+        container.innerHTML = '<p class="no-items">No scripture readings listed for today.</p>';
+        return;
+      }
+
+      const { groups, order } = groupReadingsByService(readings);
+      const frag = document.createDocumentFragment();
+
+      order.forEach(groupKey => {
+        const groupDiv = document.createElement('div');
+        groupDiv.className = 'readings-group';
+
+        const groupLabel = document.createElement('div');
+        groupLabel.className = 'readings-group-label';
+        groupLabel.textContent = groupKey;
+        groupDiv.appendChild(groupLabel);
+
+        groups[groupKey].forEach(r => {
+          const ref     = buildReadingRef(r);
+          const passage = extractPassageText(r.passage);
+          const details = document.createElement('details');
+          details.className = 'reading-details';
+
+          if (passage) {
+            details.innerHTML = `
+              <summary>
+                <span class="reading-ref-group">
+                  <span class="reading-ref">${ref}</span>
+                </span>
+              </summary>
+              <div class="reading-passage"><div class="reading-passage-inner">${passage}</div></div>`;
+          } else {
+            details.innerHTML = `
+              <summary>
+                <span class="reading-ref-group">
+                  <span class="reading-ref">${ref}</span>
+                </span>
+              </summary>`;
+            details.setAttribute('disabled', '');
+            details.style.cursor = 'default';
+          }
+
+          groupDiv.appendChild(details);
+        });
+
+        frag.appendChild(groupDiv);
+      });
+
+      container.innerHTML = '';
+      container.appendChild(frag);
+    }
+
+    /* ── Date State ─────────────────────────────────────────────────── */
+
+    // activeDate is a plain local date (no timezone conversion needed)
+    let activeDate = new Date();
+    activeDate.setHours(0, 0, 0, 0);
+
+    function toDateKey(d) {
+      // Returns "YYYY-MM-DD" for <input type="date"> value comparison
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const dd = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${dd}`;
+    }
+
+    function todayMidnight() {
+      const t = new Date();
+      t.setHours(0, 0, 0, 0);
+      return t;
+    }
+
+    function updateDateNav() {
+      const label    = document.getElementById('date-nav-label');
+      const input    = document.getElementById('date-nav-input');
+      const todayBtn = document.getElementById('date-nav-today');
+
+      label.textContent = formatDate(activeDate);
+      input.value = toDateKey(activeDate);
+
+      const isToday = toDateKey(activeDate) === toDateKey(todayMidnight());
+      todayBtn.style.display = isToday ? 'none' : '';
+    }
+
+    /* ── Data Fetching ──────────────────────────────────────────────── */
+
+    async function fetchDayData(date) {
+      const year  = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day   = date.getDate();
+      const url   = `https://orthocal.info/api/gregorian/${year}/${month}/${day}/`;
+
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      const data = await response.json();
+
+      // ── Debug ──
+      console.log('stories raw:', JSON.stringify(data.stories, null, 2));
+      console.groupCollapsed('☩ Orthocal API — raw response');
+      console.log('URL:', url);
+      console.log('Top-level keys:', Object.keys(data));
+      console.log('Full data:', data);
+      console.log('fast_level:', data.fast_level, '| fast_level_desc:', data.fast_level_desc);
+      console.log('fast_exception_desc:', data.fast_exception_desc);
+      console.log('summary_title:', data.summary_title);
+      console.log('feasts:', data.feasts);
+      console.log('saints[] (first 3):', (data.saints || []).slice(0, 3));
+      console.log('readings[] JSON:', JSON.stringify(data.readings, null, 2));
+      console.groupEnd();
+
+      return data;
+    }
+
+    /* ── Render for a date ──────────────────────────────────────────── */
+
+    async function loadAndRender(date) {
+      // Show loading, hide content and error
+      document.getElementById('loading-state').style.display  = 'block';
+      document.getElementById('today-content').style.display  = 'none';
+      document.getElementById('error-state').style.display    = 'none';
+
+      // Update header date immediately to the selected date
+      document.getElementById('header-date').textContent = formatDate(date);
+      updateDateNav();
+
+      try {
+        const data = await fetchDayData(date);
+        renderHeaderMeta(data, date);
+        renderHero(data);
+        renderFastingBanner(data);
+        renderSaints(data);
+        renderReadings(data);
+
+        document.getElementById('loading-state').style.display = 'none';
+        document.getElementById('today-content').style.display = 'block';
+      } catch (err) {
+        console.error('☩ Orthodox Daily — API fetch failed:', err);
+        document.getElementById('loading-state').style.display = 'none';
+        const errEl = document.getElementById('error-state');
+        errEl.style.display = 'block';
+        document.getElementById('error-message').textContent =
+          `Could not load liturgical data: ${err.message}. Please check your connection and try refreshing.`;
+      }
+    }
+
+    /* ── renderHeaderMeta now accepts the display date ──────────────── */
+
+    function renderHeaderMeta(data, date) {
+      const d = date || activeDate;
+      document.getElementById('header-date').textContent = formatDate(d);
+      const toneBadge = document.getElementById('header-tone');
+      if (data.tone) {
+        toneBadge.textContent = `Tone ${data.tone}`;
+        toneBadge.style.display = '';
+      } else {
+        toneBadge.style.display = 'none';
+      }
+    }
+
+    /* ── Fasting Banner Wiring ───────────────────────────────────────── */
+
+    (function () {
+      const banner = document.getElementById('fasting-banner');
+      const body = document.getElementById('fasting-banner-body');
+
+      function toggleBanner() {
+        const isExpanded = banner.classList.contains('fasting-expanded');
+
+        if (isExpanded) {
+          // Collapse: animate height first, then width
+          const expandedWidth = banner.offsetWidth;
+          banner.style.width = expandedWidth + 'px';
+
+          body.style.maxHeight = body.scrollHeight + 'px';
+          body.offsetHeight;
+          body.style.maxHeight = '0px';
+
+          banner.classList.remove('fasting-expanded');
+          banner.setAttribute('aria-expanded', 'false');
+
+          body.addEventListener('transitionend', function handler(evt) {
+            if (evt.propertyName !== 'max-height') return;
+            body.removeEventListener('transitionend', handler);
+            body.style.maxHeight = '';
+
+            banner.style.width = '';
+            const collapsedWidth = banner.offsetWidth;
+            banner.style.width = expandedWidth + 'px';
+            banner.offsetHeight;
+            banner.style.width = collapsedWidth + 'px';
+
+            banner.addEventListener('transitionend', function wHandler(evt2) {
+              if (evt2.propertyName !== 'width') return;
+              banner.removeEventListener('transitionend', wHandler);
+              banner.style.width = '';
+            });
+          });
+        } else {
+          // Expand: animate width first, then height
+          const collapsedWidth = banner.offsetWidth;
+          banner.style.width = collapsedWidth + 'px';
+
+          banner.classList.add('fasting-expanded');
+          banner.setAttribute('aria-expanded', 'true');
+
+          banner.style.width = '';
+          const targetWidth = Math.min(376, banner.parentElement.offsetWidth);
+          banner.style.width = collapsedWidth + 'px';
+          banner.offsetHeight;
+          banner.style.width = targetWidth + 'px';
+
+          banner.addEventListener('transitionend', function wHandler(evt) {
+            if (evt.propertyName !== 'width') return;
+            banner.removeEventListener('transitionend', wHandler);
+            banner.style.width = targetWidth + 'px';
+
+            body.style.maxHeight = '0px';
+            body.offsetHeight;
+            body.style.maxHeight = body.scrollHeight + 'px';
+
+            body.addEventListener('transitionend', function hHandler(evt2) {
+              if (evt2.propertyName !== 'max-height') return;
+              body.removeEventListener('transitionend', hHandler);
+              body.style.maxHeight = 'none';
+            });
+          });
+        }
+      }
+
+      banner.addEventListener('click', toggleBanner);
+      banner.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleBanner(); }
+      });
+    })();
+
+    /* ── Animated <details> ─────────────────────────────────────────── */
+    document.addEventListener('click', function (e) {
+      const summary = e.target.closest('details.reading-details > summary');
+      if (!summary) return;
+      const details = summary.parentElement;
+      if (details.hasAttribute('disabled')) return;
+
+      e.preventDefault();
+
+      const body = details.querySelector('.saint-bio, .reading-passage');
+      if (!body) return;
+
+      if (details.open) {
+        // Currently open — animate closed
+        body.style.maxHeight = body.scrollHeight + 'px';
+        body.offsetHeight; // force layout reflow
+        body.style.maxHeight = '0px';
+        body.addEventListener('transitionend', function handler(evt) {
+          if (evt.propertyName !== 'max-height') return;
+          body.removeEventListener('transitionend', handler);
+          details.open = false;
+          body.style.maxHeight = '';
+        });
+      } else {
+        // Currently closed — animate open
+        details.open = true;
+        const height = body.scrollHeight;
+        body.style.maxHeight = '0px';
+        body.offsetHeight; // force layout reflow
+        body.style.maxHeight = height + 'px';
+        body.addEventListener('transitionend', function handler(evt) {
+          if (evt.propertyName !== 'max-height') return;
+          body.removeEventListener('transitionend', handler);
+          body.style.maxHeight = 'none';
+        });
+      }
+    });
+
+    /* ── Date Navigation Wiring ──────────────────────────────────────── */
+
+    document.getElementById('date-nav-prev').addEventListener('click', () => {
+      activeDate.setDate(activeDate.getDate() - 1);
+      loadAndRender(activeDate);
+    });
+
+    document.getElementById('date-nav-next').addEventListener('click', () => {
+      activeDate.setDate(activeDate.getDate() + 1);
+      loadAndRender(activeDate);
+    });
+
+    document.getElementById('date-nav-today').addEventListener('click', () => {
+      activeDate = todayMidnight();
+      loadAndRender(activeDate);
+    });
+
+    const dateInput = document.getElementById('date-nav-input');
+
+    dateInput.addEventListener('change', () => {
+      if (!dateInput.value) return;
+      const [y, m, d] = dateInput.value.split('-').map(Number);
+      activeDate = new Date(y, m - 1, d);
+      loadAndRender(activeDate);
+    });
+
+    /* ── Tab Navigation ─────────────────────────────────────────────── */
+
+    document.getElementById('tab-today').addEventListener('click', function () {
+      this.classList.add('active');
+      this.setAttribute('aria-selected', 'true');
+      const prayersTab = document.getElementById('tab-prayers');
+      prayersTab.classList.remove('active');
+      prayersTab.setAttribute('aria-selected', 'false');
+
+      document.getElementById('today-content').style.display = 'block';
+      document.getElementById('section-prayers').style.display = 'none';
+    });
+
+    document.getElementById('tab-prayers').addEventListener('click', function () {
+      this.classList.add('active');
+      this.setAttribute('aria-selected', 'true');
+      const todayTab = document.getElementById('tab-today');
+      todayTab.classList.remove('active');
+      todayTab.setAttribute('aria-selected', 'false');
+
+      document.getElementById('today-content').style.display = 'none';
+      document.getElementById('section-prayers').style.display = 'block';
+    });
+
+    /* ── Boot ───────────────────────────────────────────────────────── */
+
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+    loadAndRender(activeDate);
+  </script>
+</body>
+</html>
