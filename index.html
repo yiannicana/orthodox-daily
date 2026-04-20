@@ -1224,10 +1224,29 @@
         return;
       }
 
+      const storyMap = {};
+      (data.stories || []).forEach(s => {
+        if (s && s.title) storyMap[s.title.trim()] = s;
+      });
+
+      function findStory(name) {
+        const key = name.trim();
+        if (storyMap[key]) return storyMap[key];
+        const lower = key.toLowerCase();
+        for (const [k, v] of Object.entries(storyMap)) {
+          if (k.toLowerCase() === lower) return v;
+        }
+        for (const [k, v] of Object.entries(storyMap)) {
+          const kl = k.toLowerCase();
+          if (kl.includes(lower) || lower.includes(kl)) return v;
+        }
+        return null;
+      }
+
       const frag = document.createDocumentFragment();
 
-      combined.forEach((entry, i) => {
-        const storyObj  = stories[i] || null;
+      combined.forEach((entry) => {
+        const storyObj  = findStory(entry.name);
         const storyBody = (storyObj && storyObj.story) || null;
 
         if (storyBody) {
