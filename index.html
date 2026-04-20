@@ -816,6 +816,110 @@
       display: none;
     }
 
+    /* ─── Prayers Section ───────────────────────────────────────────────── */
+    #prayers-hero {
+      background-color: var(--parchment-medium);
+      border-bottom: 1px solid var(--gold-light);
+      padding: 3rem 1.25rem 2rem;
+      text-align: center;
+    }
+
+    .prayers-subtitle {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1rem;
+      color: var(--ink-light);
+      font-style: italic;
+      max-width: 560px;
+      margin: 0.5rem auto 0;
+    }
+
+    #prayers-list-content {
+      padding: 2.5rem 0 2rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    @media (min-width: 768px) {
+      #prayers-list-content { max-width: 660px; }
+    }
+
+    .prayer-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.65rem 0.875rem;
+      margin-bottom: 0.5rem;
+      background: rgba(200, 169, 110, 0.04);
+      border: 0.5px solid var(--gold);
+      border-radius: 3px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s;
+    }
+
+    .prayer-card:hover { background: rgba(200, 169, 110, 0.1); }
+    .prayer-card:last-child { margin-bottom: 0; }
+
+    .prayer-card-name {
+      font-family: 'IM Fell English', Georgia, serif;
+      font-size: 0.9375rem;
+      color: var(--ink);
+    }
+
+    .prayer-card-arrow {
+      color: var(--gold);
+      font-size: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    #prayers-back-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      font-variant: small-caps;
+      letter-spacing: 0.1em;
+      color: var(--brown-muted);
+      padding: 0;
+      margin: 1.5rem 0 0;
+      display: block;
+      transition: color 0.15s;
+    }
+
+    #prayers-back-btn:hover { color: var(--crimson); }
+
+    #prayers-detail-hero {
+      background-color: var(--parchment-medium);
+      border-bottom: 1px solid var(--gold-light);
+      padding: 3rem 1.25rem 2rem;
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
+    .prayer-text-container {
+      padding: 2.5rem 0 3rem;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .prayer-text-rule {
+      border: none;
+      border-top: 1px solid var(--gold);
+      opacity: 0.7;
+      margin-bottom: 2rem;
+    }
+
+    .prayer-text {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 19px;
+      line-height: 2.0;
+      color: var(--ink);
+      white-space: pre-line;
+      margin: 0;
+    }
+
     /* ─── Utility ─────────────────────────────────────────────────────── */
     .visually-hidden {
       position: absolute;
@@ -995,19 +1099,48 @@
 
     <!-- Prayers section -->
     <section id="section-prayers" style="display:none;" aria-labelledby="tab-prayers">
-      <div class="coming-soon-page">
-        <span class="coming-soon-icon" aria-hidden="true">☩</span>
-        <h2 class="coming-soon-title">Prayers</h2>
-        <p class="coming-soon-subtitle">Coming Soon</p>
-        <p class="coming-soon-desc">
-          Traditional Orthodox prayers for everyday life will be featured here. It's currently in the works — more to come soon.
-        </p>
-        <div class="coming-soon-ornament" aria-hidden="true">· ✦ ·</div>
-        <p class="coming-soon-prayer">
-          Lord Jesus Christ, Son of God,<br />
-          have mercy on me, a sinner.
-        </p>
+
+      <!-- LIST VIEW -->
+      <div id="prayers-list-view">
+        <div id="prayers-hero">
+          <h2 class="feast-title-primary" style="font-style: italic;">Prayers</h2>
+          <p class="prayers-subtitle">A selection of prayers for everyday life. Use them when in need, to give thanks, and to grow closer to God.</p>
+        </div>
+        <div class="content-inner">
+          <div id="prayers-list-content">
+            <div class="prayer-card" data-prayer="lords-prayer" role="button" tabindex="0" aria-label="The Lord's Prayer">
+              <span class="prayer-card-name">The Lord's Prayer</span>
+              <span class="prayer-card-arrow" aria-hidden="true">▸</span>
+            </div>
+            <div class="prayer-card" data-prayer="nicene-creed" role="button" tabindex="0" aria-label="The Nicene Creed">
+              <span class="prayer-card-name">The Nicene Creed</span>
+              <span class="prayer-card-arrow" aria-hidden="true">▸</span>
+            </div>
+            <div class="prayer-card" data-prayer="jesus-prayer" role="button" tabindex="0" aria-label="The Jesus Prayer">
+              <span class="prayer-card-name">The Jesus Prayer</span>
+              <span class="prayer-card-arrow" aria-hidden="true">▸</span>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <!-- DETAIL VIEW -->
+      <div id="prayers-detail-view" style="display:none;">
+        <div class="content-inner">
+          <button id="prayers-back-btn" aria-label="Back to Prayers">← Back to Prayers</button>
+        </div>
+        <div id="prayers-detail-hero">
+          <h2 id="prayers-detail-title" class="feast-title-primary" style="font-style: italic;"></h2>
+          <p id="prayers-detail-subtitle" class="prayers-subtitle"></p>
+        </div>
+        <div class="content-inner">
+          <div class="prayer-text-container">
+            <hr class="prayer-text-rule" />
+            <p id="prayers-text" class="prayer-text"></p>
+          </div>
+        </div>
+      </div>
+
     </section>
 
   </main>
@@ -1572,6 +1705,52 @@
       loadAndRender(activeDate);
     });
 
+    /* ── Prayers ─────────────────────────────────────────────────────── */
+
+    const PRAYERS = {
+      'lords-prayer': {
+        name: "The Lord's Prayer",
+        description: "Given by Christ himself to his disciples, the Lord's Prayer is the foundational prayer of all Christian life.",
+        text: "Our Father, who art in heaven,\nhallowed be Thy name.\nThy kingdom come,\nThy will be done,\non earth as it is in heaven.\nGive us this day our daily bread,\nand forgive us our trespasses,\nas we forgive those who trespass against us.\nAnd lead us not into temptation,\nbut deliver us from evil.\nFor Thine is the kingdom,\nand the power, and the glory,\nof the Father, and of the Son,\nand of the Holy Spirit,\nnow and ever, and unto ages of ages.\nAmen."
+      },
+      'nicene-creed': {
+        name: "The Nicene Creed",
+        description: "Proclaimed at the First and Second Ecumenical Councils, the Nicene Creed is the statement of Orthodox Christian faith recited at every Divine Liturgy.",
+        text: "I believe in one God,\nFather Almighty,\nCreator of heaven and earth,\nand of all things visible and invisible.\n\nAnd in one Lord Jesus Christ,\nthe only-begotten Son of God,\nbegotten of the Father before all ages;\nLight of Light, true God of true God,\nbegotten, not created, of one essence with the Father\nthrough Whom all things were made.\nWho for us men and for our salvation\ncame down from heaven\nand was incarnate of the Holy Spirit and the Virgin Mary\nand became man.\nHe was crucified for us under Pontius Pilate,\nand suffered and was buried;\nand He rose on the third day,\naccording to the Scriptures.\nHe ascended into heaven\nand is seated at the right hand of the Father;\nand He will come again with glory\nto judge the living and dead.\nHis kingdom shall have no end.\n\nAnd in the Holy Spirit,\nthe Lord, the Creator of life,\nWho proceeds from the Father,\nWho together with the Father and the Son\nis worshipped and glorified,\nWho spoke through the prophets.\n\nIn one, holy, catholic, and apostolic Church.\nI confess one baptism for the forgiveness of sins.\nI look for the resurrection of the dead,\nand the life of the age to come.\nAmen."
+      },
+      'jesus-prayer': {
+        name: "The Jesus Prayer",
+        description: "The ancient prayer of the heart, rooted in the tradition of the Desert Fathers and the Hesychast saints. It is prayed repeatedly, in rhythm with the breath, as a path to stillness and union with God.",
+        text: "Lord Jesus Christ,\nSon of God,\nhave mercy on me,\na sinner."
+      }
+    };
+
+    function showPrayersList() {
+      document.getElementById('prayers-list-view').style.display = 'block';
+      document.getElementById('prayers-detail-view').style.display = 'none';
+    }
+
+    function showPrayerDetail(id) {
+      const prayer = PRAYERS[id];
+      if (!prayer) return;
+      document.getElementById('prayers-detail-title').textContent = prayer.name;
+      document.getElementById('prayers-detail-subtitle').textContent = prayer.description;
+      document.getElementById('prayers-text').textContent = prayer.text;
+      document.getElementById('prayers-list-view').style.display = 'none';
+      document.getElementById('prayers-detail-view').style.display = 'block';
+    }
+
+    document.querySelectorAll('.prayer-card').forEach(function (card) {
+      card.addEventListener('click', function () {
+        showPrayerDetail(this.dataset.prayer);
+      });
+      card.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showPrayerDetail(this.dataset.prayer); }
+      });
+    });
+
+    document.getElementById('prayers-back-btn').addEventListener('click', showPrayersList);
+
     /* ── Tab Navigation ─────────────────────────────────────────────── */
 
     document.getElementById('tab-today').addEventListener('click', function () {
@@ -1594,6 +1773,7 @@
 
       document.getElementById('today-content').style.display = 'none';
       document.getElementById('section-prayers').style.display = 'block';
+      showPrayersList();
     });
 
     document.querySelector('.app-title').addEventListener('click', function () {
