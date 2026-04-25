@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Orthodox Daily</title>
+  <title>Daily Orthodoxy</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet" />
@@ -19,16 +19,41 @@
       --ink-light:      #4A3520;
       --gold:           #C8A96E;
       --gold-light:     #E8D5A0;
-      --crimson:        #8B1A1A;
-      --brown-muted:    #8B6B35;
+      --crimson:        #EE5D4C;
+      --brown-muted:    #B18D54;
       --fast-strict:    #5C2A2A;
       --fast-lenient:   #3A5C3A;
+      --parchment-card: #F3EDD8;
+      --fast-strict-text: #E8A090;
+      --fast-free-text:   #7EB87E;
+      --fast-dot-strict:  #C0392B;
+      --fast-dot-free:    #7EB87E;
+      --error-bg:         #fff8f8;
+      --error-border:     #e0b0b0;
+    }
+
+    [data-theme="dark"] {
+      --parchment:        #1C1812;
+      --parchment-medium: #211E18;
+      --parchment-dark:   #2A2520;
+      --parchment-card:   #2E2920;
+      --ink:              #F0E6D0;
+      --ink-light:        #C8B89A;
+      --gold:             #C8A96E;
+      --gold-light:       #6B5830;
+      --crimson:          #EE5D4C;
+      --brown-muted:      #B18D54;
+      --fast-strict:      #C0392B;
+      --fast-lenient:     #4A7C4A;
+      --error-bg:         rgba(192, 57, 43, 0.08);
+      --error-border:     rgba(192, 57, 43, 0.3);
     }
 
     /* ─── Reset & Base ────────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    button, input, select, textarea { font-family: inherit; }
 
-    html { scroll-behavior: smooth; }
+    html { height: 100%; }
 
     body {
       background-color: var(--parchment);
@@ -37,28 +62,24 @@
       font-size: 17px;
       line-height: 1.75;
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      transition: background-color 0.5s ease, color 0.5s ease;
+    }
+
+    main {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
     }
 
     /* ─── Typography ──────────────────────────────────────────────────── */
-    h1, h2, h3, .feast-title {
-      font-family: 'IM Fell English', Georgia, serif;
-    }
-
     p { margin-bottom: 0.75em; }
     p:last-child { margin-bottom: 0; }
-
-    hr.gold-rule {
-      border: none;
-      border-top: 1px solid var(--gold);
-      margin: 0;
-      opacity: 0.7;
-    }
-
-    hr.gold-rule-thick {
-      border: none;
-      border-top: 2px solid var(--gold);
-      margin: 0;
-    }
 
     /* ─── Sticky Header ───────────────────────────────────────────────── */
     #site-header {
@@ -69,6 +90,7 @@
       border-bottom: 2px solid var(--gold);
       box-shadow: 0 2px 8px rgba(44, 24, 16, 0.12);
       padding: 0.75rem 0 0;
+      transition: background-color 0.5s ease;
     }
 
     #site-header .content-inner {
@@ -76,8 +98,7 @@
     }
 
     .app-title {
-      font-family: 'IM Fell English', Georgia, serif;
-      font-size: clamp(1.3rem, 3.5vw, 1.75rem);
+      font-size: clamp(1.6rem, 4.5vw, 2.2rem);
       color: var(--crimson);
       letter-spacing: 0.02em;
       line-height: 1.2;
@@ -89,11 +110,17 @@
       margin-right: 0.3em;
     }
 
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+
     .header-meta {
-      font-family: 'Cormorant Garamond', Georgia, serif;
       font-size: 0.9rem;
       color: var(--brown-muted);
-      font-style: italic;
+      font-style: normal;
       text-align: right;
       flex-shrink: 0;
     }
@@ -124,14 +151,13 @@
       border: none;
       border-bottom: 3px solid transparent;
       cursor: pointer;
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: 0.85rem;
+      font-size: 0.95rem;
       font-weight: 700;
       font-variant: small-caps;
       letter-spacing: 0.12em;
       color: var(--brown-muted);
       padding: 0.45rem 1.1rem 0.55rem;
-      transition: color 0.2s, border-color 0.2s;
+      transition: color 0.5s ease, border-color 0.5s ease;
       position: relative;
       top: 2px; /* sit flush on border */
     }
@@ -161,8 +187,7 @@
     #loading-state {
       text-align: center;
       padding: 4rem 1rem;
-      font-family: 'IM Fell English', Georgia, serif;
-      font-style: italic;
+      font-style: normal;
       font-size: 1.2rem;
       color: var(--brown-muted);
     }
@@ -184,8 +209,8 @@
       display: none;
       text-align: center;
       padding: 3rem 1rem;
-      background: #fff8f8;
-      border: 1px solid #e0b0b0;
+      background: var(--error-bg);
+      border: 1px solid var(--error-border);
       border-radius: 4px;
       margin: 2rem 0;
     }
@@ -207,15 +232,19 @@
     /* ─── Hero ────────────────────────────────────────────────────────── */
     #hero {
       background-color: var(--parchment-medium);
-      border-bottom: 1px solid var(--gold-light);
       padding: 3rem 1.25rem 2rem;
       text-align: center;
+      transition: background-color 0.5s ease, padding-bottom 0.3s ease;
+    }
+
+    #hero:not(:has(#return-to-today.visible)) {
+      padding-bottom: 1rem;
     }
 
     .feast-title-primary {
-      font-family: 'IM Fell English', Georgia, serif;
-      font-style: italic;
-      font-size: clamp(2rem, 5vw, 2.6rem);
+      font-style: normal;
+      font-weight: 500;
+      font-size: clamp(2.2rem, 5.5vw, 3rem);
       color: var(--ink);
       line-height: 1.35;
       max-width: 820px;
@@ -223,78 +252,28 @@
       margin-right: auto;
     }
 
+    #hero-title {
+      font-style: normal;
+      font-weight: 500;
+    }
+
     .feast-title-secondary {
-      font-family: 'Cormorant Garamond', Georgia, serif;
       font-size: 1rem;
       color: var(--ink-light);
       margin-bottom: 1rem;
-      font-style: italic;
+      font-style: normal;
     }
 
-    .fasting-rule {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5em;
-      padding: 0.45em 1.1em;
-      margin-bottom: 1.5rem;
-      border-radius: 3px;
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: 0.95rem;
-      font-variant: small-caps;
-      letter-spacing: 0.06em;
-      border: 1px solid currentColor;
-      margin-top: 0.5rem;
-    }
-
-    .fasting-rule.strict {
-      color: var(--fast-strict);
-      background: rgba(92, 42, 42, 0.06);
-      border-color: rgba(92, 42, 42, 0.3);
-    }
-
-    .fasting-rule.lenient {
-      color: var(--fast-lenient);
-      background: rgba(58, 92, 58, 0.06);
-      border-color: rgba(58, 92, 58, 0.3);
-    }
-
-    .fasting-rule.none {
-      color: var(--brown-muted);
-      background: transparent;
-      border-color: var(--gold);
-    }
-
-    .fasting-icon { font-size: 1em; }
-
-    .hero-gold-rule {
-      margin-top: 1.5rem;
-    }
 
     /* ─── Content Grid ────────────────────────────────────────────────── */
     #content-grid {
       padding: 2.5rem 0 1rem;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 0;
-    }
-
-    @media (min-width: 768px) {
-      #content-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 2rem;
-        align-items: start;
-      }
-    }
-
-    @media (min-width: 1025px) {
-      #content-grid {
-        grid-template-columns: 2fr 1.2fr;
-      }
+      max-width: 680px;
+      margin: 0 auto;
     }
 
     /* ─── Section Headers ─────────────────────────────────────────────── */
     .section-heading {
-      font-family: 'Cormorant Garamond', Georgia, serif;
       font-size: 0.82rem;
       font-weight: 700;
       font-variant: small-caps;
@@ -319,44 +298,24 @@
     .saint-card {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 0.5em;
       padding: 0.65rem 0.875rem;
       margin-bottom: 0.5rem;
-      background: rgba(200, 169, 110, 0.04);
-      border: 0.5px solid var(--gold);
+      background: var(--parchment-card);
       border-radius: 3px;
+      user-select: none;
+      transition: background 0.5s ease;
     }
 
     .saint-card:last-child { margin-bottom: 0; }
-
-    .saint-bullet {
-      color: var(--gold);
-      flex-shrink: 0;
-      font-size: 0.625rem;
-      line-height: 1;
-    }
+    .saint-card[role="button"] { cursor: pointer; }
+    .saint-card[role="button"]:hover { background: rgba(200, 169, 110, 0.18); }
 
     .saint-name {
-      font-family: 'IM Fell English', Georgia, serif;
       font-size: 0.9375rem;
       color: var(--ink);
     }
-
-    .saint-bio {
-      font-size: 0.97rem;
-      color: var(--ink-light);
-      line-height: 1.85;
-      border-top: 1px solid var(--gold-light);
-      overflow: hidden;
-      transition: max-height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .saint-bio-inner {
-      padding: 0.6rem 1rem 0.85rem 1.4rem;
-    }
-
-    .saint-bio-inner p { margin-bottom: 0.8em; }
-    .saint-bio-inner p:last-child { margin-bottom: 0; }
 
     /* ─── Readings ────────────────────────────────────────────────────── */
     #readings { margin-bottom: 2.5rem; }
@@ -366,7 +325,6 @@
     }
 
     .readings-group-label {
-      font-family: 'Cormorant Garamond', Georgia, serif;
       font-weight: 700;
       font-size: 0.6875rem;
       letter-spacing: 0.14em;
@@ -379,80 +337,26 @@
       margin-top: 1.25rem;
     }
 
-    details.reading-details {
-      margin-bottom: 0.5rem;
-      border: 0.5px solid var(--gold);
-      border-radius: 3px;
-      background: rgba(200, 169, 110, 0.04);
-    }
-
-    details.reading-details > summary {
-      list-style: none;
-      padding: 0.65rem 0.875rem;
-      cursor: pointer;
-      user-select: none;
+    .reading-card {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 0.5em;
+      padding: 0.65rem 0.875rem;
+      margin-bottom: 0.5rem;
+      background: var(--parchment-card);
+      border-radius: 3px;
+      user-select: none;
+      transition: background 0.5s ease;
     }
 
-    details.reading-details > summary::-webkit-details-marker { display: none; }
-
-    details.reading-details > summary::before {
-      content: '▾';
-      color: var(--gold);
-      font-size: 0.7rem;
-      flex-shrink: 0;
-      line-height: 1.8;
-      display: inline-block;
-      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-      transform: rotate(-90deg);
-    }
-
-    details.reading-details[open] > summary::before {
-      transform: rotate(0deg);
-    }
+    .reading-card:last-child { margin-bottom: 0; }
+    .reading-card[role="button"] { cursor: pointer; }
+    .reading-card[role="button"]:hover { background: rgba(200, 169, 110, 0.18); }
 
     .reading-ref {
-      font-family: 'IM Fell English', Georgia, serif;
       font-size: 1rem;
       color: var(--ink);
-    }
-
-    .reading-ref-group {
-      display: flex;
-      align-items: center;
-      gap: 0.5em;
-      flex: 1;
-      min-width: 0;
-    }
-
-    .reading-desc {
-      font-size: 0.75rem;
-      color: var(--brown-muted);
-      font-style: italic;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .reading-passage {
-      font-size: 0.97rem;
-      color: var(--ink-light);
-      line-height: 1.85;
-      border-top: 1px solid var(--gold-light);
-      white-space: pre-wrap;
-      overflow: hidden;
-      transition: max-height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .reading-passage-inner {
-      padding: 0.6rem 1rem 0.85rem 1.4rem;
-    }
-
-    /* Keep content collapsed by default — JS controls max-height entirely */
-    details.reading-details .saint-bio,
-    details.reading-details .reading-passage {
-      max-height: 0;
     }
 
     /* ─── Sidebar ─────────────────────────────────────────────────────── */
@@ -461,14 +365,12 @@
     }
 
     .how-to-use {
-      background: rgba(200, 169, 110, 0.08);
-      border: 1px solid var(--gold-light);
+      background: var(--parchment-card);
       border-radius: 4px;
       padding: 1.1rem 1.25rem;
     }
 
     .how-to-use-title {
-      font-family: 'IM Fell English', Georgia, serif;
       font-size: 1.05rem;
       color: var(--crimson);
       margin-bottom: 0.6rem;
@@ -489,85 +391,7 @@
       letter-spacing: 0.2em;
     }
 
-    /* ─── Coming Soon Page ───────────────────────────────────────────── */
-    .coming-soon-page {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 4rem 1.25rem;
-      min-height: 50vh;
-    }
 
-    .coming-soon-icon {
-      font-size: 3.5rem;
-      color: var(--gold);
-      display: block;
-      margin-bottom: 1.25rem;
-      opacity: 0.7;
-    }
-
-    .coming-soon-title {
-      font-family: 'IM Fell English', Georgia, serif;
-      font-size: clamp(1.6rem, 4vw, 2.2rem);
-      color: var(--ink);
-      margin-bottom: 0.25rem;
-      line-height: 1.3;
-    }
-
-    .coming-soon-subtitle {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-weight: 700;
-      font-variant: small-caps;
-      font-size: 1rem;
-      letter-spacing: 0.15em;
-      color: var(--brown-muted);
-      margin-bottom: 1.5rem;
-    }
-
-    .coming-soon-desc {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: 1rem;
-      color: var(--ink-light);
-      line-height: 1.75;
-      max-width: 480px;
-      margin-bottom: 1.5rem;
-    }
-
-    .coming-soon-ornament {
-      color: var(--gold);
-      font-size: 0.9rem;
-      letter-spacing: 0.2em;
-      margin-bottom: 1.25rem;
-    }
-
-    .coming-soon-prayer {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: 0.92rem;
-      font-style: italic;
-      color: var(--brown-muted);
-      line-height: 1.7;
-    }
-
-    /* ─── Footer ──────────────────────────────────────────────────────── */
-    #site-footer {
-      background-color: var(--parchment-dark);
-      border-top: 1px solid var(--gold);
-      text-align: center;
-      padding: 1.25rem 1rem;
-      margin-top: 1.5rem;
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: 0.85rem;
-      color: var(--brown-muted);
-      font-style: italic;
-    }
-
-    #site-footer a {
-      color: var(--brown-muted);
-      text-decoration: underline;
-      text-underline-offset: 2px;
-    }
 
     /* ─── Date Navigation ────────────────────────────────────────────── */
     #date-nav {
@@ -575,7 +399,17 @@
       flex-direction: column;
       align-items: center;
       gap: 0.55rem;
-      margin-top: 1.25rem;
+      margin-top: 2.75rem;
+    }
+
+    #date-nav::before {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(200, 169, 110, 0.45), transparent);
+      margin-bottom: 0.5rem;
+      flex-shrink: 0;
     }
 
     #date-nav-row {
@@ -585,35 +419,39 @@
       gap: 1.1rem;
     }
 
-    .date-nav-arrow {
-      background: none;
-      border: 1px solid var(--gold-light);
-      border-radius: 3px;
-      color: var(--brown-muted);
+    .icon-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid rgba(200, 169, 110, 0.4);
+      background: transparent;
+      color: var(--gold);
       cursor: pointer;
-      font-size: 1rem;
       line-height: 1;
-      padding: 0.3rem 0.65rem;
-      transition: color 0.15s, border-color 0.15s, background 0.15s;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, border-color 0.2s;
       flex-shrink: 0;
     }
 
-    .date-nav-arrow:hover {
-      color: var(--crimson);
-      border-color: var(--crimson);
-      background: rgba(139, 26, 26, 0.05);
+    @media (hover: hover) {
+      .icon-btn:hover { background: rgba(200, 169, 110, 0.1); }
     }
+    .icon-btn:active { background: rgba(200, 169, 110, 0.1); }
+
+    .date-nav-arrow { font-size: 1rem; }
 
     #date-nav-display {
-      font-family: 'IM Fell English', Georgia, serif;
-      font-style: italic;
+      font-style: normal;
       font-size: 1rem;
       color: var(--ink);
       cursor: pointer;
       border-bottom: 1px dotted var(--gold);
       padding-bottom: 1px;
       white-space: nowrap;
-      transition: color 0.15s;
+      transition: color 0.5s ease;
       position: relative;
       display: inline-block;
     }
@@ -649,198 +487,217 @@
       cursor: pointer;
     }
 
-    #date-nav-today {
-      background: none;
-      border: 1px solid var(--gold);
-      border-radius: 20px;
-      color: var(--brown-muted);
-      cursor: pointer;
-      font-family: 'Cormorant Garamond', Georgia, serif;
+    #return-to-today {
+      font-size: 0.95rem;
+      font-weight: 700;
       font-variant: small-caps;
-      font-size: 0.9rem;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      padding: 0.2em 0.75em;
-      transition: background 0.15s, color 0.15s;
-      flex-shrink: 0;
+      letter-spacing: 0.12em;
+      color: var(--gold);
+      background: none;
+      border: 1px solid rgba(200, 169, 110, 0.4);
+      border-radius: 999px;
+      cursor: pointer;
+      padding: 5px 14px;
+      display: block;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease, max-height 0.3s ease, background 0.2s;
     }
 
-    #date-nav-today:hover:not(:disabled) {
-      background: var(--gold);
-      color: var(--ink);
+
+    #return-to-today.visible {
+      max-height: 50px;
+      opacity: 0.75;
+      pointer-events: auto;
     }
 
-    #date-nav-today:disabled {
-      opacity: 0.35;
+    @media (hover: hover) {
+      #return-to-today:hover { background: rgba(200, 169, 110, 0.1); opacity: 1; }
+    }
+    #return-to-today:active { background: rgba(200, 169, 110, 0.1); opacity: 1; }
+
+    @media (max-width: 767px) {
+      #date-nav { gap: 0.35rem; margin-top: 2.25rem; }
+      #date-nav-row { gap: 0.75rem; }
+      #date-nav-display { font-size: 1.05rem; }
+    }
+
+    /* ─── Fasting Pill ───────────────────────────────────────────────── */
+    #fasting-pill-wrap {
+      margin: 0.6rem 0 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #fasting-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 2px 14px 2px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-variant: small-caps;
+      letter-spacing: 0.12em;
+      user-select: none;
+      transition: opacity 0.2s ease;
+    }
+
+    #fasting-pill.pill-strict {
+      background: rgba(192, 57, 43, 0.15);
+      border: 1px solid rgba(192, 57, 43, 0.4);
+      color: var(--fast-strict-text);
+      cursor: pointer;
+    }
+
+    #fasting-pill.pill-lenient {
+      background: rgba(200, 169, 110, 0.12);
+      border: 1px solid rgba(200, 169, 110, 0.4);
+      color: var(--gold);
+      cursor: pointer;
+    }
+
+    #fasting-pill.pill-free {
+      background: rgba(58, 92, 58, 0.15);
+      border: 1px solid rgba(58, 120, 58, 0.4);
+      color: var(--fast-free-text);
       cursor: default;
     }
 
-    @media (max-width: 767px) {
-      #date-nav { gap: 0.35rem; margin-top: 1rem; }
-      #date-nav-row { gap: 0.75rem; }
-      #date-nav-display { font-size: 1.05rem; }
-      #date-nav-today { font-size: 0.85rem; padding: 0.18em 0.6em; }
-    }
-
-    /* ─── Fasting Banner ─────────────────────────────────────────────── */
-    #fasting-banner-wrapper {
-      display: flex;
-      justify-content: center;
-      width: 100%;
-      margin-top: 1.25rem;
-    }
-
-    #fasting-banner {
-      width: fit-content;
-      min-width: 0;
-      max-width: 376px;
-      border: 1px solid var(--gold);
-      border-radius: 6px;
-      background: rgba(200, 169, 110, 0.08);
-      cursor: pointer;
-      user-select: none;
-      box-sizing: border-box;
-      transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    #fasting-banner-summary {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5em;
-      padding: 10px 14px;
-      white-space: nowrap;
-    }
-
-    #fasting-banner-label {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-weight: 600;
-      font-size: 1rem;
-      letter-spacing: 0.09375em;
-      text-transform: uppercase;
-      color: var(--ink);
-    }
-
-    #fasting-banner-indicator {
-      color: var(--gold);
-      font-size: 1rem;
-      display: inline-block;
+    #fasting-pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
       flex-shrink: 0;
-      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    #fasting-banner.fasting-expanded #fasting-banner-indicator {
-      transform: rotate(180deg);
+    #fasting-pill-dot.dot-strict { background: var(--fast-dot-strict); }
+    #fasting-pill-dot.dot-lenient { background: var(--gold); }
+    #fasting-pill-dot.dot-free { background: var(--fast-dot-free); }
+
+    #fasting-pill-chevron {
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      margin-left: -2px;
+      display: inline-flex;
+      align-items: center;
     }
 
-    #fasting-banner-rule {
-      height: 1px;
-      background: var(--gold);
-      opacity: 0.4;
-      margin: 0 20px;
-    }
+    #fasting-pill-chevron svg { display: block; }
 
-    #fasting-banner-body {
-      max-height: 0;
+    #fasting-pill-chevron.open { transform: rotate(180deg); }
+
+    #fasting-expanded-body {
       overflow: hidden;
-      min-width: 0;
-      transition: max-height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      max-height: 0;
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    #fasting-banner-content {
-      padding: 14px 20px 18px;
-      min-width: 0;
-      opacity: 0;
-      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    #fasting-banner.fasting-expanded #fasting-banner-content {
-      opacity: 1;
-    }
-
-    #fasting-rubric {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-style: italic;
-      font-weight: 500;
-      font-size: 1rem;
-      color: var(--ink-light);
-      text-align: center;
-      margin: 0 0 12px;
-    }
+    #fasting-expanded-body.open { max-height: 180px; }
 
     #fasting-icons {
       display: flex;
       justify-content: center;
-      align-items: stretch;
       gap: 8px;
-      width: 0;
-      min-width: 100%;
+      padding: 10px 0 4px;
+      flex-wrap: wrap;
     }
 
-    .food-tile {
+    .fast-tile {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
       gap: 4px;
-      padding: 8px 6px 6px;
-      border: 1px solid var(--gold);
-      border-radius: 8px;
-      background: var(--parchment-dark);
-      flex-shrink: 0;
-      box-sizing: border-box;
-      min-width: 52px;
+      width: 52px;
     }
 
-    .food-tile svg {
-      display: block;
-      background: #D4C9A8;
-      border-radius: 4px;
-      padding: 3px;
-      stroke: var(--ink);
-      box-sizing: content-box;
+    .fast-tile-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .food-tile span {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-weight: 500;
-      font-size: 14px;
-      letter-spacing: 0.03em;
-      text-align: center;
-      line-height: 1.2;
-      color: var(--ink-light);
+    .fast-tile-icon.icon-strict {
+      background: rgba(92, 42, 42, 0.25);
+      border: 1px solid rgba(192, 57, 43, 0.3);
+      color: var(--fast-strict-text);
     }
 
-    /* No-fasting variant: no tiles shown */
-    #fasting-banner.fasting-no-fast #fasting-icons {
-      display: none;
+    .fast-tile-icon.icon-lenient {
+      background: rgba(200, 169, 110, 0.12);
+      border: 1px solid rgba(200, 169, 110, 0.4);
+      color: var(--gold);
     }
 
-    /* ─── Prayers Section ───────────────────────────────────────────────── */
-    #prayers-hero {
+    #fasting-pill-label {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .fast-tile-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      font-variant: small-caps;
+      color: var(--brown-muted);
+    }
+
+    /* ─── Prayers / About Hero ──────────────────────────────────────────── */
+    #prayers-hero,
+    #about-hero {
       background-color: var(--parchment-medium);
-      border-bottom: 1px solid var(--gold-light);
       padding: 3rem 1.25rem 2rem;
       text-align: center;
+      transition: background-color 0.5s ease;
     }
 
     .prayers-subtitle {
-      font-family: 'Cormorant Garamond', Georgia, serif;
       font-size: 1rem;
-      color: var(--ink-light);
-      font-style: italic;
+      color: var(--ink);
+      font-style: normal;
       max-width: 560px;
       margin: 0.5rem auto 0;
     }
 
-    #prayers-list-content {
+    #prayers-detail-title,
+    #prayers-list-title,
+    #reading-detail-title,
+    #saint-detail-title {
+      font-style: normal;
+      font-weight: 500;
+      color: var(--ink);
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+    }
+
+    #reading-detail-subtitle {
+      margin-top: 0.5rem;
+    }
+
+    #prayers-detail-subtitle,
+    #prayers-list-subtitle {
+      font-style: normal;
+      font-size: 1rem;
+      color: var(--ink);
+      line-height: 1.6;
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+    }
+
+    #prayers-list-content,
+    #about-content {
       padding: 2.5rem 0 2rem;
       margin-left: auto;
       margin-right: auto;
     }
 
     @media (min-width: 768px) {
-      #prayers-list-content { max-width: 660px; }
+      #prayers-list-content,
+      #about-content { max-width: 660px; }
     }
 
     .prayer-card {
@@ -849,54 +706,109 @@
       justify-content: space-between;
       padding: 0.65rem 0.875rem;
       margin-bottom: 0.5rem;
-      background: rgba(200, 169, 110, 0.04);
-      border: 0.5px solid var(--gold);
+      background: var(--parchment-card);
       border-radius: 3px;
       cursor: pointer;
       user-select: none;
-      transition: background 0.15s;
+      transition: background 0.5s ease;
     }
 
-    .prayer-card:hover { background: rgba(200, 169, 110, 0.1); }
+    .prayer-card:hover { background: rgba(200, 169, 110, 0.18); }
     .prayer-card:last-child { margin-bottom: 0; }
 
     .prayer-card-name {
-      font-family: 'IM Fell English', Georgia, serif;
       font-size: 0.9375rem;
       color: var(--ink);
+      font-weight: 500;
+    }
+
+    .saint-name,
+    .reading-ref {
+      font-weight: 500;
     }
 
     .prayer-card-arrow {
       color: var(--gold);
       font-size: 0.75rem;
       flex-shrink: 0;
+      display: flex;
+      align-items: center;
     }
 
     #prayers-back-btn {
       background: none;
       border: none;
       cursor: pointer;
-      font-family: 'Cormorant Garamond', Georgia, serif;
       font-size: 0.85rem;
       font-weight: 700;
       font-variant: small-caps;
       letter-spacing: 0.1em;
       color: var(--brown-muted);
       padding: 0;
-      margin: 1.5rem 0 0;
-      display: block;
-      transition: color 0.15s;
+      margin: 0;
+      display: inline-flex;
+      align-items: center;
+      text-align: left;
+      transition: color 0.5s ease;
     }
 
     #prayers-back-btn:hover { color: var(--crimson); }
 
     #prayers-detail-hero {
       background-color: var(--parchment-medium);
-      border-bottom: 1px solid var(--gold-light);
-      padding: 3rem 1.25rem 2rem;
+      padding: 1.5rem 0 2rem;
       text-align: center;
-      margin-top: 1.5rem;
+      transition: background-color 0.5s ease;
     }
+
+    /* ─── Saint & Reading Detail Views ──────────────────────────────── */
+    .detail-back-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 700;
+      font-variant: small-caps;
+      letter-spacing: 0.1em;
+      color: var(--brown-muted);
+      padding: 0;
+      margin: 0;
+      display: inline-flex;
+      align-items: center;
+      text-align: left;
+      transition: color 0.5s ease;
+    }
+
+    .detail-back-btn:hover { color: var(--crimson); }
+
+    .detail-hero {
+      background-color: var(--parchment-medium);
+      padding: 1.5rem 0 2rem;
+      text-align: center;
+      transition: background-color 0.5s ease;
+    }
+
+    .detail-back-wrapper {
+      max-width: 680px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .detail-hero-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .text-size-toggle.text-size-active { border-color: var(--gold); }
+    .text-size-toggle .sz-lg { font-size: 1.2rem; }
+    .text-size-toggle .sz-sm { font-size: 1rem; }
+
+    .lang-toggle-btn {
+      font-size: 0.9rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+    }
+    .lang-toggle-btn.lang-active { border-color: var(--gold); }
 
     .prayer-text-container {
       padding: 2.5rem 0 3rem;
@@ -904,20 +816,79 @@
       margin: 0 auto;
     }
 
-    .prayer-text-rule {
-      border: none;
-      border-top: 1px solid var(--gold);
-      opacity: 0.7;
-      margin-bottom: 2rem;
+    #prayers-text {
+      text-align: center;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .prayer-text {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: 19px;
+      font-size: 17px;
       line-height: 2.0;
       color: var(--ink);
       white-space: pre-line;
       margin: 0;
+      transition: font-size 0.3s ease, opacity 0.15s ease;
+    }
+
+    .prayer-section-heading {
+      font-weight: 700;
+      font-variant: small-caps;
+      font-size: 1rem;
+      letter-spacing: 0.12em;
+      color: var(--brown-muted);
+      transition: font-size 0.3s ease;
+    }
+
+    /* ─── View Transitions ───────────────────────────────────────────── */
+    #today-content,
+    #section-prayers,
+    #section-about,
+    #section-saint-detail,
+    #section-reading-detail,
+    #prayers-list-view,
+    #prayers-detail-view {
+      transition: opacity 0.15s ease;
+      background-color: var(--parchment);
+      height: 100%;
+    }
+
+    #today-content,
+    #section-saint-detail,
+    #section-reading-detail,
+    #prayers-list-view,
+    #prayers-detail-view {
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #today-content > :nth-last-child(2),
+    #section-saint-detail > :nth-last-child(2),
+    #section-reading-detail > :nth-last-child(2),
+    #prayers-list-view > :nth-last-child(2),
+    #prayers-detail-view > :nth-last-child(2) {
+      flex: 1;
+    }
+
+    #today-content,
+    #section-prayers,
+    #section-about,
+    #section-saint-detail,
+    #section-reading-detail {
+      flex: 1;
+    }
+
+    #section-prayers {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    #prayers-list-view,
+    #prayers-detail-view {
+      flex: 1;
     }
 
     /* ─── Utility ─────────────────────────────────────────────────────── */
@@ -930,10 +901,49 @@
     }
 
     .no-items {
-      font-style: italic;
+      font-style: normal;
       color: var(--brown-muted);
       font-size: 0.95rem;
       padding: 0.5rem 0;
+    }
+
+    /* ─── Modifier / Utility ──────────────────────────────────────────── */
+    .section-heading--spaced { margin-top: 2rem; }
+
+    .detail-back-btn svg { vertical-align: middle; margin-right: 0.3em; }
+
+    .detail-hero-toggles {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1.25rem;
+    }
+
+    #prayers-detail-toggles {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1.25rem;
+    }
+
+    #fasting-from-label {
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 600;
+      font-variant: small-caps;
+      letter-spacing: 0.1em;
+      color: var(--brown-muted);
+      margin: 0;
+      padding-top: 16px;
+    }
+
+    .about-para {
+      font-size: 1rem;
+      line-height: 1.85;
+      color: var(--ink);
+      margin-top: 0.75rem;
     }
   </style>
 </head>
@@ -944,9 +954,11 @@
   ════════════════════════════════════════════════════════════════════ -->
   <header id="site-header" role="banner">
     <div class="content-inner">
-      <h1 class="app-title">
-        <span class="cross" aria-hidden="true">☩</span>Orthodox Daily
-      </h1>
+      <div class="header-row">
+        <h1 class="app-title">
+          <span class="cross" aria-hidden="true">☩</span>Daily Orthodoxy
+        </h1>
+      </div>
       <!-- Hidden elements kept for JS compatibility -->
       <span id="header-date" style="display:none;" aria-hidden="true"></span>
 
@@ -966,6 +978,13 @@
           aria-controls="section-prayers"
           id="tab-prayers"
         >Prayers</button>
+        <button
+          class="tab-btn"
+          role="tab"
+          aria-selected="false"
+          aria-controls="section-about"
+          id="tab-about"
+        >About</button>
       </nav>
     </div>
   </header>
@@ -996,34 +1015,30 @@
       <div id="hero">
         <h2 class="feast-title-primary" id="hero-title">—</h2>
 
+        <!-- FASTING PILL -->
+        <div id="fasting-pill-wrap">
+          <div id="fasting-pill" role="button" tabindex="0" aria-expanded="false">
+            <div id="fasting-pill-dot"></div>
+            <span id="fasting-pill-label"></span>
+            <span id="fasting-pill-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div id="fasting-expanded-body">
+            <p id="fasting-from-label">Today we fast from:</p>
+            <div id="fasting-icons"></div>
+          </div>
+        </div>
+
         <!-- DATE NAVIGATION -->
         <div id="date-nav" role="navigation" aria-label="Browse dates">
           <div id="date-nav-row">
-            <button class="date-nav-arrow" id="date-nav-prev" aria-label="Previous day">←</button>
+            <button class="icon-btn date-nav-arrow" id="date-nav-prev" aria-label="Previous day"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
             <span id="date-nav-display" aria-label="Select date">
               <span id="date-nav-label">—</span>
               <input type="date" id="date-nav-input" aria-label="Select date" />
             </span>
-            <button class="date-nav-arrow" id="date-nav-next" aria-label="Next day">→</button>
+            <button class="icon-btn date-nav-arrow" id="date-nav-next" aria-label="Next day"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
           </div>
-          <button id="date-nav-today" aria-label="Go to today">Go to today</button>
-        </div>
-
-        <!-- FASTING BANNER -->
-        <div id="fasting-banner-wrapper">
-          <div id="fasting-banner" role="button" tabindex="0" aria-expanded="false" aria-label="Fasting rule — click to expand">
-            <div id="fasting-banner-summary">
-              <span id="fasting-banner-label"></span>
-              <span id="fasting-banner-indicator" aria-hidden="true">▾</span>
-            </div>
-            <div id="fasting-banner-body">
-              <div id="fasting-banner-rule" aria-hidden="true"></div>
-              <div id="fasting-banner-content">
-                <p id="fasting-rubric"></p>
-                <div id="fasting-icons"></div>
-              </div>
-            </div>
-          </div>
+          <button id="return-to-today" aria-label="Today">Today</button>
         </div>
       </div>
 
@@ -1061,34 +1076,6 @@
 
         <!-- RIGHT COLUMN / SIDEBAR -->
         <aside id="sidebar" aria-label="About this app">
-          <h3 class="section-heading">
-            <span class="ornament" aria-hidden="true">✦</span>
-            About this page
-          </h3>
-          <div class="how-to-use">
-            <h4 class="how-to-use-title">How to use Orthodox Daily</h4>
-            <p>
-              The <strong>Calendar</strong> tab shows the liturgical calendar for
-              the current day according to the Gregorian calendar (New Style) as
-              observed by many Orthodox churches. Feast titles, commemorations,
-              scripture readings, and the fasting rule are drawn live from the
-              Orthocal API.
-            </p>
-            <p>
-              Saints whose lives (<em>hagiographies</em>) are available can be
-              expanded by tapping their name. Scripture passages may likewise be
-              expanded to read the full text.
-            </p>
-            <div class="ornament-line" aria-hidden="true">· ✦ ·</div>
-            <p>
-              The <strong>Prayers</strong> tab will feature traditional Orthodox prayers for everyday life. It's currently in the works — more to come soon.
-            </p>
-            <div class="ornament-line" aria-hidden="true">· ✦ ·</div>
-            <p style="font-size: 0.88rem; font-style: italic; color: var(--brown-muted); text-align: center;">
-              Lord Jesus Christ, Son of God,<br />
-              have mercy on me, a sinner.
-            </p>
-          </div>
         </aside><!-- /sidebar -->
 
       </div><!-- /content-grid -->
@@ -1097,28 +1084,121 @@
 
     </section><!-- /#today-content -->
 
+    <!-- Saint detail view -->
+    <section id="section-saint-detail" style="display:none;" aria-labelledby="saint-detail-title">
+      <div class="detail-hero">
+        <div class="content-inner">
+          <div class="detail-back-wrapper">
+            <div class="detail-hero-row">
+              <button id="saint-back-btn" class="detail-back-btn" aria-label="Back to Calendar"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>Back to Calendar</button>
+            </div>
+          </div>
+        </div>
+        <h2 id="saint-detail-title" class="feast-title-primary"></h2>
+        <div class="detail-hero-toggles">
+          <button class="icon-btn text-size-toggle" aria-label="Toggle text size"><span class="sz-lg">A</span><span class="sz-sm">a</span></button>
+        </div>
+      </div>
+      <div class="content-inner">
+        <div class="prayer-text-container">
+          <p id="saint-detail-text" class="prayer-text"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reading detail view -->
+    <section id="section-reading-detail" style="display:none;" aria-labelledby="reading-detail-title">
+      <div class="detail-hero">
+        <div class="content-inner">
+          <div class="detail-back-wrapper">
+            <div class="detail-hero-row">
+              <button id="reading-back-btn" class="detail-back-btn" aria-label="Back to Calendar"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>Back to Calendar</button>
+            </div>
+          </div>
+        </div>
+        <h2 id="reading-detail-title" class="feast-title-primary"></h2>
+        <p id="reading-detail-subtitle" class="prayers-subtitle"></p>
+        <div class="detail-hero-toggles">
+          <button class="icon-btn text-size-toggle" aria-label="Toggle text size"><span class="sz-lg">A</span><span class="sz-sm">a</span></button>
+        </div>
+      </div>
+      <div class="content-inner">
+        <div class="prayer-text-container">
+          <p id="reading-detail-text" class="prayer-text"></p>
+        </div>
+      </div>
+    </section>
+
     <!-- Prayers section -->
     <section id="section-prayers" style="display:none;" aria-labelledby="tab-prayers">
 
       <!-- LIST VIEW -->
       <div id="prayers-list-view">
         <div id="prayers-hero">
-          <h2 class="feast-title-primary" style="font-style: italic;">Prayers</h2>
-          <p class="prayers-subtitle">A selection of prayers for everyday life. Use them when in need, to give thanks, and to grow closer to God.</p>
+          <h2 class="feast-title-primary" id="prayers-list-title">Prayers</h2>
+          <p class="prayers-subtitle" id="prayers-list-subtitle">A selection of prayers for everyday life. Use them when in need, to give thanks, and to grow closer to God.</p>
         </div>
         <div class="content-inner">
           <div id="prayers-list-content">
+            <h3 class="section-heading">
+              <span class="ornament" aria-hidden="true">✦</span>
+              Foundational Prayers
+            </h3>
             <div class="prayer-card" data-prayer="lords-prayer" role="button" tabindex="0" aria-label="The Lord's Prayer">
               <span class="prayer-card-name">The Lord's Prayer</span>
-              <span class="prayer-card-arrow" aria-hidden="true">▸</span>
+              <span class="prayer-card-arrow" aria-hidden="true"></span>
             </div>
             <div class="prayer-card" data-prayer="nicene-creed" role="button" tabindex="0" aria-label="The Nicene Creed">
               <span class="prayer-card-name">The Nicene Creed</span>
-              <span class="prayer-card-arrow" aria-hidden="true">▸</span>
+              <span class="prayer-card-arrow" aria-hidden="true"></span>
             </div>
             <div class="prayer-card" data-prayer="jesus-prayer" role="button" tabindex="0" aria-label="The Jesus Prayer">
               <span class="prayer-card-name">The Jesus Prayer</span>
-              <span class="prayer-card-arrow" aria-hidden="true">▸</span>
+              <span class="prayer-card-arrow" aria-hidden="true"></span>
+            </div>
+            <h3 class="section-heading section-heading--spaced">
+              <span class="ornament" aria-hidden="true">✦</span>
+              For Holy Communion
+            </h3>
+            <div class="prayer-card" data-prayer="before-holy-communion" role="button" tabindex="0" aria-label="Before Holy Communion">
+              <span class="prayer-card-name">Before Holy Communion</span>
+              <span class="prayer-card-arrow" aria-hidden="true"></span>
+            </div>
+            <div class="prayer-card" data-prayer="after-holy-communion" role="button" tabindex="0" aria-label="After Holy Communion">
+              <span class="prayer-card-name">After Holy Communion</span>
+              <span class="prayer-card-arrow" aria-hidden="true"></span>
+            </div>
+            <h3 class="section-heading section-heading--spaced">
+              <span class="ornament" aria-hidden="true">✦</span>
+              Daily Prayers
+            </h3>
+            <div class="prayer-card" data-prayer="morning-prayers" role="button" tabindex="0" aria-label="Morning Prayers">
+              <span class="prayer-card-name">Morning Prayers</span>
+              <span class="prayer-card-arrow" aria-hidden="true"></span>
+            </div>
+            <div class="prayer-card" data-prayer="evening-prayers" role="button" tabindex="0" aria-label="Evening Prayers">
+              <span class="prayer-card-name">Evening Prayers</span>
+              <span class="prayer-card-arrow" aria-hidden="true"></span>
+            </div>
+            <h3 class="section-heading section-heading--spaced">
+              <span class="ornament" aria-hidden="true">✦</span>
+              Prayers at Meals
+            </h3>
+            <div class="prayer-card" data-prayer="before-a-meal" role="button" tabindex="0" aria-label="Before a Meal">
+              <span class="prayer-card-name">Before a Meal</span>
+              <span class="prayer-card-arrow" aria-hidden="true"></span>
+            </div>
+            <div class="prayer-card" data-prayer="after-a-meal" role="button" tabindex="0" aria-label="After a Meal">
+              <span class="prayer-card-name">After a Meal</span>
+              <span class="prayer-card-arrow" aria-hidden="true"></span>
+            </div>
+            <h3 class="section-heading section-heading--spaced">
+              <span class="ornament" aria-hidden="true">✦</span>
+              Occasional Prayers
+            </h3>
+            <div class="prayer-card" data-prayer="for-the-departed" role="button" tabindex="0" aria-label="For the Departed">
+              <span class="prayer-card-name">For the Departed</span>
+              <span class="prayer-card-arrow" aria-hidden="true"></span>
             </div>
           </div>
         </div>
@@ -1126,16 +1206,23 @@
 
       <!-- DETAIL VIEW -->
       <div id="prayers-detail-view" style="display:none;">
-        <div class="content-inner">
-          <button id="prayers-back-btn" aria-label="Back to Prayers">← Back to Prayers</button>
-        </div>
         <div id="prayers-detail-hero">
-          <h2 id="prayers-detail-title" class="feast-title-primary" style="font-style: italic;"></h2>
+          <div class="content-inner">
+            <div class="detail-back-wrapper">
+              <div class="detail-hero-row">
+                <button id="prayers-back-btn" aria-label="Back to Prayers"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>Back to Prayers</button>
+              </div>
+            </div>
+          </div>
+          <h2 id="prayers-detail-title" class="feast-title-primary"></h2>
           <p id="prayers-detail-subtitle" class="prayers-subtitle"></p>
+          <div id="prayers-detail-toggles">
+            <button id="lang-toggle" class="icon-btn lang-toggle-btn" aria-label="Toggle language" style="display:none;">ΕΝ</button>
+            <button class="icon-btn text-size-toggle" aria-label="Toggle text size"><span class="sz-lg">A</span><span class="sz-sm">a</span></button>
+          </div>
         </div>
         <div class="content-inner">
           <div class="prayer-text-container">
-            <hr class="prayer-text-rule" />
             <p id="prayers-text" class="prayer-text"></p>
           </div>
         </div>
@@ -1143,25 +1230,55 @@
 
     </section>
 
+    <!-- About section -->
+    <section id="section-about" style="display:none;" aria-labelledby="tab-about">
+
+      <div id="about-hero">
+        <h2 class="feast-title-primary">About</h2>
+        <p class="prayers-subtitle">A daily companion for Orthodox Christians.</p>
+      </div>
+
+      <div class="content-inner">
+        <div id="about-content">
+
+        <h3 class="section-heading section-heading--spaced">
+          <span class="ornament" aria-hidden="true">✦</span>
+          What is Daily Orthodoxy?
+        </h3>
+        <p class="about-para">Daily Orthodoxy is a free, open liturgical companion built to make Orthodox Christian practice more accessible. It features feast days, scripture readings, saint commemorations, fasting guidance, and a growing library of prayers; all in one place, always free.</p>
+        <p class="about-para">This is a personal project, designed and built by Yianni. If you'd like to see more of my work, visit <a href="https://yianni.design" target="_blank" rel="noopener noreferrer" style="color: var(--crimson); text-decoration: none;">yianni.design</a>.</p>
+
+        <h3 class="section-heading section-heading--spaced">
+          <span class="ornament" aria-hidden="true">✦</span>
+          Liturgical Data
+        </h3>
+        <p class="about-para">The liturgical calendar (feast titles, saint commemorations, scripture readings, and fasting information) is drawn from the Orthocal API, a free and open-source Orthodox calendar service.</p>
+        <p class="about-para">Visit <a href="https://orthocal.info" target="_blank" rel="noopener noreferrer" style="color: var(--crimson); text-decoration: none;">orthocal.info</a> to learn more.</p>
+
+        <h3 class="section-heading section-heading--spaced">
+          <span class="ornament" aria-hidden="true">✦</span>
+          Prayers
+        </h3>
+        <p class="about-para" style="margin-bottom: 2rem;">The prayers in this app are drawn from the Orologion and Efchologion, as translated in the <em>Book of Prayers: A Selection for Orthodox Christians</em>, published by the Greek Orthodox Archdiocese of Australia (2013). They are reproduced here for personal, non-commercial use.</p>
+
+        </div><!-- /about-content -->
+      </div><!-- /content-inner -->
+
+    </section>
+
   </main>
 
-  <!-- ═══════════════════════════════════════════════════════════════════
-       FOOTER
-  ════════════════════════════════════════════════════════════════════ -->
-  <footer id="site-footer" role="contentinfo">
-    <p>
-      Liturgical data provided by the
-      <a href="https://orthocal.info" target="_blank" rel="noopener noreferrer">Orthocal API</a>
-      &nbsp;·&nbsp; ☩ &nbsp;·&nbsp;
-      <span id="footer-year"></span>
-    </p>
-  </footer>
+  <!-- Reusable chevron arrow for prayer/saint/reading cards -->
+  <template id="tpl-card-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></template>
 
   <!-- ═══════════════════════════════════════════════════════════════════
        JAVASCRIPT
   ════════════════════════════════════════════════════════════════════ -->
   <script>
     'use strict';
+
+    /* ── Shared arrow markup (defined once via template) ─────────────── */
+    const ARROW_HTML = document.getElementById('tpl-card-arrow').innerHTML;
 
     /* ── Utilities ──────────────────────────────────────────────────── */
 
@@ -1185,18 +1302,6 @@
       return s.name || s.display_name || s.title || s.name_en || s.commemoration || '(unknown saint)';
     }
 
-
-    function getFastingClass(level) {
-      if (level === 0) return 'none';
-      if (level <= 2)  return 'lenient';
-      return 'strict';
-    }
-
-    function getFastingIcon(level) {
-      if (level === 0)  return '✦';
-      if (level <= 2)   return '✦';
-      return '✚';
-    }
 
     function groupReadingsByService(readings) {
       const groups = {};
@@ -1281,50 +1386,73 @@
     const ALL_FOODS = ['meat', 'dairy', 'fish', 'wine', 'oil'];
 
     const FOOD_ICONS = {
-      meat:  `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M13.144 21.144C14.114 20.174 14.9414 19.0804 15.5791 17.9257C16.2167 16.7711 16.6521 15.5779 16.8603 14.4143C17.0686 13.2508 17.0456 12.1396 16.7927 11.1443C16.5398 10.149 16.0619 9.28904 15.3864 8.61352C14.7109 7.938 13.8509 7.46015 12.8556 7.20726C11.8603 6.95436 10.7492 6.93138 9.58561 7.13961C8.42205 7.34784 7.22887 7.78321 6.07419 8.42087C4.91952 9.05852 3.82596 9.88597 2.85596 10.856"/><path d="M13.1441 21.144C13.9628 20.3253 14.206 18.9982 13.8202 17.4546C13.4344 15.911 12.4512 14.2774 11.0869 12.9131C9.72265 11.5489 8.08903 10.5657 6.54545 10.1799C5.00187 9.79411 3.67477 10.0373 2.8561 10.856C2.03742 11.6747 1.79423 13.0018 2.18002 14.5453C2.56582 16.0889 3.549 17.7225 4.91327 19.0868C6.27755 20.4511 7.91116 21.4343 9.45474 21.82C10.9983 22.2058 12.3254 21.9627 13.1441 21.144Z"/><path d="M16.5649 10.435L18.5999 8.4C18.9176 8.57603 19.2698 8.68075 19.6321 8.70689C19.9943 8.73302 20.3579 8.67995 20.6976 8.55135C21.0373 8.42276 21.3448 8.22172 21.599 7.96223C21.8531 7.70274 22.0476 7.39102 22.1691 7.04873C22.2905 6.70645 22.336 6.34182 22.3023 5.98019C22.2685 5.61856 22.1565 5.26862 21.9738 4.95469C21.7912 4.64076 21.5424 4.37037 21.2447 4.16233C20.9469 3.95429 20.6075 3.81358 20.2499 3.75C20.1799 3.39786 20.0349 3.06492 19.8247 2.77385C19.6145 2.48278 19.344 2.2404 19.0318 2.0632C18.7195 1.88599 18.3728 1.77813 18.0151 1.74694C17.6574 1.71575 17.2972 1.76197 16.959 1.88245C16.6208 2.00293 16.3125 2.19485 16.0551 2.44514C15.7977 2.69544 15.5972 2.99824 15.4673 3.33295C15.3374 3.66766 15.2811 4.02643 15.3023 4.38484C15.3234 4.74325 15.4215 5.0929 15.5899 5.41L13.5659 7.435"/><path d="M8.5 16.5L7.5 15.5"/></svg>`,
-      dairy: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2V7.632C10 8.056 9.728 8.427 9.347 8.614C8.34175 9.10956 7.4954 9.87678 6.90384 10.8287C6.31229 11.7806 5.99918 12.8792 6 14C6.006 18 9 21 11 22"/><path d="M10 5H8C7.46957 5 6.96086 5.21071 6.58579 5.58579C6.21071 5.96086 6 6.46957 6 7C6 7.53043 6.21071 8.03914 6.58579 8.41421C6.96086 8.78929 7.46957 9 8 9H8.68"/><path d="M14 2V7.632C14 8.056 14.272 8.427 14.652 8.614C15.6574 9.10942 16.504 9.87658 17.0957 10.8285C17.6875 11.7805 18.0007 12.8791 18 14C18 18 15 21 13 22"/><path d="M14 5H16C16.5304 5 17.0391 5.21071 17.4142 5.58579C17.7893 5.96086 18 6.46957 18 7C18 7.53043 17.7893 8.03914 17.4142 8.41421C17.0391 8.78929 16.5304 9 16 9H15.32"/><path d="M18 22H6"/><path d="M9 2H15"/></svg>`,
-      fish:  `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 12C7.44 8.54 11.44 6 15 6C18.56 6 21.06 8.54 22 12C21.06 15.47 18.56 18 15 18C11.44 18 7.44 15.47 6.5 12Z"/><path d="M18 12V12.5"/><path d="M16.0001 17.93C14.6993 16.2268 13.9946 14.1431 13.9946 12C13.9946 9.85688 14.6993 7.77322 16.0001 6.07001"/><path d="M6.99998 10.67C6.99998 8 5.57998 5.97 2.72998 5.5C1.72998 7 1.72998 10.5 2.95998 12C1.71998 13.5 1.71998 17 2.72998 18.5C5.57998 18.03 6.99998 16 6.99998 13.33"/><path d="M10.46 7.26001C10.2 5.88001 9.17 4.24001 8 3.00001H13.8C14.2745 2.99826 14.7342 3.16526 15.0969 3.47118C15.4596 3.7771 15.7017 4.20202 15.78 4.67001L16.01 6.07001"/><path d="M16.01 17.93L15.78 19.33C15.7017 19.798 15.4596 20.2229 15.0969 20.5289C14.7342 20.8348 14.2745 21.0018 13.8 21H9.5C10.4689 19.9015 10.9993 18.4847 10.99 17.02"/></svg>`,
-      oil:   `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2V7.632C10 8.056 9.728 8.427 9.347 8.614C8.34175 9.10956 7.4954 9.87678 6.90384 10.8287C6.31229 11.7806 5.99918 12.8792 6 14C6.006 18 9 21 11 22"/><path d="M10 5H8C7.46957 5 6.96086 5.21071 6.58579 5.58579C6.21071 5.96086 6 6.46957 6 7C6 7.53043 6.21071 8.03914 6.58579 8.41421C6.96086 8.78929 7.46957 9 8 9H8.68"/><path d="M14 2V7.632C14 8.056 14.272 8.427 14.652 8.614C15.6574 9.10942 16.504 9.87658 17.0957 10.8285C17.6875 11.7805 18.0007 12.8791 18 14C18 18 15 21 13 22"/><path d="M14 5H16C16.5304 5 17.0391 5.21071 17.4142 5.58579C17.7893 5.96086 18 6.46957 18 7C18 7.53043 17.7893 8.03914 17.4142 8.41421C17.0391 8.78929 16.5304 9 16 9H15.32"/><path d="M18 22H6"/><path d="M9 2H15"/></svg>`,
-      wine:  `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22H16"/><path d="M7 10H17"/><path d="M12 15V22"/><path d="M12 15C13.3261 15 14.5979 14.4732 15.5355 13.5355C16.4732 12.5979 17 11.3261 17 10C17 8 16.5 6 15 2H9C7.5 6 7 8 7 10C7 11.3261 7.52678 12.5979 8.46447 13.5355C9.40215 14.4732 10.6739 15 12 15Z"/></svg>`,
+      meat: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M13.144 21.144C14.114 20.174 14.9414 19.0804 15.5791 17.9257C16.2167 16.7711 16.6521 15.5779 16.8603 14.4143C17.0686 13.2508 17.0456 12.1396 16.7927 11.1443C16.5398 10.149 16.0619 9.28904 15.3864 8.61352C14.7109 7.938 13.8509 7.46015 12.8556 7.20726C11.8603 6.95436 10.7492 6.93138 9.58561 7.13961C8.42205 7.34784 7.22887 7.78321 6.07419 8.42087C4.91952 9.05852 3.82596 9.88597 2.85596 10.856"/><path d="M13.1441 21.144C13.9628 20.3253 14.206 18.9982 13.8202 17.4546C13.4344 15.911 12.4512 14.2774 11.0869 12.9131C9.72265 11.5489 8.08903 10.5657 6.54545 10.1799C5.00187 9.79411 3.67477 10.0373 2.8561 10.856C2.03742 11.6747 1.79423 13.0018 2.18002 14.5453C2.56582 16.0889 3.549 17.7225 4.91327 19.0868C6.27755 20.4511 7.91116 21.4343 9.45474 21.82C10.9983 22.2058 12.3254 21.9627 13.1441 21.144Z"/><path d="M16.5649 10.435L18.5999 8.4C18.9176 8.57603 19.2698 8.68075 19.6321 8.70689C19.9943 8.73302 20.3579 8.67995 20.6976 8.55135C21.0373 8.42276 21.3448 8.22172 21.599 7.96223C21.8531 7.70274 22.0476 7.39102 22.1691 7.04873C22.2905 6.70645 22.336 6.34182 22.3023 5.98019C22.2685 5.61856 22.1565 5.26862 21.9738 4.95469C21.7912 4.64076 21.5424 4.37037 21.2447 4.16233C20.9469 3.95429 20.6075 3.81358 20.2499 3.75C20.1799 3.39786 20.0349 3.06492 19.8247 2.77385C19.6145 2.48278 19.344 2.2404 19.0318 2.0632C18.7195 1.88599 18.3728 1.77813 18.0151 1.74694C17.6574 1.71575 17.2972 1.76197 16.959 1.88245C16.6208 2.00293 16.3125 2.19485 16.0551 2.44514C15.7977 2.69544 15.5972 2.99824 15.4673 3.33295C15.3374 3.66766 15.2811 4.02643 15.3023 4.38484C15.3234 4.74325 15.4215 5.0929 15.5899 5.41L13.5659 7.435"/><path d="M8.5 16.5L7.5 15.5"/></svg>`,
+      dairy: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2H16"/><path d="M9 2V4.789C8.99998 5.57879 8.76616 6.3509 8.328 7.008L7.672 7.992C7.23366 8.64939 6.99982 9.42187 7 10.212V20C7 20.5304 7.21071 21.0391 7.58579 21.4142C7.96086 21.7893 8.46957 22 9 22H15C15.5304 22 16.0391 21.7893 16.4142 21.4142C16.7893 21.0391 17 20.5304 17 20V10.211C17 9.42121 16.7662 8.6491 16.328 7.992L15.672 7.008C15.2337 6.35061 14.9998 5.57813 15 4.788V2"/><path d="M7 15C7.79177 14.6684 8.6416 14.4977 9.5 14.4977C10.3584 14.4977 11.2082 14.6684 12 15C12.7917 15.3317 13.6416 15.5025 14.5 15.5025C15.3584 15.5025 16.2083 15.3317 17 15"/></svg>`,
+      fish: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 12C7.44 8.54 11.44 6 15 6C18.56 6 21.06 8.54 22 12C21.06 15.47 18.56 18 15 18C11.44 18 7.44 15.47 6.5 12Z"/><path d="M18 12V12.5"/><path d="M16.0001 17.93C14.6993 16.2268 13.9946 14.1431 13.9946 12C13.9946 9.85688 14.6993 7.77322 16.0001 6.07001"/><path d="M6.99998 10.67C6.99998 8 5.57998 5.97 2.72998 5.5C1.72998 7 1.72998 10.5 2.95998 12C1.71998 13.5 1.71998 17 2.72998 18.5C5.57998 18.03 6.99998 16 6.99998 13.33"/><path d="M10.46 7.26001C10.2 5.88001 9.17 4.24001 8 3.00001H13.8C14.2745 2.99826 14.7342 3.16526 15.0969 3.47118C15.4596 3.7771 15.7017 4.20202 15.78 4.67001L16.01 6.07001"/><path d="M16.01 17.93L15.78 19.33C15.7017 19.798 15.4596 20.2229 15.0969 20.5289C14.7342 20.8348 14.2745 21.0018 13.8 21H9.5C10.4689 19.9015 10.9993 18.4847 10.99 17.02"/></svg>`,
+      oil: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2V7.632C10 8.056 9.728 8.427 9.347 8.614C8.34175 9.10956 7.4954 9.87678 6.90384 10.8287C6.31229 11.7806 5.99918 12.8792 6 14C6.006 18 9 21 11 22"/><path d="M10 5H8C7.46957 5 6.96086 5.21071 6.58579 5.58579C6.21071 5.96086 6 6.46957 6 7C6 7.53043 6.21071 8.03914 6.58579 8.41421C6.96086 8.78929 7.46957 9 8 9H8.68"/><path d="M14 2V7.632C14 8.056 14.272 8.427 14.652 8.614C15.6574 9.10942 16.504 9.87658 17.0957 10.8285C17.6875 11.7805 18.0007 12.8791 18 14C18 18 15 21 13 22"/><path d="M14 5H16C16.5304 5 17.0391 5.21071 17.4142 5.58579C17.7893 5.96086 18 6.46957 18 7C18 7.53043 17.7893 8.03914 17.4142 8.41421C17.0391 8.78929 16.5304 9 16 9H15.32"/><path d="M18 22H6"/><path d="M9 2H15"/></svg>`,
+      wine: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22H16"/><path d="M7 10H17"/><path d="M12 15V22"/><path d="M12 15C13.3261 15 14.5979 14.4732 15.5355 13.5355C16.4732 12.5979 17 11.3261 17 10C17 8 16.5 6 15 2H9C7.5 6 7 8 7 10C7 11.3261 7.52678 12.5979 8.46447 13.5355C9.40215 14.4732 10.6739 15 12 15Z"/></svg>`
     };
 
     function renderFastingBanner(data) {
-      const banner    = document.getElementById('fasting-banner');
-      const labelEl   = document.getElementById('fasting-banner-label');
-      const rubricEl  = document.getElementById('fasting-rubric');
-      const iconsEl   = document.getElementById('fasting-icons');
+      const pill     = document.getElementById('fasting-pill');
+      const dot      = document.getElementById('fasting-pill-dot');
+      const label    = document.getElementById('fasting-pill-label');
+      const chevron  = document.getElementById('fasting-pill-chevron');
+      const body     = document.getElementById('fasting-expanded-body');
+      const iconsEl  = document.getElementById('fasting-icons');
 
-      // Collapse on each new date load
-      banner.classList.remove('fasting-expanded');
-      banner.classList.remove('fasting-no-fast');
-      banner.setAttribute('aria-expanded', 'false');
+      // Reset on every date load
+      body.classList.remove('open');
+      chevron.classList.remove('open');
+      pill.setAttribute('aria-expanded', 'false');
 
       const fastLevel     = data.fast_level     != null ? data.fast_level     : 0;
       const fastException = data.fast_exception != null ? data.fast_exception : 0;
       const isFastFree    = fastLevel === 0 || fastException === 11;
+      const allowed       = EXCEPTION_ALLOWED[fastException] || [];
+      const restricted    = ALL_FOODS.filter(food => !allowed.includes(food));
+      const hasExceptions = fastException > 0 && fastException < 11 && restricted.length < 5;
 
-      // Label: "Fast Free" when no fast, otherwise API description
-      labelEl.textContent = isFastFree
-        ? 'Fast Free'
-        : (data.fast_level_desc || 'Fasting Day');
+      label.textContent = isFastFree ? 'Fast Free' : (data.fast_level_desc || 'Fast');
+
+      pill.className = '';
+      dot.className = '';
 
       if (isFastFree) {
-        // No-fasting variant
-        banner.classList.add('fasting-no-fast');
-        rubricEl.textContent = 'There are no fasting restrictions today';
-        iconsEl.innerHTML = '';
+        pill.classList.add('pill-free');
+        dot.classList.add('dot-free');
+        chevron.style.display = 'none';
+        pill.removeAttribute('tabindex');
+      } else if (hasExceptions) {
+        pill.classList.add('pill-lenient');
+        dot.classList.add('dot-lenient');
+        chevron.style.display = 'inline';
+        pill.setAttribute('tabindex', '0');
       } else {
-        // Fasting variant — show only restricted (not allowed) food tiles
-        rubricEl.textContent = 'Today we fast from:';
-
-        const allowed = EXCEPTION_ALLOWED[fastException] || [];
-        const restricted = ALL_FOODS.filter(food => !allowed.includes(food));
-
-        iconsEl.innerHTML = restricted.map(food => {
-          const label = food.charAt(0).toUpperCase() + food.slice(1);
-          return `<div class="food-tile" aria-label="${label}">${FOOD_ICONS[food]}<span>${label}</span></div>`;
-        }).join('');
+        pill.classList.add('pill-strict');
+        dot.classList.add('dot-strict');
+        chevron.style.display = 'inline';
+        pill.setAttribute('tabindex', '0');
       }
+
+      const iconClass = hasExceptions ? 'icon-lenient' : 'icon-strict';
+      iconsEl.innerHTML = restricted.map(food => `
+        <div class="fast-tile">
+          <div class="fast-tile-icon ${iconClass}">${FOOD_ICONS[food]}</div>
+          <span class="fast-tile-label">${food}</span>
+        </div>
+      `).join('');
+
+      pill.onclick = () => {
+        if (isFastFree) return;
+        const isOpen = body.classList.toggle('open');
+        chevron.classList.toggle('open', isOpen);
+        pill.setAttribute('aria-expanded', String(isOpen));
+      };
+
+      pill.onkeydown = (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pill.onclick(); }
+      };
     }
 
     /* ── Rendering ──────────────────────────────────────────────────── */
@@ -1343,7 +1471,6 @@
     function renderSaints(data) {
       const feasts    = data.feasts  || [];
       const saints    = data.saints  || [];
-      const stories   = data.stories || [];
       const container = document.getElementById('saints-list');
 
       // Build unified list: feasts first, then saints
@@ -1382,27 +1509,24 @@
         const storyObj  = findStory(entry.name);
         const storyBody = (storyObj && storyObj.story) || null;
 
-        if (storyBody) {
-          const bio     = stripHtml(storyBody);
-          const paras   = bio.split(/\n{2,}/).filter(p => p.trim());
-          const bioHtml = paras.length > 1
-            ? paras.map(p => `<p>${p.trim()}</p>`).join('')
-            : `<p>${bio}</p>`;
+        const item = document.createElement('div');
+        item.className = 'saint-card';
 
-          const details = document.createElement('details');
-          details.className = 'reading-details';
-          details.innerHTML = `
-            <summary>
-              <span class="saint-name">${entry.name}</span>
-            </summary>
-            <div class="saint-bio"><div class="saint-bio-inner">${bioHtml}</div></div>`;
-          frag.appendChild(details);
+        if (storyBody) {
+          const bio = stripHtml(storyBody);
+          item.setAttribute('role', 'button');
+          item.setAttribute('tabindex', '0');
+          item.setAttribute('aria-label', entry.name);
+          item.innerHTML = `<span class="saint-name">${entry.name}</span><span class="prayer-card-arrow" aria-hidden="true">${ARROW_HTML}</span>`;
+          item.addEventListener('click', function () { showSaintDetail(entry.name, bio); });
+          item.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showSaintDetail(entry.name, bio); }
+          });
         } else {
-          const item = document.createElement('div');
-          item.className = 'saint-card';
-          item.innerHTML = `<span aria-hidden="true" style="display:inline-block;visibility:hidden;font-size:0.7rem;line-height:1.8;flex-shrink:0;">▸</span><span class="saint-name">${entry.name}</span>`;
-          frag.appendChild(item);
+          item.innerHTML = `<span class="saint-name">${entry.name}</span>`;
         }
+
+        frag.appendChild(item);
       });
 
       container.innerHTML = '';
@@ -1433,29 +1557,24 @@
         groups[groupKey].forEach(r => {
           const ref     = buildReadingRef(r);
           const passage = extractPassageText(r.passage);
-          const details = document.createElement('details');
-          details.className = 'reading-details';
+
+          const card = document.createElement('div');
+          card.className = 'reading-card';
 
           if (passage) {
-            details.innerHTML = `
-              <summary>
-                <span class="reading-ref-group">
-                  <span class="reading-ref">${ref}</span>
-                </span>
-              </summary>
-              <div class="reading-passage"><div class="reading-passage-inner">${passage}</div></div>`;
+            card.setAttribute('role', 'button');
+            card.setAttribute('tabindex', '0');
+            card.setAttribute('aria-label', ref);
+            card.innerHTML = `<span class="reading-ref">${ref}</span><span class="prayer-card-arrow" aria-hidden="true">${ARROW_HTML}</span>`;
+            card.addEventListener('click', function () { showReadingDetail(ref, groupKey, passage); });
+            card.addEventListener('keydown', function (e) {
+              if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showReadingDetail(ref, groupKey, passage); }
+            });
           } else {
-            details.innerHTML = `
-              <summary>
-                <span class="reading-ref-group">
-                  <span class="reading-ref">${ref}</span>
-                </span>
-              </summary>`;
-            details.setAttribute('disabled', '');
-            details.style.cursor = 'default';
+            card.innerHTML = `<span class="reading-ref">${ref}</span>`;
           }
 
-          groupDiv.appendChild(details);
+          groupDiv.appendChild(card);
         });
 
         frag.appendChild(groupDiv);
@@ -1486,15 +1605,13 @@
     }
 
     function updateDateNav() {
-      const label    = document.getElementById('date-nav-label');
-      const input    = document.getElementById('date-nav-input');
-      const todayBtn = document.getElementById('date-nav-today');
-
+      const label = document.getElementById('date-nav-label');
+      const input = document.getElementById('date-nav-input');
+      const returnBtn = document.getElementById('return-to-today');
       label.textContent = formatDate(activeDate);
       input.value = toDateKey(activeDate);
-
       const isToday = toDateKey(activeDate) === toDateKey(todayMidnight());
-      todayBtn.style.display = isToday ? 'none' : '';
+      returnBtn.classList.toggle('visible', !isToday);
     }
 
     /* ── Data Fetching ──────────────────────────────────────────────── */
@@ -1508,20 +1625,6 @@
       const response = await fetch(url);
       if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       const data = await response.json();
-
-      // ── Debug ──
-      console.log('stories raw:', JSON.stringify(data.stories, null, 2));
-      console.groupCollapsed('☩ Orthocal API — raw response');
-      console.log('URL:', url);
-      console.log('Top-level keys:', Object.keys(data));
-      console.log('Full data:', data);
-      console.log('fast_level:', data.fast_level, '| fast_level_desc:', data.fast_level_desc);
-      console.log('fast_exception_desc:', data.fast_exception_desc);
-      console.log('summary_title:', data.summary_title);
-      console.log('feasts:', data.feasts);
-      console.log('saints[] (first 3):', (data.saints || []).slice(0, 3));
-      console.log('readings[] JSON:', JSON.stringify(data.readings, null, 2));
-      console.groupEnd();
 
       return data;
     }
@@ -1549,7 +1652,7 @@
         document.getElementById('loading-state').style.display = 'none';
         document.getElementById('today-content').style.display = 'block';
       } catch (err) {
-        console.error('☩ Orthodox Daily — API fetch failed:', err);
+        console.error('☩ Daily Orthodoxy — API fetch failed:', err);
         document.getElementById('loading-state').style.display = 'none';
         const errEl = document.getElementById('error-state');
         errEl.style.display = 'block';
@@ -1565,121 +1668,12 @@
       document.getElementById('header-date').textContent = formatDate(d);
     }
 
-    /* ── Fasting Banner Wiring ───────────────────────────────────────── */
-
-    (function () {
-      const banner = document.getElementById('fasting-banner');
-      const body = document.getElementById('fasting-banner-body');
-
-      function toggleBanner() {
-        const isExpanded = banner.classList.contains('fasting-expanded');
-
-        if (isExpanded) {
-          // Collapse: animate height first, then width
-          const expandedWidth = banner.offsetWidth;
-          banner.style.width = expandedWidth + 'px';
-
-          body.style.maxHeight = body.scrollHeight + 'px';
-          body.offsetHeight;
-          body.style.maxHeight = '0px';
-
-          banner.classList.remove('fasting-expanded');
-          banner.setAttribute('aria-expanded', 'false');
-
-          body.addEventListener('transitionend', function handler(evt) {
-            if (evt.propertyName !== 'max-height') return;
-            body.removeEventListener('transitionend', handler);
-            body.style.maxHeight = '';
-
-            banner.style.width = '';
-            const collapsedWidth = banner.offsetWidth;
-            banner.style.width = expandedWidth + 'px';
-            banner.offsetHeight;
-            banner.style.width = collapsedWidth + 'px';
-
-            banner.addEventListener('transitionend', function wHandler(evt2) {
-              if (evt2.propertyName !== 'width') return;
-              banner.removeEventListener('transitionend', wHandler);
-              banner.style.width = '';
-            });
-          });
-        } else {
-          // Expand: animate width first, then height
-          const collapsedWidth = banner.offsetWidth;
-          banner.style.width = collapsedWidth + 'px';
-
-          banner.classList.add('fasting-expanded');
-          banner.setAttribute('aria-expanded', 'true');
-
-          banner.style.width = '';
-          const targetWidth = Math.min(376, banner.parentElement.offsetWidth);
-          banner.style.width = collapsedWidth + 'px';
-          banner.offsetHeight;
-          banner.style.width = targetWidth + 'px';
-
-          banner.addEventListener('transitionend', function wHandler(evt) {
-            if (evt.propertyName !== 'width') return;
-            banner.removeEventListener('transitionend', wHandler);
-            banner.style.width = targetWidth + 'px';
-
-            body.style.maxHeight = '0px';
-            body.offsetHeight;
-            body.style.maxHeight = body.scrollHeight + 'px';
-
-            body.addEventListener('transitionend', function hHandler(evt2) {
-              if (evt2.propertyName !== 'max-height') return;
-              body.removeEventListener('transitionend', hHandler);
-              body.style.maxHeight = 'none';
-            });
-          });
-        }
-      }
-
-      banner.addEventListener('click', toggleBanner);
-      banner.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleBanner(); }
-      });
-    })();
-
-    /* ── Animated <details> ─────────────────────────────────────────── */
-    document.addEventListener('click', function (e) {
-      const summary = e.target.closest('details.reading-details > summary');
-      if (!summary) return;
-      const details = summary.parentElement;
-      if (details.hasAttribute('disabled')) return;
-
-      e.preventDefault();
-
-      const body = details.querySelector('.saint-bio, .reading-passage');
-      if (!body) return;
-
-      if (details.open) {
-        // Currently open — animate closed
-        body.style.maxHeight = body.scrollHeight + 'px';
-        body.offsetHeight; // force layout reflow
-        body.style.maxHeight = '0px';
-        body.addEventListener('transitionend', function handler(evt) {
-          if (evt.propertyName !== 'max-height') return;
-          body.removeEventListener('transitionend', handler);
-          details.open = false;
-          body.style.maxHeight = '';
-        });
-      } else {
-        // Currently closed — animate open
-        details.open = true;
-        const height = body.scrollHeight;
-        body.style.maxHeight = '0px';
-        body.offsetHeight; // force layout reflow
-        body.style.maxHeight = height + 'px';
-        body.addEventListener('transitionend', function handler(evt) {
-          if (evt.propertyName !== 'max-height') return;
-          body.removeEventListener('transitionend', handler);
-          body.style.maxHeight = 'none';
-        });
-      }
-    });
-
     /* ── Date Navigation Wiring ──────────────────────────────────────── */
+
+    document.getElementById('return-to-today').addEventListener('click', () => {
+      activeDate = todayMidnight();
+      loadAndRender(activeDate);
+    });
 
     document.getElementById('date-nav-prev').addEventListener('click', () => {
       activeDate.setDate(activeDate.getDate() - 1);
@@ -1688,11 +1682,6 @@
 
     document.getElementById('date-nav-next').addEventListener('click', () => {
       activeDate.setDate(activeDate.getDate() + 1);
-      loadAndRender(activeDate);
-    });
-
-    document.getElementById('date-nav-today').addEventListener('click', () => {
-      activeDate = todayMidnight();
       loadAndRender(activeDate);
     });
 
@@ -1711,34 +1700,197 @@
       'lords-prayer': {
         name: "The Lord's Prayer",
         description: "Given by Christ himself to his disciples, the Lord's Prayer is the foundational prayer of all Christian life.",
-        text: "Our Father, who art in heaven,\nhallowed be Thy name.\nThy kingdom come,\nThy will be done,\non earth as it is in heaven.\nGive us this day our daily bread,\nand forgive us our trespasses,\nas we forgive those who trespass against us.\nAnd lead us not into temptation,\nbut deliver us from evil.\nFor Thine is the kingdom,\nand the power, and the glory,\nof the Father, and of the Son,\nand of the Holy Spirit,\nnow and ever, and unto ages of ages.\nAmen."
+        text: "Our Father in heaven,\nhallowed be your name.\nyour kingdom come,\nyour will be done,\non earth as it is in heaven.\nGive us this day our daily bread,\nand forgive us our sins,\nas we forgive those who sin against us.\nAnd lead us not into temptation,\nbut deliver us from evil.\nAmen.",
+        textGreek: "Πάτερ ἡμῶν ὁ ἐν τοῖς οὐρανοῖς,\nἁγιασθήτω τὸ ὄνομά σου·\nἐλθέτω ἡ βασιλεία σου·\nγενηθήτω τὸ θέλημά σου,\nὡς ἐν οὐρανῷ καὶ ἐπὶ γῆς.\nΤὸν ἄρτον ἡμῶν τὸν ἐπιούσιον δὸς ἡμῖν σήμερον·\nκαὶ ἄφες ἡμῖν τὰ ὀφειλήματα ἡμῶν,\nὡς καὶ ἡμεῖς ἀφίεμεν τοῖς ὀφειλέταις ἡμῶν·\nκαὶ μὴ εἰσενέγκῃς ἡμᾶς εἰς πειρασμόν,\nἀλλὰ ῥῦσαι ἡμᾶς ἀπὸ τοῦ πονηροῦ.\nὍτι σοῦ ἐστιν ἡ βασιλεία καὶ ἡ δύναμις\nκαὶ ἡ δόξα εἰς τοὺς αἰῶνας.\nἈμήν."
       },
       'nicene-creed': {
         name: "The Nicene Creed",
         description: "Proclaimed at the First and Second Ecumenical Councils, the Nicene Creed is the statement of Orthodox Christian faith recited at every Divine Liturgy.",
-        text: "I believe in one God,\nFather Almighty,\nCreator of heaven and earth,\nand of all things visible and invisible.\n\nAnd in one Lord Jesus Christ,\nthe only-begotten Son of God,\nbegotten of the Father before all ages;\nLight of Light, true God of true God,\nbegotten, not created, of one essence with the Father\nthrough Whom all things were made.\nWho for us men and for our salvation\ncame down from heaven\nand was incarnate of the Holy Spirit and the Virgin Mary\nand became man.\nHe was crucified for us under Pontius Pilate,\nand suffered and was buried;\nand He rose on the third day,\naccording to the Scriptures.\nHe ascended into heaven\nand is seated at the right hand of the Father;\nand He will come again with glory\nto judge the living and dead.\nHis kingdom shall have no end.\n\nAnd in the Holy Spirit,\nthe Lord, the Creator of life,\nWho proceeds from the Father,\nWho together with the Father and the Son\nis worshipped and glorified,\nWho spoke through the prophets.\n\nIn one, holy, catholic, and apostolic Church.\nI confess one baptism for the forgiveness of sins.\nI look for the resurrection of the dead,\nand the life of the age to come.\nAmen."
+        text: "I believe in one God, Father Almighty,\nmaker of heaven and earth,\nand of all things visible and invisible.\n\nAnd in one Lord Jesus Christ,\nthe only-begotten Son of God,\nbegotten of the Father before all ages,\nlight from light,\ntrue God from true God,\nbegotten not made,\nof one essence with the Father;\nthrough him all things were made.\n\nWho for us and for our salvation\ncame down from heaven,\nand was incarnate of the Holy Spirit\nand the Virgin Mary,\nand became human,\nand was crucified for us under Pontius Pilate,\nand suffered and was buried,\nand rose on the third day according to the Scriptures,\nand ascended into heaven,\nand is seated at the right hand of the Father,\nand will come again in glory\nto judge the living and the dead,\nand his kingdom will have no end.\n\nAnd in the Holy Spirit,\nthe Lord, the giver of life,\nwho proceeds from the Father,\nwho together with the Father and the Son\nis worshipped and glorified,\nand who spoke through the Prophets.\n\nIn one holy, catholic and apostolic Church.\nI acknowledge one baptism for the forgiveness of sins.\nI expect the resurrection of the dead,\nand the life of the age to come. Amen.",
+        textGreek: "Πιστεύω εἰς ἕνα Θεόν, Πατέρα παντοκράτορα,\nποιητὴν οὐρανοῦ καὶ γῆς,\nὁρατῶν τε πάντων καὶ ἀοράτων.\n\nΚαὶ εἰς ἕνα Κύριον Ἰησοῦν Χριστόν,\nτὸν Υἱὸν τοῦ Θεοῦ τὸν μονογενῆ,\nτὸν ἐκ τοῦ Πατρὸς γεννηθέντα πρὸ πάντων τῶν αἰώνων·\nφῶς ἐκ φωτός,\nΘεὸν ἀληθινὸν ἐκ Θεοῦ ἀληθινοῦ,\nγεννηθέντα οὐ ποιηθέντα,\nὁμοούσιον τῷ Πατρί·\nδι' οὗ τὰ πάντα ἐγένετο.\n\nΤὸν δι' ἡμᾶς τοὺς ἀνθρώπους καὶ διὰ τὴν ἡμετέραν σωτηρίαν\nκατελθόντα ἐκ τῶν οὐρανῶν\nκαὶ σαρκωθέντα ἐκ Πνεύματος Ἁγίου\nκαὶ Μαρίας τῆς Παρθένου\nκαὶ ἐνανθρωπήσαντα·\nσταυρωθέντα τε ὑπὲρ ἡμῶν ἐπὶ Ποντίου Πιλάτου,\nκαὶ παθόντα καὶ ταφέντα·\nκαὶ ἀναστάντα τῇ τρίτῃ ἡμέρᾳ κατὰ τὰς Γραφάς·\nκαὶ ἀνελθόντα εἰς τοὺς οὐρανούς,\nκαὶ καθεζόμενον ἐκ δεξιῶν τοῦ Πατρός·\nκαὶ πάλιν ἐρχόμενον μετὰ δόξης\nκρῖναι ζῶντας καὶ νεκρούς,\nοὗ τῆς βασιλείας οὐκ ἔσται τέλος.\n\nΚαὶ εἰς τὸ Πνεῦμα τὸ Ἅγιον,\nτὸ Κύριον, τὸ ζῳοποιόν,\nτὸ ἐκ τοῦ Πατρὸς ἐκπορευόμενον,\nτὸ σὺν Πατρὶ καὶ Υἱῷ\nσυμπροσκυνούμενον καὶ συνδοξαζόμενον,\nτὸ λαλῆσαν διὰ τῶν προφητῶν.\n\nΕἰς μίαν, Ἁγίαν, Καθολικὴν καὶ Ἀποστολικὴν Ἐκκλησίαν.\nὉμολογῶ ἓν βάπτισμα εἰς ἄφεσιν ἁμαρτιῶν.\nΠροσδοκῶ ἀνάστασιν νεκρῶν.\nΚαὶ ζωὴν τοῦ μέλλοντος αἰῶνος. Ἀμήν."
+      },
+      'after-holy-communion': {
+        name: "After Holy Communion",
+        description: "Taken from the Service of Holy Communion, these prayers of thanksgiving are offered after receiving the Body and Blood of Christ.",
+        layout: 'left',
+        textHtml: '<span class="prayer-section-heading">Thanksgiving after Holy Communion</span>\nGlory to you, O God.\nGlory to you, O God.\nGlory to you, O God.\n\n\n<span class="prayer-section-heading">Anonymous</span>\nI thank you, Lord my God,\nfor not rejecting me a sinner,\nbut making me worthy to be a partaker of your holy things.\nI thank you for making me, who am unworthy,\nworthy to partake of your pure and heavenly gifts.\nBut loving Master, who died for us and rose again\nand bestowed on us these your dread and life-giving mysteries,\nfor the benefit and sanctification of our souls and bodies,\ngrant that they may be to me for the healing of both soul and body,\nfor the averting of everything hostile,\nfor the illumination of the eyes of my heart,\nfor the peace of my spiritual powers,\nfor faith unashamed,\nfor love unfeigned,\nfor the fullness of wisdom,\nfor the observing of your commandments,\nfor the increase of your divine grace,\nand the attainment of your kingdom;\nso that protected by them in your holiness\nI may always remember your grace\nand no longer live for myself,\nbut for you our Master and benefactor.\nAnd so when I have departed this life in the hope of eternal life\nmay I attain to everlasting rest,\nwhere the sound of festival is unceasing,\nand the pleasure is endless\nof those who behold the indescribable beauty of your countenance.\nFor you are that which is truly desired,\nand the inexpressible gladness of those who love you, Christ our God,\nand all creation praises you for ever. Amen.\n\n\n<span class="prayer-section-heading">Prayer of St Basil the Great</span>\nMaster, Christ our God,\nKing of the ages and creator of all,\nI thank you for all the good things you have bestowed on me\nand for the partaking of your pure and life-giving mysteries.\nI ask you therefore, good and loving one,\nguard me under your protection\nand in the shadow of your wings;\nand grant that with a pure conscience until my last breath\nI may worthily partake of your holy things\nfor the forgiveness of sins and eternal life.\nFor you are the bread of life,\nthe source of holiness,\nand the giver of good,\nand to you we offer glory,\nwith the Father and the Holy Spirit,\nnow and ever and to the ages of ages. Amen.\n\n\n<span class="prayer-section-heading">Anonymous</span>\nMay your holy Body, Lord Jesus Christ our God,\nbe to me for eternal life,\nand your precious Blood for the forgiveness of sins.\nAnd may this Eucharist be to me for joy, health and gladness;\nand in your fearful second coming\nmake me, a sinner, worthy to stand at the right hand of your glory,\nthrough the intercessions of your all-pure Mother and all your Saints. Amen.\n\n\n<span class="prayer-section-heading">Anonymous</span>\nAll-holy Lady Theotokos,\nthe light of my darkened soul,\nmy hope, protection, refuge, consolation and joy,\nI thank you for making me, who am unworthy,\nworthy to partake of the pure Body and precious Blood of your Son.\nBut you who gave birth to the true light,\nenlighten the spiritual eyes of my heart;\nyou who conceived the source of immortality,\ngive life to me who am dead through sin;\nyou the compassionate Mother of the merciful God,\nhave mercy on me\nand give me compunction and contrition in my heart,\nhumility in my reasoning,\nand the recall of my thoughts from captivity.\nAnd make me worthy until my last breath\nto receive without condemnation the sanctification of the pure mysteries,\nfor the healing of both soul and body;\nand grant me tears of repentance and confession,\nso that I may praise and glorify you all the days of my life.\nFor you are blessed and glorified for ever. Amen.'
       },
       'jesus-prayer': {
         name: "The Jesus Prayer",
         description: "The ancient prayer of the heart, rooted in the tradition of the Desert Fathers and the Hesychast saints. It is prayed repeatedly, in rhythm with the breath, as a path to stillness and union with God.",
-        text: "Lord Jesus Christ,\nSon of God,\nhave mercy on me,\na sinner."
+        text: "Lord Jesus Christ,\nSon of God,\nhave mercy on me,\na sinner.",
+        textGreek: "Κύριε Ἰησοῦ Χριστέ,\nΥἱὲ τοῦ Θεοῦ,\nἐλέησόν με τὸν ἁμαρτωλόν."
+      },
+      'morning-prayers': {
+        name: "Morning Prayers",
+        description: "When you arise from sleep, stand before the holy icons in reverence and fear of God, and keep silence for a time. Then make the sign of the Cross and say the following prayers. If time is short, it is better to say only a few of the prayers with care, rather than recite them all in haste.",
+        layout: 'left',
+        textHtml: 'In the name of the Father and the Son and the Holy Spirit. Amen.\n\nGlory to you, our God, glory to you.\n\nHeavenly King, Comforter, the Spirit of truth,\npresent everywhere and filling all things,\nthe treasury of good and giver of life,\ncome and dwell in us\nand cleanse us from every impurity,\nand save our souls, Gracious One.\n\n<span style="color: var(--crimson);">During the Easter period, instead of Heavenly King say:</span>\n\nChrist is risen from the dead, trampling down death by death,\nand on those in the tombs bestowing life.\n\nChrist is risen from the dead, trampling down death by death,\nand on those in the tombs bestowing life.\n\nChrist is risen from the dead, trampling down death by death,\nand on those in the tombs bestowing life.\n\nHoly God, Holy Mighty, Holy Immortal, have mercy on us.\nHoly God, Holy Mighty, Holy Immortal, have mercy on us.\nHoly God, Holy Mighty, Holy Immortal, have mercy on us.\n\nGlory to the Father and the Son and the Holy Spirit;\nBoth now and ever and to the ages of ages. Amen.\n\nAll-holy Trinity, have mercy on us.\nLord, be merciful to our sins.\nMaster, forgive our transgressions.\nHoly One, visit us and heal our infirmities, for your name\'s sake.\nLord have mercy, Lord have mercy, Lord have mercy.\n\nGlory to the Father and the Son and the Holy Spirit;\nBoth now and ever and to the ages of ages. Amen.\n\n\n<span class="prayer-section-heading">The Lord\'s Prayer</span>\nOur Father in heaven,\nhallowed be your name,\nyour kingdom come,\nyour will be done on earth as it is in heaven.\nGive us today our daily bread\nand forgive us our sins,\nas we forgive those who sin against us.\nAnd lead us not into temptation,\nbut deliver us from evil.\n\nFor yours is the kingdom and the power and the glory,\nFather, Son and Holy Spirit,\nnow and ever and to the ages of ages. Amen.\n\nArising from sleep, we fall down before you, Gracious One,\nand the hymn of the Angels we cry out to you, Mighty One:\nHoly, Holy, Holy are you, O God.\nThrough the Theotokos have mercy on us.\n\nGlory to the Father and the Son and the Holy Spirit;\n\nFrom my bed and sleep you have raised me, Lord;\nenlighten my mind and my heart,\nand open my lips to praise you, Holy Trinity:\nHoly, Holy, Holy are you, O God.\nThrough the Theotokos have mercy on us.\n\nBoth now and ever and to the ages of ages. Amen.\n\nSuddenly the Judge will come,\nand the deeds of each will be laid bare;\nbut with fear let us cry out in the middle of the night:\nHoly, Holy, Holy are you, O God.\nThrough the Theotokos have mercy on us.\n\n<span style="color: var(--crimson);">Lord have mercy... (12 times)</span>\n\nThe night has passed, day has come\nand light has shone upon the world;\ntherefore ranks of Angels praise and glorify you, Christ our God.\n\n\n<span class="prayer-section-heading">Psalm 120</span>\nI have lifted up my eyes to the mountains, from where my help comes.\nMy help comes from the Lord, who has made heaven and earth.\nMay your foot remain firm, and may he not slumber who keeps you.\nBehold, he will not slumber nor will he sleep, he who keeps Israel.\nThe Lord will keep you, the Lord is your shelter at your right hand.\nThe sun will not burn you by day, nor the moon by night.\nThe Lord will keep you from all evil, the Lord will guard your soul.\nThe Lord will keep your coming in and your going out,\nfrom now and for evermore.\n\nGlory to the Father and the Son and the Holy Spirit;\nBoth now and ever and to the ages of ages. Amen.\n\n\n<span class="prayer-section-heading">The Creed</span>\nI believe in one God, Father Almighty,\nmaker of heaven and earth,\nand of all things visible and invisible.\n\nAnd in one Lord Jesus Christ,\nthe only-begotten Son of God,\nbegotten of the Father before all ages,\nlight from light,\ntrue God from true God,\nbegotten not made,\nof one essence with the Father;\nthrough him all things were made.\n\nWho for us and for our salvation\ncame down from heaven,\nand was incarnate of the Holy Spirit and the Virgin Mary,\nand became human,\nand was crucified for us under Pontius Pilate,\nand suffered and was buried,\nand rose on the third day according to the Scriptures,\nand ascended into heaven,\nand is seated at the right hand of the Father,\nand will come again in glory to judge the living and the dead,\nand his kingdom will have no end.\n\nAnd in the Holy Spirit,\nthe Lord, the giver of life,\nwho proceeds from the Father,\nwho together with the Father and the Son is worshipped and glorified,\nand who spoke through the Prophets.\n\nIn one holy, catholic and apostolic Church.\nI acknowledge one baptism for the forgiveness of sins.\nI expect the resurrection of the dead,\nand the life of the age to come. Amen.\n\n<span style="color: var(--crimson);">Choose one or more of the following prayers:</span>\n\n\n<span class="prayer-section-heading">1</span>\nArising from sleep I give thanks to you, Holy Trinity,\nthat because of your great goodness and patience\nyou have not been angry with me, lazy and sinful though I am,\nand have not destroyed me and my sins together,\nbut have shown your usual loving kindness,\nand though I inclined to despair have moved me to rise early and glorify your might.\nNow enlighten the eyes of my mind\nand open my mouth so that I may study your sayings,\nunderstand your commandments,\ndo your will,\nsing to you with thankful heart,\nand praise your all-holy name,\nFather, Son and Holy Spirit,\nnow and ever and to the ages of ages. Amen.\n\n\n<span class="prayer-section-heading">2</span>\nChrist the true light,\nwhich enlightens and sanctifies everyone who comes into the world,\nmay the light of your countenance be signed upon us,\nso that in it we may see the unapproachable light,\nand may you direct our steps towards performing your commandments;\nthrough the intercessions of your all-pure Mother and all your Saints. Amen.\n\n\n<span class="prayer-section-heading">3</span>\nTruly it is right to call you blessed, Theotokos,\never-blessed and all-pure and the Mother of our God.\nMore honourable than the Cherubim,\nincomparably more glorious than the Seraphim,\nwho undefiled gave birth to God the Word,\ntrue Theotokos, we magnify you.\n\nTo the Theotokos let us sinners and lowly ones now earnestly run,\nand let us fall down in repentance,\ncrying from the depth of our soul:\nLady, come to our help and have compassion upon us;\nhasten, for we perish in a multitude of sins;\nturn not your servants away empty-handed,\nfor you alone do we have as our hope.\n\n\n<span class="prayer-section-heading">4 · Prayer of St Ephraim</span>\n<span style="color: var(--crimson);">This prayer is recited during Great Lent, with a prostration after each verse. If it is not Great Lent, this prayer may be skipped.</span>\n\nLord and Master of my life,\ngive me not a spirit of idleness, meddling, love of power and idle talk.\n\nBut grant me, your servant,\na spirit of soberness, humility, patience and love.\n\nYes, Lord and King,\ngrant me to see my own faults, and not condemn my brother;\nfor blessed are you, to the ages of ages. Amen.\n\n\n<span class="prayer-section-heading">The Great Doxology</span>\nGlory to you who have shown the light.\nGlory to God in the highest,\nand on earth peace, good will to all people.\nWe praise you, we bless you,\nwe worship you, we glorify you,\nwe give thanks to you for your great glory.\nLord, heavenly King, God the Father Almighty,\nLord, the only-begotten Son, Jesus Christ,\nand Holy Spirit.\nLord God, Lamb of God, Son of the Father,\nyou who take away the sin of the world,\nhave mercy on us, you who take away the sins of the world.\nReceive our prayer, you who sit at the right hand of the Father,\nand have mercy on us.\nFor you only are Holy,\nyou only are the Lord Jesus Christ,\nto the glory of God the Father. Amen.\n\nEvery day I will bless you and praise your name for ever and for evermore.\nGrant, Lord, that we may be kept this day without sin.\nBlessed are you, Lord God of our Fathers,\nand praised and glorified is your name for ever. Amen.\n\nMay your mercy be upon us, Lord,\njust as we have hoped in you.\nBlessed are you, Lord,\nteach me your judgements.\nLord, you have been our refuge from generation to generation.\nI said: Lord have mercy on me, heal my soul,\nfor I have sinned against you.\nLord, to you have I fled for refuge;\nteach me to do your will, for you are my God.\nFor in you is the source of life;\nin your light we shall see light.\nExtend your mercy to those who know you.\n\nHoly God, Holy Mighty, Holy Immortal, have mercy on us.\nHoly God, Holy Mighty, Holy Immortal, have mercy on us.\nHoly God, Holy Mighty, Holy Immortal, have mercy on us.\n\nGlory to the Father and the Son and the Holy Spirit;\nBoth now and ever and to the ages of ages. Amen.\nHoly Immortal, have mercy on us.\nHoly God, Holy Mighty, Holy Immortal, have mercy on us.\n\n<span style="color: var(--crimson);">Scripture Reading</span>\n\nInto your hands, Lord, I commend my soul and body.\nBless me, have mercy on me, and grant me eternal life. Amen.'
+      },
+      'before-a-meal': {
+        name: "Before a Meal",
+        description: "Said before eating, this brief prayer blesses the food and gives thanks to God who provides for all our needs.",
+        text: "The poor will eat and be filled,\nand those who seek the Lord will praise him;\ntheir hearts will live for evermore.\n\nGlory to the Father and the Son and the Holy Spirit;\nBoth now and ever and to the ages of ages. Amen.\n\nLord have mercy, Lord have mercy, Lord have mercy.\n\nChrist our God,\nbless the food and drink of your servants,\nfor you are Holy,\nalways, now and ever and to the ages of ages. Amen."
+      },
+      'after-a-meal': {
+        name: "After a Meal",
+        description: "Said after eating, this prayer offers thanks to Christ our God for the gift of food and asks that we not be deprived of his heavenly kingdom.",
+        text: "We thank you, Christ our God,\nfor filling us with your earthly gifts.\nDo not deprive us of your heavenly kingdom,\nbut as you, Saviour, appeared among your Disciples\nand gave them peace,\ncome among us also and save us. Amen."
+      },
+      'evening-prayers': {
+        name: "Evening Prayers",
+        description: "At the end of the day, stand before the holy icons in reverence and fear of God, and keep silence for a time. Then make the sign of the Cross and say the following prayers. If time is short, it is better to say only a few of the prayers with care, rather than recite them all in haste.",
+        layout: 'left',
+        textHtml: 'In the name of the Father and the Son and the Holy Spirit. Amen.\n\nGlory to you, our God, glory to you.\n\nHeavenly King, Comforter, the Spirit of truth,\npresent everywhere and filling all things,\nthe treasury of good and giver of life,\ncome and dwell in us\nand cleanse us from every impurity,\nand save our souls, Gracious One.\n\n<span style="color: var(--crimson);">During the Easter period, instead of Heavenly King say:</span>\n\nChrist is risen from the dead, trampling down death by death,\nand on those in the tombs bestowing life.\nChrist is risen from the dead, trampling down death by death,\nand on those in the tombs bestowing life.\nChrist is risen from the dead, trampling down death by death,\nand on those in the tombs bestowing life.\n\nHoly God, Holy Mighty, Holy Immortal, have mercy on us.\nHoly God, Holy Mighty, Holy Immortal, have mercy on us.\nHoly God, Holy Mighty, Holy Immortal, have mercy on us.\n\nGlory to the Father and the Son and the Holy Spirit;\nBoth now and ever and to the ages of ages. Amen.\n\nAll-holy Trinity, have mercy on us.\nLord, be merciful to our sins.\nMaster, forgive our transgressions.\nHoly One, visit us and heal our infirmities, for your name\'s sake.\nLord have mercy, Lord have mercy, Lord have mercy.\n\nGlory to the Father and the Son and the Holy Spirit;\nBoth now and ever and to the ages of ages. Amen.\n\n\n<span class="prayer-section-heading">The Lord\'s Prayer</span>\nOur Father in heaven,\nhallowed be your name,\nyour kingdom come,\nyour will be done on earth as it is in heaven.\nGive us today our daily bread\nand forgive us our sins,\nas we forgive those who sin against us.\nAnd lead us not into temptation,\nbut deliver us from evil.\n\nFor yours is the kingdom and the power and the glory,\nFather, Son and Holy Spirit,\nnow and ever and to the ages of ages. Amen.\n\nThe day has passed, and I give you thanks, Lord;\nmake the evening and the night free of sin, I ask you, Saviour, and save me.\n\nGlory to the Father and the Son and the Holy Spirit;\n\nThe day has ended, and I give you glory, Master;\nmake the evening and the night free of offence, I ask you, Saviour, and save me.\n\nBoth now and ever and to the ages of ages. Amen.\n\nThe day is over, and I give you praise, Holy One;\nmake the evening and the night free of evil designs, I ask you, Saviour, and save me.\n\n<span style="color: var(--crimson);">Lord have mercy... (12 times)</span>\n\nLet my prayer come before you as incense,\nthe lifting up of my hands as an evening sacrifice;\nLord hear me.\n\n\n<span class="prayer-section-heading">Psalm 4</span>\nWhen I called upon you, God of my righteousness,\nyou heard me,\nin my distress you gave me room.\nHave compassion on me and hear my prayer.\nYou mortals, how long will you be hard of heart?\nWhy do you love vanity, and seek after falsehood?\nKnow also that the Lord has made wondrous his holy one.\nThe Lord will hear me when I cry to him.\nBe angry, and sin not;\nfeel compunction in your beds for what you say in your hearts.\nOffer a sacrifice of righteousness, and hope in the Lord.\nMany say: who will show us good things?\nThe light of your countenance, Lord, has been signed upon us;\nyou have given gladness to my heart.\nFrom the fruit of their wheat, wine and oil are they multiplied.\nIn peace I will lay me down and sleep,\nfor you alone, Lord, have made me dwell in hope.\n\nGlory to the Father and the Son and the Holy Spirit;\nBoth now and ever and to the ages of ages. Amen.\n\n\n<span class="prayer-section-heading">The Creed</span>\nI believe in one God, Father Almighty,\nmaker of heaven and earth,\nand of all things visible and invisible.\n\nAnd in one Lord Jesus Christ,\nthe only-begotten Son of God,\nbegotten of the Father before all ages,\nlight from light,\ntrue God from true God,\nbegotten not made,\nof one essence with the Father;\nthrough him all things were made.\n\nWho for us and for our salvation\ncame down from heaven,\nand was incarnate of the Holy Spirit and the Virgin Mary,\nand became human,\nand was crucified for us under Pontius Pilate,\nand suffered and was buried,\nand rose on the third day according to the Scriptures,\nand ascended into heaven,\nand is seated at the right hand of the Father,\nand will come again in glory to judge the living and the dead,\nand his kingdom will have no end.\n\nAnd in the Holy Spirit,\nthe Lord, the giver of life,\nwho proceeds from the Father,\nwho together with the Father and the Son is worshipped and glorified,\nand who spoke through the Prophets.\n\nIn one holy, catholic and apostolic Church.\nI acknowledge one baptism for the forgiveness of sins.\nI expect the resurrection of the dead,\nand the life of the age to come. Amen.\n\n<span style="color: var(--crimson);">Choose one or more of the following prayers:</span>\n\n\n<span class="prayer-section-heading">1</span>\nLord our God,\nif I have sinned this day in word, deed or thought,\nforgive me all, as the good and loving God you are.\nGrant me peaceful and untroubled sleep,\nand deliver me from every attack and design of the evil one.\nRaise me in due time to give you glory;\nfor blessed are you,\nwith your only-begotten Son and all-holy Spirit,\nnow and ever and to the ages of ages. Amen.\n\n\n<span class="prayer-section-heading">2</span>\nChrist our God,\nwho are worshipped and glorified at all times and every hour,\nin heaven and on earth;\nlong-suffering, merciful and compassionate,\nloving the just and merciful to sinners,\ncalling everyone to salvation through the promise of good things to come;\nreceive, Lord, our supplications at this time,\nand direct our lives according to your commandments.\nSanctify our souls,\ncleanse our bodies,\ncorrect our thoughts,\npurify our intentions,\nand deliver us from all affliction, evil and distress.\nFortify us with your holy Angels,\nso that guarded and guided by their forces\nwe may attain to the unity of the faith\nand the knowledge of your unapproachable glory;\nfor blessed are you to the ages of ages. Amen.\n\n\n<span class="prayer-section-heading">3 · Prayer to one\'s Guardian Angel</span>\nHoly Angel,\nattendant of my wretched soul and my afflicted life,\ndo not desert me a sinner,\nnor depart from me because of my weakness.\nGive no place to the evil demon\nto rule me by dominating this mortal body.\nTake my wretched and feeble hand\nand lead me in the way of salvation.\nYes, holy Angel of God,\nguardian and protector of my wretched soul and body,\nforgive me for every grief I have caused you all the days of my life,\nand if I have sinned in anything this day.\nProtect me during the present night\nand preserve me from every attack of the enemy,\nso that I may not anger God through any sin.\nAnd intercede for me to the Lord\nso that he may strengthen me in his fear,\nand make me a worthy servant of his goodness. Amen.\n\n\n<span class="prayer-section-heading">4 · Prayer of St Ephraim</span>\n<span style="color: var(--crimson);">This prayer is recited during Great Lent, with a prostration after each verse. If it is not Great Lent, this prayer may be skipped.</span>\n\nLord and Master of my life,\ngive me not a spirit of idleness, meddling, love of power and idle talk.\n\nBut grant me, your servant,\na spirit of soberness, humility, patience and love.\n\nYes, Lord and King,\ngrant me to see my own faults, and not condemn my brother;\nfor blessed are you, to the ages of ages. Amen.\n\n\n<span class="prayer-section-heading">Phos Hilaron</span>\nO joyful light of the divine glory\nof the immortal, heavenly, holy and blessed Father,\nJesus Christ.\nHaving come to the setting of the sun,\nhaving seen the evening light,\nwe praise Father, Son and Holy Spirit, God.\nRight it is that you be praised at all times with fitting voices,\nSon of God, giver of life;\ntherefore the whole world gives you glory.\n\nGrant, Lord, that we may be kept this night without sin.\nBlessed are you, Lord God of our Fathers,\nand praised and glorified is your name for ever. Amen.\nMay your mercy be upon us, Lord,\njust as we have hoped in you.\nBlessed are you, Lord,\nteach me your judgements.\nBlessed are you, Master,\ngive me understanding of your judgements.\nBlessed are you, Holy One,\nenlighten me with your judgements.\nLord, your mercy endures for ever;\ndo not disregard the works of your hands.\nTo you is due praise,\nto you is due song,\nglory is due to you,\nFather, Son and Holy Spirit,\nnow and ever and to the ages of ages. Amen.\n\n<span style="color: var(--crimson);">Scripture Reading</span>\n\nInto your hands, Lord, I commend my soul and body.\nBless me, have mercy on me, and grant me eternal life. Amen.'
+      },
+      'for-the-departed': {
+        name: "For the Departed",
+        description: "A prayer for those who have fallen asleep in the Lord, asking God to grant rest to their souls in a place of light and peace.",
+        layout: 'left',
+        textHtml: "O God of spirits and all flesh,\nwho have trampled down death,\nmade the devil powerless,\nand given life to your world,\ngive rest, Lord, to the soul\nof your servant (name) who has fallen asleep,\nin a place of light,\nin a place of green pasture,\nin a place of refreshment,\nfrom where pain, sorrow and sighing have fled.\nAs a good and loving God,\nforgive every sin committed by him/her\nin word, deed or thought;\nfor there is no one who lives and does not sin;\nyou alone are without sin,\nyour righteousness endures for ever,\nand your law is truth.\nFor you are the resurrection, the life and the repose\nof your servant (name) who has fallen asleep,\nChrist our God,\nand to you we offer glory,\nwith your eternal Father\nand your all-holy, good and life-giving Spirit,\nnow and ever and to the ages of ages. Amen."
+      },
+      'before-holy-communion': {
+        name: "Before Holy Communion",
+        description: "Taken from the Service of Holy Communion, these prayers are offered in preparation for receiving the Body and Blood of Christ.",
+        layout: 'left',
+        textHtml: '<span class="prayer-section-heading">Preparation for Holy Communion</span>\nMay your holy Body be for me the bread of life everlasting, compassionate Lord,\nand may your precious Blood be a protection from all illness.\n\nMay your most precious Body and Blood be to me as fire and light, my Saviour,\nconsuming the substance of sin and burning the thorns of my passions,\nand enlightening the whole of me to worship your Divinity.\n\n\n<span class="prayer-section-heading">Psalm 22</span>\nThe Lord is my shepherd, and I will lack nothing.\nIn a place of green pasture, there has he made me dwell,\nbeside the water of rest has he nurtured me.\nHe has converted my soul,\nhe has led me on the paths of righteousness for his name\'s sake.\nFor though I walk in the midst of the shadow of death,\nI will fear no evil, for you are with me.\nYour rod and your staff have comforted me.\nYou have prepared a table before me, in the presence of those who afflict me.\nYou have anointed my head with oil,\nand your cup fills me abundantly.\nYour mercy will pursue me all the days of my life,\nand I will dwell in the house of the Lord my whole life long.\n\n\n<span class="prayer-section-heading">Prayer of St Basil the Great</span>\nI know, Lord, that I partake of your pure Body and precious Blood unworthily,\nand that I am guilty, and eat and drink judgement to myself,\nnot discerning your Body and Blood, Christ my God.\nBut encouraged by your mercy, I approach you, who said,\nHe who eats my Flesh and drinks my Blood abides in me and I in him.\nHave compassion therefore, Lord,\nand do not make an example of me a sinner,\nbut deal with me according to your mercy;\nand let these holy gifts be to me for healing, purification, illumination, protection, salvation,\nand sanctification of both soul and body;\nfor the averting of every fantasy and evil deed and activity of the devil working in my members through my thoughts;\nfor confidence and love towards you,\nfor amendment of life, for security,\nfor increase of virtue and perfection,\nfor keeping of the commandments,\nfor communion with the Holy Spirit,\nfor sustenance on the journey of eternal life,\nand for an acceptable defence at your fearful judgement seat,\nnot for judgement or condemnation.\n\n\n<span class="prayer-section-heading">Prayer of St John Chrysostom</span>\nI am not worthy, Master and Lord,\nthat you should enter under the roof of my soul;\nbut since you in your loving kindness wish to dwell in me,\nwith courage I approach.\nYou bid me open wide the gates which you alone have created,\nthat you may enter with loving kindness, as is your nature,\nthat you may enter and enlighten my darkened mind.\nI believe that you will do this,\nfor you did not turn away from the Harlot who approached you with tears,\nyou did not reject the Tax Collector who repented,\nyou did not drive away the Thief who recognised your kingdom,\nyou did not abandon the Persecutor who repented of what he was;\nbut all who were brought to you by repentance\nyou established in the choir of your friends,\nyou who alone are blessed,\nalways, now and to the endless ages. Amen.\n\n\n<span class="prayer-section-heading">Prayer of St John of Damascus</span>\nMaster, Lord Jesus Christ our God,\nwho alone have authority to forgive sins:\nas a good and loving God,\noverlook all my faults, committed in knowledge or in ignorance,\nand make me worthy to receive without condemnation\nyour divine, glorious, pure and life-giving mysteries,\nnot for punishment, or for an increase of sins,\nbut for purification and sanctification,\nand as a pledge of the life and kingdom to come;\nas a defence and a help,\nfor the overturning of enemies,\nand for the wiping out of my many transgressions.\nFor you are a God of mercy and compassion and loving kindness,\nand to you we offer glory,\nwith the Father and the Holy Spirit,\nnow and ever and to the ages of ages. Amen.\n\n\n<span class="prayer-section-heading">Prayer of St John Chrysostom</span>\nI believe, Lord, and I confess\nthat you are truly the Christ, the Son of the living God,\nwho came into the world to save sinners,\nof whom I am the first.\nI also believe that this is indeed your pure Body,\nand this is indeed your precious Blood.\nI ask you, therefore,\nhave mercy on me and forgive me my transgressions,\nvoluntary and involuntary, in word and deed,\nin knowledge and in ignorance;\nand make me worthy, uncondemned, to partake of your pure mysteries,\nfor the forgiveness of sins and eternal life. Amen.\n\n\n<span class="prayer-section-heading">Verses of St Symeon Metaphrastes</span>\nBehold, I approach for holy Communion;\nMaker, burn me not, as I partake;\nFor you are fire burning the unworthy;\nBut cleanse me from every impurity.\n\n\n<span class="prayer-section-heading">Troparion</span>\nOf your mystical Supper, Son of God, receive me today as a partaker;\nfor I will not speak of the mystery to your enemies;\nI will not kiss you as did Judas;\nbut as the Thief do I confess you:\nRemember me, Lord, in your kingdom.\n\n\n<span class="prayer-section-heading">Verses</span>\nTremble, mortal, as you behold the deifying Blood;\nFor it is a burning coal consuming the unworthy.\nThe Body of God both deifies and nourishes me;\nIt deifies the spirit and wondrously nourishes the mind.\n\n\n<span class="prayer-section-heading">Troparia</span>\nYou have smitten me with yearning, Christ,\nand by your divine love you have changed me;\nbut consume my sins with immaterial fire,\nand make me worthy to be filled with delight in you,\nthat leaping for joy, Gracious One,\nI may magnify your first and second comings.\n\nInto the splendour of your Saints how shall I, the unworthy one, enter?\nFor if I dare to enter the bridal chamber, my clothing betrays me,\nfor it is not a wedding garment,\nand I shall be bound and cast out by the Angels.\nCleanse the defilement of my soul, Lord,\nand save me in your loving kindness.\n\n\n<span class="prayer-section-heading">Prayer</span>\nLoving Master, Lord Jesus Christ my God,\nlet not these holy gifts be to me for judgement through my unworthiness,\nbut for the purification and sanctification of both soul and body,\nand as a pledge of the life and kingdom to come.\nFor it is good for me to cling to God,\nand to place in the Lord the hope of my salvation.'
       }
     };
 
-    function showPrayersList() {
-      document.getElementById('prayers-list-view').style.display = 'block';
-      document.getElementById('prayers-detail-view').style.display = 'none';
+    /* ── View Fade Helpers ──────────────────────────────────────────── */
+
+    function fadeOut(el, cb) {
+      if (!el || el.offsetParent === null) { cb(); return; }
+      el.style.opacity = '0';
+      setTimeout(cb, 150);
     }
 
+    function fadeIn(el) {
+      el.style.display = 'block';
+      el.style.opacity = '0';
+      el.getBoundingClientRect();
+      el.style.opacity = '1';
+    }
+
+    function slideTransition(out, inc, direction, onComplete) {
+      var DURATION = 300;
+      var EASE = 'cubic-bezier(0.4, 0, 0.2, 1)';
+      var outEndX   = direction === 'forward' ? '-30%' : '100%';
+      var incStartX = direction === 'forward' ? '100%' : '-30%';
+
+      if (!out || out.offsetParent === null) {
+        inc.style.display = 'block';
+        inc.scrollTop = 0;
+        window.scrollTo(0, 0);
+        if (onComplete) onComplete();
+        return;
+      }
+
+      // Pin both views to the viewport below the sticky header for the duration
+      // of the animation. This avoids all scroll-offset and container-height issues.
+      var headerBottom = document.getElementById('site-header').getBoundingClientRect().bottom;
+      document.body.style.overflow = 'hidden';
+
+      var outRectTop = out.getBoundingClientRect().top;
+      var outScrollTop = out.scrollTop > 0 ? out.scrollTop : window.scrollY;
+      
+      function pinView(el, startX) {
+        el.style.position   = 'fixed';
+        el.style.top        = headerBottom + 'px';
+        el.style.left       = '0';
+        el.style.width      = '100%';
+        el.style.bottom     = '0';
+        el.style.display    = 'block';
+        el.style.overflowY  = 'auto';
+        el.style.transform  = 'translateX(' + startX + ')';
+        el.style.transition = 'none';
+      }
+
+      pinView(out, '0');
+      out.scrollTop = outScrollTop + (headerBottom - outRectTop);
+
+      pinView(inc, incStartX);
+      inc.scrollTop = 0;
+
+      // Force reflow so initial transforms are painted before we add transitions
+      inc.getBoundingClientRect();
+
+      var t = 'transform ' + DURATION + 'ms ' + EASE;
+      out.style.transition = t;
+      inc.style.transition = t;
+      out.style.transform = 'translateX(' + outEndX + ')';
+      inc.style.transform = 'translateX(0)';
+
+      setTimeout(function () {
+        window.scrollTo(0, 0);
+        [out, inc].forEach(function (el) {
+          el.style.position   = '';
+          el.style.top        = '';
+          el.style.left       = '';
+          el.style.width      = '';
+          el.style.bottom     = '';
+          el.style.overflowY  = '';
+          el.style.transform  = '';
+          el.style.transition = '';
+        });
+        out.style.display = 'none';
+        inc.style.display = 'block';
+        inc.scrollTop = 0;
+        document.body.style.overflow = '';
+        if (onComplete) onComplete();
+      }, DURATION);
+    }
+
+    function showPrayersList() {
+      var out = document.getElementById('prayers-detail-view');
+      var inc = document.getElementById('prayers-list-view');
+      slideTransition(out, inc, 'back', null);
+    }
+
+    var _langToggleGreek = false;
+    var _currentPrayerId = null;
+
     function showPrayerDetail(id) {
-      const prayer = PRAYERS[id];
+      var prayer = PRAYERS[id];
       if (!prayer) return;
+      _currentPrayerId = id;
+      _langToggleGreek = false;
       document.getElementById('prayers-detail-title').textContent = prayer.name;
       document.getElementById('prayers-detail-subtitle').textContent = prayer.description;
-      document.getElementById('prayers-text').textContent = prayer.text;
-      document.getElementById('prayers-list-view').style.display = 'none';
-      document.getElementById('prayers-detail-view').style.display = 'block';
+      var prayersTextEl = document.getElementById('prayers-text');
+      prayersTextEl.style.fontWeight = '';
+      if (prayer.textHtml) {
+        prayersTextEl.innerHTML = prayer.textHtml;
+      } else {
+        prayersTextEl.textContent = prayer.text;
+      }
+      prayersTextEl.style.textAlign = prayer.layout === 'left' ? 'left' : '';
+      var langBtn = document.getElementById('lang-toggle');
+      langBtn.style.display = prayer.textGreek ? 'flex' : 'none';
+      langBtn.textContent = 'ΕΝ';
+      langBtn.classList.remove('lang-active');
+      var out = document.getElementById('prayers-list-view');
+      var inc = document.getElementById('prayers-detail-view');
+      var dir = _restoringHistory ? 'back' : 'forward';
+      slideTransition(out, inc, dir, null);
+      if (!_restoringHistory) history.pushState({ view: 'prayer-detail', tab: 'prayers', id: id }, '');
     }
+
+    document.getElementById('lang-toggle').addEventListener('click', function () {
+      var prayer = PRAYERS[_currentPrayerId];
+      if (!prayer || !prayer.textGreek) return;
+      _langToggleGreek = !_langToggleGreek;
+      var prayersTextEl = document.getElementById('prayers-text');
+      var btn = this;
+      prayersTextEl.style.opacity = '0';
+      setTimeout(function () {
+        prayersTextEl.textContent = _langToggleGreek ? prayer.textGreek : prayer.text;
+        prayersTextEl.style.fontWeight = _langToggleGreek ? '100' : '';
+        prayersTextEl.style.opacity = '1';
+        btn.textContent = _langToggleGreek ? 'ΕΛ' : 'ΕΝ';
+        btn.classList.toggle('lang-active', _langToggleGreek);
+      }, 150);
+    });
 
     document.querySelectorAll('.prayer-card').forEach(function (card) {
       card.addEventListener('click', function () {
@@ -1751,50 +1903,210 @@
 
     document.getElementById('prayers-back-btn').addEventListener('click', showPrayersList);
 
+    /* ── Saint & Reading Detail Views ───────────────────────────────── */
+
+    function showTodayContent() {
+      var saintDetail   = document.getElementById('section-saint-detail');
+      var readingDetail = document.getElementById('section-reading-detail');
+      var inc = document.getElementById('today-content');
+      var out = saintDetail.offsetParent !== null ? saintDetail
+              : readingDetail.offsetParent !== null ? readingDetail : null;
+      slideTransition(out, inc, 'back', function () {
+        saintDetail.style.display   = 'none';
+        readingDetail.style.display = 'none';
+      });
+    }
+
+    function showSaintDetail(name, bio) {
+      document.getElementById('saint-detail-title').textContent = name;
+      document.getElementById('saint-detail-text').textContent = bio;
+      var out = document.getElementById('today-content');
+      var inc = document.getElementById('section-saint-detail');
+      var dir = _restoringHistory ? 'back' : 'forward';
+      slideTransition(out, inc, dir, null);
+      if (!_restoringHistory) history.pushState({ view: 'saint-detail', tab: 'today', name: name, bio: bio }, '');
+    }
+
+    function showReadingDetail(ref, serviceLabel, passage) {
+      document.getElementById('reading-detail-title').textContent = ref;
+      var readingSubtitle = document.getElementById('reading-detail-subtitle');
+      readingSubtitle.className = 'readings-group-label';
+      readingSubtitle.textContent = serviceLabel;
+      document.getElementById('reading-detail-text').textContent = passage;
+      var out = document.getElementById('today-content');
+      var inc = document.getElementById('section-reading-detail');
+      var dir = _restoringHistory ? 'back' : 'forward';
+      slideTransition(out, inc, dir, null);
+      if (!_restoringHistory) history.pushState({ view: 'reading-detail', tab: 'today', ref: ref, serviceLabel: serviceLabel, passage: passage }, '');
+    }
+
+    document.getElementById('saint-back-btn').addEventListener('click', showTodayContent);
+    document.getElementById('reading-back-btn').addEventListener('click', showTodayContent);
+
     /* ── Tab Navigation ─────────────────────────────────────────────── */
 
-    document.getElementById('tab-today').addEventListener('click', function () {
-      this.classList.add('active');
-      this.setAttribute('aria-selected', 'true');
-      const prayersTab = document.getElementById('tab-prayers');
-      prayersTab.classList.remove('active');
-      prayersTab.setAttribute('aria-selected', 'false');
+    function getVisibleSection(...ids) {
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (el && el.offsetParent !== null) return el;
+      }
+      return null;
+    }
 
-      document.getElementById('today-content').style.display = 'block';
-      document.getElementById('section-prayers').style.display = 'none';
+    function setActiveTab(activeId) {
+      ['tab-today', 'tab-prayers', 'tab-about'].forEach(function (id) {
+        const btn = document.getElementById(id);
+        btn.classList.toggle('active', id === activeId);
+        btn.setAttribute('aria-selected', id === activeId ? 'true' : 'false');
+      });
+    }
+
+    document.getElementById('tab-today').addEventListener('click', function () {
+      setActiveTab('tab-today');
+      const out = getVisibleSection('section-prayers', 'section-about');
+      const inc = document.getElementById('today-content');
+      fadeOut(out, function () {
+        if (out) out.style.display = 'none';
+        fadeIn(inc);
+      });
+      if (!_restoringHistory) history.pushState({ view: 'calendar', tab: 'today' }, '');
     });
 
     document.getElementById('tab-prayers').addEventListener('click', function () {
-      this.classList.add('active');
-      this.setAttribute('aria-selected', 'true');
-      const todayTab = document.getElementById('tab-today');
-      todayTab.classList.remove('active');
-      todayTab.setAttribute('aria-selected', 'false');
+      setActiveTab('tab-prayers');
+      const out = getVisibleSection('today-content', 'section-about');
+      const inc = document.getElementById('section-prayers');
+      fadeOut(out, function () {
+        if (out) out.style.display = 'none';
+        // Reset inner prayers state without a nested fade (section is fading in as a whole)
+        document.getElementById('prayers-detail-view').style.display = 'none';
+        document.getElementById('prayers-detail-view').style.opacity = '1';
+        document.getElementById('prayers-list-view').style.display = 'block';
+        document.getElementById('prayers-list-view').style.opacity = '1';
+        fadeIn(inc);
+      });
+      if (!_restoringHistory) history.pushState({ view: 'prayers-list', tab: 'prayers' }, '');
+    });
 
-      document.getElementById('today-content').style.display = 'none';
-      document.getElementById('section-prayers').style.display = 'block';
-      showPrayersList();
+    document.getElementById('tab-about').addEventListener('click', function () {
+      setActiveTab('tab-about');
+      const out = getVisibleSection('today-content', 'section-prayers');
+      const inc = document.getElementById('section-about');
+      fadeOut(out, function () {
+        if (out) out.style.display = 'none';
+        fadeIn(inc);
+      });
+      if (!_restoringHistory) history.pushState({ view: 'about', tab: 'about' }, '');
     });
 
     document.querySelector('.app-title').addEventListener('click', function () {
+      setActiveTab('tab-today');
+      const todayContent = document.getElementById('today-content');
+      const candidates = [
+        document.getElementById('section-prayers'),
+        document.getElementById('section-about'),
+        document.getElementById('section-saint-detail'),
+        document.getElementById('section-reading-detail')
+      ];
+      const out = candidates.find(function (el) { return el.offsetParent !== null; }) || null;
       activeDate = todayMidnight();
-      loadAndRender(activeDate);
+      fadeOut(out, function () {
+        candidates.forEach(function (el) { el.style.display = 'none'; });
+        loadAndRender(activeDate);
+        fadeIn(todayContent);
+      });
+    });
 
-      // Switch to Calendar tab if not already active
-      const todayTab = document.getElementById('tab-today');
-      const prayersTab = document.getElementById('tab-prayers');
-      todayTab.classList.add('active');
-      todayTab.setAttribute('aria-selected', 'true');
-      prayersTab.classList.remove('active');
-      prayersTab.setAttribute('aria-selected', 'false');
-      document.getElementById('today-content').style.display = 'block';
-      document.getElementById('section-prayers').style.display = 'none';
+    /* ── Text Size Control ──────────────────────────────────────────── */
+
+    const TEXT_SIZE_KEY = 'orthodox-daily-text-size';
+    const TEXT_SIZE_DEFAULT = '1.1rem';
+    const TEXT_SIZE_LARGE = '1.35rem';
+
+    function isTextSizeLarge() {
+      return localStorage.getItem(TEXT_SIZE_KEY) === TEXT_SIZE_LARGE;
+    }
+
+    function applyTextSize(large) {
+      const size = large ? TEXT_SIZE_LARGE : TEXT_SIZE_DEFAULT;
+      const headingSize = large ? '1.23rem' : '';
+      ['prayers-text', 'saint-detail-text', 'reading-detail-text'].forEach(function (id) {
+        const el = document.getElementById(id);
+        if (el) {
+          el.style.fontSize = size;
+          el.querySelectorAll('.prayer-section-heading').forEach(function (h) {
+            h.style.fontSize = headingSize;
+          });
+        }
+      });
+      document.querySelectorAll('.text-size-toggle').forEach(function (btn) {
+        btn.classList.toggle('text-size-active', large);
+      });
+      localStorage.setItem(TEXT_SIZE_KEY, size);
+    }
+
+    document.querySelectorAll('.text-size-toggle').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        applyTextSize(!isTextSizeLarge());
+      });
+    });
+
+    /* ── Browser History ────────────────────────────────────────────── */
+
+    let _restoringHistory = false;
+
+    window.addEventListener('popstate', function (event) {
+      const state = event.state;
+      if (!state) return;
+      _restoringHistory = true;
+      try {
+        if (state.tab === 'today') {
+          setActiveTab('tab-today');
+          document.getElementById('section-prayers').style.display = 'none';
+          document.getElementById('section-about').style.display = 'none';
+        } else if (state.tab === 'prayers') {
+          setActiveTab('tab-prayers');
+          document.getElementById('today-content').style.display = 'none';
+          document.getElementById('section-about').style.display = 'none';
+          document.getElementById('section-prayers').style.display = 'block';
+        } else if (state.tab === 'about') {
+          setActiveTab('tab-about');
+          document.getElementById('today-content').style.display = 'none';
+          document.getElementById('section-prayers').style.display = 'none';
+          document.getElementById('section-about').style.display = 'block';
+        }
+
+        if (state.view === 'calendar') {
+          showTodayContent();
+        } else if (state.view === 'saint-detail') {
+          showSaintDetail(state.name, state.bio);
+        } else if (state.view === 'reading-detail') {
+          showReadingDetail(state.ref, state.serviceLabel, state.passage);
+        } else if (state.view === 'prayers-list') {
+          showPrayersList();
+        } else if (state.view === 'prayer-detail') {
+          showPrayerDetail(state.id);
+        }
+      } finally {
+        _restoringHistory = false;
+      }
     });
 
     /* ── Boot ───────────────────────────────────────────────────────── */
 
-    document.getElementById('footer-year').textContent = new Date().getFullYear();
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+
+    // Stamp the shared arrow SVG into static prayer card arrow spans
+    document.querySelectorAll('.prayer-card .prayer-card-arrow').forEach(function (el) {
+      el.innerHTML = ARROW_HTML;
+    });
+
     loadAndRender(activeDate);
+    applyTextSize(isTextSizeLarge());
+    history.replaceState({ view: 'calendar', tab: 'today' }, '');
+
   </script>
 </body>
 </html>
