@@ -1960,6 +1960,24 @@
       return null;
     }
 
+    function getCurrentlyVisibleSection() {
+      return getVisibleSection(
+        'today-content',
+        'section-saint-detail',
+        'section-reading-detail',
+        'section-prayers',
+        'section-about'
+      );
+    }
+
+    function hideDetailSections() {
+      ['section-saint-detail', 'section-reading-detail'].forEach(function (id) {
+        var el = document.getElementById(id);
+        el.style.display = 'none';
+        el.style.opacity = '';
+      });
+    }
+
     function setActiveTab(activeId) {
       ['tab-today', 'tab-prayers', 'tab-about'].forEach(function (id) {
         const btn = document.getElementById(id);
@@ -1970,10 +1988,11 @@
 
     document.getElementById('tab-today').addEventListener('click', function () {
       setActiveTab('tab-today');
-      const out = getVisibleSection('section-prayers', 'section-about');
+      const out = getCurrentlyVisibleSection();
       const inc = document.getElementById('today-content');
       fadeOut(out, function () {
-        if (out) out.style.display = 'none';
+        if (out) { out.style.display = 'none'; out.style.opacity = ''; }
+        hideDetailSections();
         fadeIn(inc);
       });
       if (!_restoringHistory) history.pushState({ view: 'calendar', tab: 'today' }, '');
@@ -1981,10 +2000,11 @@
 
     document.getElementById('tab-prayers').addEventListener('click', function () {
       setActiveTab('tab-prayers');
-      const out = getVisibleSection('today-content', 'section-about');
+      const out = getCurrentlyVisibleSection();
       const inc = document.getElementById('section-prayers');
       fadeOut(out, function () {
-        if (out) out.style.display = 'none';
+        if (out) { out.style.display = 'none'; out.style.opacity = ''; }
+        hideDetailSections();
         // Reset inner prayers state without a nested fade (section is fading in as a whole)
         document.getElementById('prayers-detail-view').style.display = 'none';
         document.getElementById('prayers-detail-view').style.opacity = '1';
@@ -1997,10 +2017,11 @@
 
     document.getElementById('tab-about').addEventListener('click', function () {
       setActiveTab('tab-about');
-      const out = getVisibleSection('today-content', 'section-prayers');
+      const out = getCurrentlyVisibleSection();
       const inc = document.getElementById('section-about');
       fadeOut(out, function () {
-        if (out) out.style.display = 'none';
+        if (out) { out.style.display = 'none'; out.style.opacity = ''; }
+        hideDetailSections();
         fadeIn(inc);
       });
       if (!_restoringHistory) history.pushState({ view: 'about', tab: 'about' }, '');
