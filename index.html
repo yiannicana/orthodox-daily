@@ -6,7 +6,7 @@
   <title>Daily Orthodoxy</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/svg+xml" href="orthodox-daily-favicon.svg" />
 
   <style>
@@ -58,7 +58,7 @@
     body {
       background-color: var(--parchment);
       color: var(--ink);
-      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-family: 'Lora', Georgia, serif;
       font-size: 17px;
       line-height: 1.75;
       min-height: 100vh;
@@ -98,6 +98,7 @@
     }
 
     .app-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
       font-size: clamp(1.6rem, 4.5vw, 2.2rem);
       color: var(--crimson);
       letter-spacing: 0.02em;
@@ -922,10 +923,26 @@
 
     #prayers-detail-toggles {
       display: flex;
-      gap: 8px;
+      gap: 24px;
       align-items: center;
       justify-content: center;
       margin-top: 1.25rem;
+    }
+
+    .btn-with-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      opacity: 0.8;
     }
 
     #fasting-from-label {
@@ -1105,7 +1122,10 @@
         </div>
         <h2 id="saint-detail-title" class="feast-title-primary"></h2>
         <div class="detail-hero-toggles">
-          <button class="icon-btn text-size-toggle" aria-label="Toggle text size"><span class="sz-lg">A</span><span class="sz-sm">a</span></button>
+          <div class="btn-with-label">
+            <button class="icon-btn text-size-toggle" aria-label="Toggle text size"><span class="sz-lg">A</span><span class="sz-sm">a</span></button>
+            <span class="btn-label">Text size</span>
+          </div>
         </div>
       </div>
       <div class="content-inner">
@@ -1128,7 +1148,10 @@
         <h2 id="reading-detail-title" class="feast-title-primary"></h2>
         <p id="reading-detail-subtitle" class="prayers-subtitle"></p>
         <div class="detail-hero-toggles">
-          <button class="icon-btn text-size-toggle" aria-label="Toggle text size"><span class="sz-lg">A</span><span class="sz-sm">a</span></button>
+          <div class="btn-with-label">
+            <button class="icon-btn text-size-toggle" aria-label="Toggle text size"><span class="sz-lg">A</span><span class="sz-sm">a</span></button>
+            <span class="btn-label">Text size</span>
+          </div>
         </div>
       </div>
       <div class="content-inner">
@@ -1226,8 +1249,14 @@
           <h2 id="prayers-detail-title" class="feast-title-primary"></h2>
           <p id="prayers-detail-subtitle" class="prayers-subtitle"></p>
           <div id="prayers-detail-toggles">
-            <button id="lang-toggle" class="icon-btn lang-toggle-btn" aria-label="Toggle language" style="display:none;">ΕΝ</button>
-            <button class="icon-btn text-size-toggle" aria-label="Toggle text size"><span class="sz-lg">A</span><span class="sz-sm">a</span></button>
+            <div id="lang-toggle-wrapper" class="btn-with-label" style="display:none;">
+              <button id="lang-toggle" class="icon-btn lang-toggle-btn" aria-label="Toggle language">ΕΝ</button>
+              <span class="btn-label">Language</span>
+            </div>
+            <div class="btn-with-label">
+              <button class="icon-btn text-size-toggle" aria-label="Toggle text size"><span class="sz-lg">A</span><span class="sz-sm">a</span></button>
+              <span class="btn-label">Text size</span>
+            </div>
           </div>
         </div>
         <div class="content-inner">
@@ -1882,7 +1911,10 @@
       }
       prayersTextEl.style.textAlign = prayer.layout === 'left' ? 'left' : '';
       var langBtn = document.getElementById('lang-toggle');
-      langBtn.style.display = prayer.textGreek ? 'flex' : 'none';
+      var langWrapper = document.getElementById('lang-toggle-wrapper');
+      var langVisible = prayer.textGreek ? 'flex' : 'none';
+      langBtn.style.display = langVisible;
+      langWrapper.style.display = langVisible;
       langBtn.textContent = 'ΕΝ';
       langBtn.classList.remove('lang-active');
       var out = document.getElementById('prayers-list-view');
