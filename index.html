@@ -1534,24 +1534,137 @@
         if (s && s.title) storyMap[s.title.trim()] = s;
       });
 
-      function findStory(name) {
+      const FEAST_STORY_MAP = {
+        "Ven. Theodosius the Great": "Our Holy Father Theodosius the Cenobiarch (519)",
+        "Transl. Relics of St John Chrysostom": "Translation of the relics (437) of St John Chrysostom.",
+        "Meeting of Christ in the Temple": "The Meeting of our Lord, God and Savior Jesus Christ",
+        "1st and 2nd Finding Honorable Head of St John the Baptist": "First (4th c.) and Second (9th c.) Findings of the Precious Head of St John the Baptist",
+        "Holy Forty Martyrs of Sebaste": "The Holy Forty Martyrs of Sebastia (Sebaste) (320)",
+        "Repose St Innocent, Metr. Moscow and Apostle to Americas": "St Innocent, enlightener of Alaska and Siberia (1879)",
+        "Holy Greatmartyr, Victorybearer and Wonderworker George": "Holy Glorious Great-martyr, Victory-bearer and Wonderworker George (303)",
+        "Trans. Rel. Boris and Gleb": "Translation of the Relics (1072 and 1115) of the Holy Passion-bearers Boris and Gleb, princes of Russia (1015)",
+        "St Alexis Toth, Confessor and Defender of Orthodoxy in America": "St Alexis Toth of Wilkes-Barre, Pennsylvania (1909) (April 24 OC)",
+        "Apostle Simon the Zealot": "Apostle Simon Zelotes",
+        "SS Cyril and Methodius, Apostles to the Slavs": "Holy Equals-to-the-Apostles Methodius (885) and Cyril (869), first teachers of the Slavs",
+        "3rd Finding of the Head of St John the Baptist": "Third Finding of the Precious Head of St John the Baptist (ca. 850)",
+        "Unc. Rel. Ven. Sergius of Radonezh; Ven. Athanasius of Athos": "Uncovering of the Relics (1422) of St Sergius of Radonezh (1392)",
+        "Great Prince Vladimir, Equal-to-the-Apostles, Enlightener of the Lands of Rus": "Holy Equal-to-the-Apostles Great Prince Vladimir (in holy baptism Basil), enlightener of the Russian Land (1051)",
+        "Unc. Rel. Ven. Seraphim of Sarov": "Uncovering of the relics (1903) of St Seraphim of Sarov",
+        "Martyrs Boris and Gleb, Passionbearers": "Holy Martyrs and Passion-bearers Boris and Gleb of Russia, in holy baptism Romanus and David (1015)",
+        "Repose of St Jacob Netsvetov, Enlightener of the Peoples of Alaska": "Saint James (Jakov) Netsvetov, Missionary to Alaska (1864)",
+        "Procession of the Lifegiving Cross; 7 Maccabean Martyrs": "Procession of the Precious Wood of the Life-giving Cross of the Lord (1164)",
+        "Dormition of the Most-Holy Theotokos": "The Dormition of Our Most Holy Lady the Theotokos and Ever-Virgin Mary.",
+        "Image of Christ Not Made by Hands": "Translation of the Image Not-Made-By-Hands of our Lord Jesus Christ from Edessa to Constantinople (944)",
+        "Church New Year; Ven. Simeon the Stylite (The Elder)": "The Beginning of the Church's Year",
+        "Founding of Church of the Holy Sepulchre": "Commemoration of the Founding of the Church of the Resurrection (Holy Sepulchre) at Jerusalem (335)",
+        "Protection (Pokrov) of the Most-Holy Theotokos": "The Protection of Our Most Holy Lady the Theotokos and Ever-Virgin Mary",
+        "Greatmartyr Demetrius": "Holy, Glorious and Great Martyr Demetrius the Outpourer of Myrrh (306)",
+        "Synaxis of the Holy Unmercenaries": "Synaxis of the Chief Captains of the Heavenly Host, Michael and Gabriel, and of the other Bodiless Powers of Heaven",
+        "Synaxis of Archangel Michael and the Bodiless Powers": "Synaxis of the Chief Captains of the Heavenly Host, Michael and Gabriel, and of the other Bodiless Powers of Heaven",
+        "Holy Apostle and Evangelist Mathew": "Holy Apostle and Evangelist Matthew",
+        "Entry of the Most-Holy Theotokos into the Temple": "The Entry of the Most Holy Theotokos into the Temple in Jerusalem.",
+        "Holy Apostle Andrew the First Called": "Holy, Glorious and Illustrious Apostle Andrew the First-Called",
+        "St Nicholas the Wonderworker, Abp. of Myra in Lycia": "Our Father among the Saints Nicholas the Wonderworker, Archbishop of Myra (345)",
+        "Conception by St Anna of the Theotokos": "The Conception of the Most Holy Mother of God",
+        "Repose Ven. Herman of Alaska, Wonderworker of All America": "St Herman, Wonderworker of Alaska (1836). First Martyrs of America Juvenaly (1796) and Peter the Aleut (1815 )",
+        "Protomartyr Stephen": "Holy First Martyr and Archdeacon Stephen"
+      };
+
+      function findStory(name, claimedStories) {
         const key = name.trim();
-        if (storyMap[key]) return storyMap[key];
+        const hardcodedTitle = FEAST_STORY_MAP[key];
+        if (hardcodedTitle && storyMap[hardcodedTitle]) {
+          claimedStories.add(hardcodedTitle);
+          return storyMap[hardcodedTitle];
+        }
+        if (storyMap[key]) {
+          claimedStories.add(storyMap[key].title);
+          return storyMap[key];
+        }
         const lower = key.toLowerCase();
         for (const [k, v] of Object.entries(storyMap)) {
-          if (k.toLowerCase() === lower) return v;
+          if (k.toLowerCase() === lower) {
+            claimedStories.add(v.title);
+            return v;
+          }
         }
         for (const [k, v] of Object.entries(storyMap)) {
+          if (claimedStories.has(v.title)) continue;
           const kl = k.toLowerCase();
           if (kl.includes(lower) || lower.includes(kl)) return v;
+        }
+        const honorifics = [
+          'our father among the saints', 'our holy father', 'our venerable father',
+          'great-martyr', 'hieromartyr', 'right-believing', 'equal-to-the-apostles',
+          'venerable', 'hierarch', 'blessed', 'prophet', 'martyr', 'bishop',
+          'saint', 'slain', 'holy', 'ven\\.', 'st\\.'
+        ];
+        function cleanName(s) {
+          let t = s.toLowerCase().replace(/\(.*?\)/g, '').trim();
+          let prev;
+          do {
+            prev = t;
+            for (const h of honorifics) {
+              t = t.replace(new RegExp('^' + h + '\\s*', 'i'), '').trim();
+            }
+          } while (t !== prev);
+          return t;
+        }
+        const cleanedKey = cleanName(key);
+        for (const [k, v] of Object.entries(storyMap)) {
+          if (claimedStories.has(v.title)) continue;
+          const ck = cleanName(k);
+          if (ck.includes(cleanedKey) || cleanedKey.includes(ck)) return v;
+        }
+        const stopWords = new Set(['of','the','and','our','in','by','from','for','a','an','with','to','at','on','its','their','his','her']);
+        const honorificsWithThe = ['the'].concat(honorifics);
+        function cleanNameFeast(s) {
+          let t = s.toLowerCase().replace(/[,]/g, '').replace(/\(.*?\)/g, '').trim();
+          let prev;
+          do {
+            prev = t;
+            for (const h of honorificsWithThe) {
+              t = t.replace(new RegExp('^' + h + '\\s*', 'i'), '').trim();
+            }
+          } while (t !== prev);
+          return t;
+        }
+        function sigWords(s) {
+          return new Set(cleanNameFeast(s).split(/\s+/).filter(w => w.length > 1 && !stopWords.has(w)));
+        }
+        function isSubset(smaller, larger) {
+          for (const w of smaller) { if (!larger.has(w)) return false; }
+          return smaller.size > 0;
+        }
+        const keyWords = sigWords(key);
+        for (const [k, v] of Object.entries(storyMap)) {
+          if (claimedStories.has(v.title)) continue;
+          const kWords = sigWords(k);
+          if (isSubset(keyWords, kWords) || isSubset(kWords, keyWords)) return v;
         }
         return null;
       }
 
+      const claimedStories = new Set();
+      combined.forEach((entry) => {
+        const key = entry.name.trim();
+        const hardcodedTitle = FEAST_STORY_MAP[key];
+        if (hardcodedTitle && storyMap[hardcodedTitle]) {
+          claimedStories.add(hardcodedTitle);
+        } else if (storyMap[key]) {
+          claimedStories.add(storyMap[key].title);
+        } else {
+          const lower = key.toLowerCase();
+          for (const [k, v] of Object.entries(storyMap)) {
+            if (k.toLowerCase() === lower) { claimedStories.add(v.title); break; }
+          }
+        }
+      });
+
       const frag = document.createDocumentFragment();
 
       combined.forEach((entry) => {
-        const storyObj  = findStory(entry.name);
+        const storyObj  = findStory(entry.name, claimedStories);
         const storyBody = (storyObj && storyObj.story) || null;
 
         const item = document.createElement('div');
